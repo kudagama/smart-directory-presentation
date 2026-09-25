@@ -157,12 +157,11 @@ const App = () => {
                   <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="grid grid-cols-2 gap-12 w-full max-w-2xl mt-8 pt-8 border-t border-white/10 text-left">
                     <div>
                       <h3 className="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Team</h3>
-                      <p className="text-lg text-white font-medium">[Your Team Name]</p>
-                      <p className="text-gray-400 text-sm">Member 1, Member 2</p>
+                      <p className="text-lg text-white font-medium">Contact Center Team</p>
                     </div>
                     <div>
                       <h3 className="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Reference</h3>
-                      <p className="text-lg text-white font-medium font-mono bg-white/5 px-3 py-1 rounded inline-block border border-white/10">SLT-COMP-2026-X</p>
+                      <p className="text-lg text-white font-medium font-mono bg-white/5 px-3 py-1 rounded inline-block border border-white/10">ISP/S/2026/40/179</p>
                     </div>
                   </motion.div>
                   <NextButton />
