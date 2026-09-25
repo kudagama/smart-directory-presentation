@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Clock, Headset, TrendingUp,
-  Users, Ear, Brain, Zap, Sparkles, ArrowDown
+  Users, Ear, Brain, Zap, Sparkles, ArrowDown,
+  ClipboardCheck, CheckCircle, AlertTriangle, PieChart, HeartPulse, Bell,
+  Cloud, Cpu, Atom
 } from 'lucide-react';
 
 const TOTAL_SLIDES = 8;
@@ -190,12 +192,152 @@ const App = () => {
                 </div>
               )}
 
-              {/* Additional generic rendering for other slides to save space in code. 
-                  In a real project, we'd split these into components. */}
-              {currentSlide > 2 && currentSlide < 7 && (
+              {currentSlide === 3 && (
+                <div className="flex flex-col h-full">
+                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Post-Call <span className="text-gradient">Analytics & Wellness</span></motion.h2>
+                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-8">AI continues to work even after the customer hangs up.</motion.p>
+                  
+                  <div className="flex flex-1 gap-6">
+                    {/* Quality Assurance Card */}
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="flex-1 glass-card p-8 flex flex-col relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -z-10 group-hover:bg-blue-500/20 transition-colors"></div>
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="p-3 bg-blue-500/20 rounded-lg text-blue-400 text-2xl border border-blue-500/30">
+                          <ClipboardCheck className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white">Smart Quality Assurance</h3>
+                      </div>
+                      <ul className="space-y-4 flex-1">
+                        <li className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-green-400 mt-1 shrink-0" />
+                          <p className="text-gray-300"><strong>Instant Summary:</strong> Generates a brief text summary of the call immediately after termination.</p>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <AlertTriangle className="w-5 h-5 text-yellow-400 mt-1 shrink-0" />
+                          <p className="text-gray-300"><strong>Error Detection:</strong> Highlights if the agent provided incorrect info or missed mandatory greetings.</p>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <PieChart className="w-5 h-5 text-blue-400 mt-1 shrink-0" />
+                          <p className="text-gray-300"><strong>100% Coverage:</strong> Analyzes every single call instead of random manual sampling.</p>
+                        </li>
+                      </ul>
+                    </motion.div>
+
+                    {/* Fatigue Detection Card */}
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="flex-1 glass-card p-8 flex flex-col relative overflow-hidden group border-corpCyan/30">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-corpCyan/10 rounded-bl-full -z-10 group-hover:bg-corpCyan/20 transition-colors"></div>
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="p-3 bg-corpCyan/20 rounded-lg text-corpCyan text-2xl border border-corpCyan/30">
+                          <HeartPulse className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white">Agent Fatigue Detection</h3>
+                      </div>
+                      <p className="text-gray-300 mb-6 leading-relaxed">
+                        Beyond technical metrics, the AI monitors the human element. By analyzing <strong>speech patterns, voice pitch, and response latency</strong> over a shift, it detects signs of cognitive fatigue.
+                      </p>
+                      <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700 mt-auto">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm font-bold text-gray-300">Agent Wellness Score</span>
+                          <span className="text-sm font-bold text-yellow-400">Needs Break</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2.5">
+                          <div className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 h-2.5 rounded-full" style={{ width: '75%' }}></div>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2 flex items-center gap-2"><Bell className="w-3 h-3 text-yellow-500" /> Alert triggered to Team Lead to arrange a rotation.</p>
+                      </div>
+                    </motion.div>
+                  </div>
+                  <NextButton />
+                </div>
+              )}
+
+              {currentSlide === 4 && (
+                <div className="flex flex-col h-full">
+                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Business Value & <span className="text-gradient">Benefits</span></motion.h2>
+                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-12">Quantifiable impact on operations and customer satisfaction.</motion.p>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 flex-1 items-center">
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.2 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                      <div className="text-5xl md:text-6xl font-extrabold text-corpCyan mb-4 group-hover:scale-110 transition-transform">-40%</div>
+                      <h3 className="text-xl font-bold text-white mb-2">AHT Reduction</h3>
+                      <p className="text-sm text-gray-400">Zero search time drops call lengths drastically, saving immense operational costs.</p>
+                    </motion.div>
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                      <div className="text-5xl md:text-6xl font-extrabold text-blue-400 mb-4 group-hover:scale-110 transition-transform">100%</div>
+                      <h3 className="text-xl font-bold text-white mb-2">Call Auditing</h3>
+                      <p className="text-sm text-gray-400">Instant AI summaries and QA checks after every call ensure zero missed errors.</p>
+                    </motion.div>
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                      <div className="text-5xl md:text-6xl font-extrabold text-purple-400 mb-4 group-hover:scale-110 transition-transform">CSAT ↑</div>
+                      <h3 className="text-xl font-bold text-white mb-2">Customer Exp</h3>
+                      <p className="text-sm text-gray-400">Faster answers, zero hold music, all while maintaining the vital human touch.</p>
+                    </motion.div>
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.5 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group border-b-4 border-b-green-500">
+                      <div className="text-5xl md:text-6xl font-extrabold text-green-400 mb-4 group-hover:scale-110 transition-transform">ESAT ↑</div>
+                      <h3 className="text-xl font-bold text-white mb-2">Agent Wellbeing</h3>
+                      <p className="text-sm text-gray-400">Fatigue alerts and vastly reduced cognitive load keeps officers happier and sharper.</p>
+                    </motion.div>
+                  </div>
+                  <NextButton />
+                </div>
+              )}
+
+              {currentSlide === 5 && (
+                <div className="flex flex-col h-full">
+                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Implementation <span className="text-gradient">Approach</span></motion.h2>
+                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-10">Strategic rollout combining modern infrastructure and phased scaling.</motion.p>
+                  
+                  <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="grid grid-cols-3 gap-6 mb-10">
+                    <div className="glass-card p-5 text-center hover:bg-white/5">
+                      <Cloud className="w-10 h-10 text-gray-300 mb-3 mx-auto" />
+                      <h4 className="font-bold text-white text-lg">Cloud STT Engine</h4>
+                      <p className="text-sm text-gray-400 mt-1">Mixed Sinhala/English real-time streaming audio.</p>
+                    </div>
+                    <div className="glass-card p-5 text-center hover:bg-white/5">
+                      <Cpu className="w-10 h-10 text-gray-300 mb-3 mx-auto" />
+                      <h4 className="font-bold text-white text-lg">Local/Cloud LLM</h4>
+                      <p className="text-sm text-gray-400 mt-1">Secure intent extraction & call summarization logic.</p>
+                    </div>
+                    <div className="glass-card p-5 text-center hover:bg-white/5">
+                      <Atom className="w-10 h-10 text-corpCyan mb-3 mx-auto animate-pulse" />
+                      <h4 className="font-bold text-white text-lg">React Stack</h4>
+                      <p className="text-sm text-gray-400 mt-1">Low-latency backend and reactive agent dashboard UI.</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="relative flex-1">
+                    {/* Timeline Line */}
+                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-corpCyan to-gray-600 -translate-x-1/2 rounded-full"></div>
+                    
+                    {/* Timeline Items */}
+                    <div className="relative z-10 flex flex-col justify-center h-full gap-10">
+                      <div className="flex flex-col md:flex-row items-center w-full group">
+                        <div className="w-full md:w-1/2 md:pr-12 text-left md:text-right transition-transform group-hover:-translate-x-2">
+                          <h3 className="text-2xl font-bold text-corpCyan">Phase 1: Directory Service</h3>
+                          <p className="text-gray-400 mt-1 text-lg">Implement on the 1912 hotline. Instant data retrieval for high-volume inquiries.</p>
+                        </div>
+                        <div className="absolute left-4 md:left-1/2 w-5 h-5 bg-corpCyan rounded-full shadow-[0_0_20px_#00E5FF] -translate-x-1/2 mt-1 md:mt-0 z-20 border-4 border-[#0A192F]"></div>
+                        <div className="w-full md:w-1/2 md:pl-12 hidden md:block"></div>
+                      </div>
+                      
+                      <div className="flex flex-col md:flex-row items-center w-full mt-4 md:mt-0 group">
+                        <div className="w-full md:w-1/2 md:pr-12 hidden md:block"></div>
+                        <div className="absolute left-4 md:left-1/2 w-5 h-5 bg-gray-500 rounded-full border-4 border-[#0A192F] -translate-x-1/2 mt-1 md:mt-0 z-20"></div>
+                        <div className="w-full md:w-1/2 md:pl-12 text-left pl-12 md:pl-12 transition-transform group-hover:translate-x-2">
+                          <h3 className="text-2xl font-bold text-gray-300">Phase 2: Full Integration</h3>
+                          <p className="text-gray-400 mt-1 text-lg">Expand to Faults Reporting, Products, and Billing based on voice verification.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                  <NextButton />
+                </div>
+              )}
+
+              {currentSlide === 6 && (
                 <div className="flex flex-col h-full items-center justify-center">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4 text-center">Slide <span className="text-gradient">{currentSlide}</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 text-center">Content for slide {currentSlide} is available in HTML format.</motion.p>
+                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4 text-center">Slide <span className="text-gradient">6</span></motion.h2>
+                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 text-center">Content for slide 6 is available in HTML format.</motion.p>
                   <NextButton />
                 </div>
               )}
