@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Clock, Headset, TrendingUp,
-  Users, Ear, Brain, Zap, Sparkles, ClipboardCheck,
-  HeartPulse, Bell, CheckCircle, AlertTriangle, PieChart,
-  Cloud, Cpu, AppWindow, ArrowRight, Check, Globe, Code, Link, Handshake, Rocket, ArrowDown
+  Users, Ear, Brain, Zap, Sparkles, ArrowDown
 } from 'lucide-react';
 
 const TOTAL_SLIDES = 8;
@@ -30,7 +28,7 @@ const App = () => {
   const goToSlide = (index: number) => setCurrentSlide(index);
 
   // Slide Animation Variants
-  const slideVariants = {
+  const slideVariants: any = {
     initial: { opacity: 0, x: 50, scale: 0.98 },
     animate: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
     exit: { opacity: 0, x: -50, scale: 0.98, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
