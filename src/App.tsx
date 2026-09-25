@@ -4,7 +4,7 @@ import {
   ChevronLeft, ChevronRight, Clock, Headset, TrendingUp,
   Users, Ear, Brain, Zap, Sparkles, ArrowDown,
   ClipboardCheck, CheckCircle, AlertTriangle, PieChart, HeartPulse, Bell,
-  Cloud, Cpu, Atom
+  Cloud, Cpu, Atom, Globe
 } from 'lucide-react';
 
 const TOTAL_SLIDES = 8;
@@ -335,9 +335,32 @@ const App = () => {
               )}
 
               {currentSlide === 6 && (
-                <div className="flex flex-col h-full items-center justify-center">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4 text-center">Slide <span className="text-gradient">6</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 text-center">Content for slide 6 is available in HTML format.</motion.p>
+                <div className="flex flex-col h-full">
+                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Market <span className="text-gradient">Potential</span></motion.h2>
+                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-10">Starting at SLT, adaptable to the global BPO industry.</motion.p>
+                  
+                  <div className="flex flex-1 gap-8">
+                    <div className="w-1/2 flex flex-col justify-center">
+                      <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="glass-card p-8 border-l-4 border-l-corpCyan mb-6 hover:translate-x-2 transition-transform">
+                        <h3 className="text-2xl font-bold text-white mb-2">Primary Target: SLT Contact Centers</h3>
+                        <p className="text-gray-400 text-lg">Immediate deployment capability for directory operations, reducing operational costs internally while proving the concept at scale.</p>
+                      </motion.div>
+                      <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="glass-card p-8 border-l-4 border-l-blue-500 hover:translate-x-2 transition-transform">
+                        <h3 className="text-2xl font-bold text-white mb-2">Expansion Target: BPO Ecosystem</h3>
+                        <p className="text-gray-400 text-lg">The architecture is system-agnostic. Can be licensed as a SaaS plugin for banks, hospitals, and generic call centers across Sri Lanka.</p>
+                      </motion.div>
+                    </div>
+                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.5 }} className="w-1/2 flex items-center justify-center relative">
+                      {/* Decorative visual */}
+                      <div className="w-full h-full glass-card flex items-center justify-center p-8 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center bg-blend-overlay overflow-hidden group" style={{ backgroundColor: 'rgba(10, 25, 47, 0.9)' }}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-corpBlue to-transparent opacity-80"></div>
+                        <div className="text-center relative z-10 transform group-hover:scale-105 transition-transform duration-500">
+                          <Globe className="w-20 h-20 text-corpCyan mx-auto mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]" />
+                          <h3 className="text-4xl font-bold text-white">Scalable AI<br/>Infrastructure</h3>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
                   <NextButton />
                 </div>
               )}
