@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Clock, Headset, TrendingUp,
@@ -8,6 +8,50 @@ import {
 } from 'lucide-react';
 
 const TOTAL_SLIDES = 8;
+
+const Particles = () => {
+  const particles = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 1 + 'px',
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    baseOpacity: Math.random() * 0.5 + 0.1,
+    yAnim: Math.random() * -150 - 50,
+    xAnim: (Math.random() - 0.5) * 50,
+    targetOpacity: Math.random() * 0.8 + 0.2,
+    duration: Math.random() * 10 + 10,
+    delay: Math.random() * 10,
+  })), []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute bg-corpCyan rounded-full"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: p.left,
+            top: p.top,
+            opacity: p.baseOpacity,
+          }}
+          animate={{
+            y: [0, p.yAnim],
+            x: [0, p.xAnim],
+            opacity: [0, p.targetOpacity, 0],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const App = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -55,7 +99,15 @@ const App = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-corpBlue flex flex-col items-center justify-center p-4 md:p-8">
-      {/* Background Glows */}
+      {/* Background Glows and Particles */}
+      <Particles />
+      <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
+        backgroundImage: 'linear-gradient(to right, #00E5FF 1px, transparent 1px), linear-gradient(to bottom, #00E5FF 1px, transparent 1px)',
+        backgroundSize: '4rem 4rem',
+        maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)'
+      }} />
+
       <motion.div
         animate={{ y: [0, -30, 0], scale: [1, 1.05, 1] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
