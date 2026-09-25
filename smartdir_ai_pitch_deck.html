@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDir AI - Presentation Deck</title>
+    
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        corpBlue: '#0A192F',
+                        corpLightBlue: '#112240',
+                        corpCyan: '#00E5FF',
+                        corpCyanDim: 'rgba(0, 229, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0A192F;
+            color: #E2E8F0;
+            overflow: hidden; /* Prevent scrolling, act like a presentation */
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Background decorative elements */
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.3;
+            transition: all 2s ease;
+        }
+        .bg-glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #1E3A8A; animation: float 15s ease-in-out infinite; }
+        .bg-glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: #0F766E; animation: float 18s ease-in-out infinite reverse; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Slide Container and Transitions */
+        .slide-container {
+            position: relative;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide-deck {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            height: 100%;
+            max-height: 720px;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            background: rgba(17, 34, 64, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(50px) scale(0.98);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar for Slides */
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            margin: 20px 0;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(0, 229, 255, 0.3);
+            border-radius: 3px;
+        }
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 229, 255, 0.5);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+        
+        .slide.prev-slide {
+            transform: translateX(-50px) scale(0.98);
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 229, 255, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 229, 255, 0.15);
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(135deg, #00E5FF 0%, #3B82F6 100%);
+            display: inline-block;
+        }
+
+        /* Staggered Element Animations */
+        .slide-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .slide.active .slide-element {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+
+        /* Custom Animations */
+        .pulse-icon {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+        
+        .typing-effect {
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(30, end) infinite, blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            0%, 20% { width: 0 }
+            80%, 100% { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-corpCyan selection:text-corpBlue">
+
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="slide-container p-4 md:p-8">
+        <div class="slide-deck relative">
+            
+            <!-- Slide 0: Title -->
+            <div class="slide active" id="slide-0">
+                <div class="flex-1 flex flex-col justify-center items-center text-center relative z-10">
+                    <div class="slide-element stagger-1 mb-6 inline-block px-4 py-1.5 rounded-full border border-corpCyan/30 bg-corpCyan/10 text-corpCyan text-sm font-semibold tracking-wider uppercase shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                        SLT Innovation Pitch 2026
+                    </div>
+                    <h1 class="slide-element stagger-2 text-6xl md:text-8xl font-extrabold mb-6 tracking-tight text-white">
+                        SmartDir <span class="text-gradient">AI</span>
+                    </h1>
+                    <p class="slide-element stagger-3 text-2xl md:text-3xl text-gray-300 font-light mb-12 max-w-3xl leading-relaxed">
+                        Empowering Human Empathy with <br/> AI Intelligence
+                    </p>
+                    
+                    <div class="slide-element stagger-4 grid grid-cols-2 gap-12 w-full max-w-2xl mt-8 pt-8 border-t border-white/10 text-left">
+                        <div>
+                            <h3 class="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Team</h3>
+                            <p class="text-lg text-white font-medium">[Your Team Name]</p>
+                            <p class="text-gray-400 text-sm">Member 1, Member 2</p>
+                        </div>
+                        <div>
+                            <h3 class="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Reference</h3>
+                            <p class="text-lg text-white font-medium font-mono bg-white/5 px-3 py-1 rounded inline-block border border-white/10">SLT-COMP-2026-X</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 1: Problem -->
+            <div class="slide" id="slide-1">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">The <span class="text-gradient">Problem & Opportunity</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-10">Why modernizing the SLT contact center is crucial right now.</p>
+                    
+                    <div class="grid grid-cols-2 gap-6 flex-1">
+                        <div class="slide-element stagger-2 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
+                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-corpCyan/10 transition-colors"><i class="fa-solid fa-stopwatch"></i></div>
+                            <i class="fa-solid fa-stopwatch text-4xl text-corpCyan mb-4 pulse-icon"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">High Average Handling Time</h3>
+                            <p class="text-gray-400">Agents spend valuable time manually typing and searching directories while the customer is kept waiting on hold.</p>
+                        </div>
+                        <div class="slide-element stagger-3 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
+                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-blue-500/10 transition-colors"><i class="fa-solid fa-headset"></i></div>
+                            <i class="fa-solid fa-headset text-4xl text-blue-400 mb-4"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Agent Burnout</h3>
+                            <p class="text-gray-400">Continuous manual data entry and searching leads to cognitive fatigue, impacting the quality of service provided.</p>
+                        </div>
+                        <div class="slide-element stagger-4 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
+                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-purple-500/10 transition-colors"><i class="fa-solid fa-chart-line"></i></div>
+                            <i class="fa-solid fa-chart-line text-4xl text-purple-400 mb-4"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Lack of Real-time QA</h3>
+                            <p class="text-gray-400">Call auditing happens days later. Missing information or incorrect advice isn't caught in real-time.</p>
+                        </div>
+                        <div class="slide-element stagger-5 glass-card p-6 flex flex-col justify-center relative overflow-hidden group border-corpCyan/30">
+                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-green-500/10 transition-colors"><i class="fa-solid fa-users"></i></div>
+                            <i class="fa-solid fa-users text-4xl text-green-400 mb-4"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">The Human Touch</h3>
+                            <p class="text-gray-400">Sri Lankan customers prefer speaking to human agents. Standard IVR bots cause frustration and drop-offs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Proposed Solution -->
+            <div class="slide" id="slide-2">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Proposed <span class="text-gradient">Solution</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-8">The Agent Copilot: Empathy from humans, speed from AI.</p>
+                    
+                    <div class="flex flex-1 gap-8 items-center">
+                        <div class="flex-1 space-y-6">
+                            <div class="slide-element stagger-2 flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-corpCyan/20 flex items-center justify-center shrink-0 border border-corpCyan/50 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+                                    <i class="fa-solid fa-ear-listen text-corpCyan text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Real-Time Listening</h3>
+                                    <p class="text-gray-400 mt-1">AI securely streams audio during the call, transcribing mixed Sinhala/English (Singlish) in milliseconds.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-3 flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                                    <i class="fa-solid fa-brain text-blue-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Intent Extraction</h3>
+                                    <p class="text-gray-400 mt-1">An LLM extracts exact requirements (e.g., location, organization name) without manual input.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-4 flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0 border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                                    <i class="fa-solid fa-bolt text-purple-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Zero-Click Lookup</h3>
+                                    <p class="text-gray-400 mt-1">Results instantly pop up on the agent's screen. The agent simply reads it to the customer naturally.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slide-element stagger-5 flex-1 glass-card p-6 flex flex-col items-center justify-center h-full relative overflow-hidden">
+                            <!-- Mock UI for visual -->
+                            <div class="w-full bg-[#050D1A] rounded-xl border border-gray-700 shadow-2xl overflow-hidden relative">
+                                <div class="absolute inset-0 bg-gradient-to-br from-corpCyan/5 to-transparent"></div>
+                                <div class="bg-gray-800/80 p-3 flex items-center gap-2 border-b border-gray-700 backdrop-blur-sm relative z-10">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <span class="text-xs text-gray-400 ml-2 font-mono">SLT_Copilot_Live_Dashboard</span>
+                                </div>
+                                <div class="p-6 space-y-6 relative z-10">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-2 h-2 rounded-full bg-green-500 pulse-icon"></div>
+                                        <p class="text-sm text-gray-300 font-mono w-full">Customer: <span class="typing-effect text-white">"Mata Kandy hospital eke number eka one."</span></p>
+                                    </div>
+                                    <div class="bg-corpCyan/10 border border-corpCyan/40 p-5 rounded-xl shadow-[0_0_20px_rgba(0,229,255,0.1)] transform hover:scale-105 transition-transform">
+                                        <h4 class="text-corpCyan font-bold mb-3 flex items-center gap-2 text-sm uppercase tracking-wider"><i class="fa-solid fa-sparkles"></i> AI Suggestion Ready</h4>
+                                        <p class="text-white text-xl font-bold">Kandy General Hospital</p>
+                                        <p class="text-3xl font-mono text-white mt-2 font-bold tracking-wider">081 222 2222</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: NEW SLIDE - Post-Call Analytics & Fatigue -->
+            <div class="slide" id="slide-3">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Post-Call <span class="text-gradient">Analytics & Wellness</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-8">AI continues to work even after the customer hangs up.</p>
+                    
+                    <div class="flex flex-1 gap-6">
+                        <!-- Quality Assurance Card -->
+                        <div class="slide-element stagger-3 flex-1 glass-card p-8 flex flex-col relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -z-10 group-hover:bg-blue-500/20 transition-colors"></div>
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400 text-2xl border border-blue-500/30">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">Smart Quality Assurance</h3>
+                            </div>
+                            <ul class="space-y-4 flex-1">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-green-400 mt-1"></i>
+                                    <p class="text-gray-300"><strong>Instant Summary:</strong> Generates a brief text summary of the call immediately after termination.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-triangle-exclamation text-yellow-400 mt-1"></i>
+                                    <p class="text-gray-300"><strong>Error Detection:</strong> Highlights if the agent provided incorrect info or missed mandatory greetings.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-chart-pie text-blue-400 mt-1"></i>
+                                    <p class="text-gray-300"><strong>100% Coverage:</strong> Analyzes every single call instead of random manual sampling.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Fatigue Detection Card -->
+                        <div class="slide-element stagger-4 flex-1 glass-card p-8 flex flex-col relative overflow-hidden group border-corpCyan/30">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-corpCyan/10 rounded-bl-full -z-10 group-hover:bg-corpCyan/20 transition-colors"></div>
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-corpCyan/20 rounded-lg text-corpCyan text-2xl border border-corpCyan/30">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">Agent Fatigue Detection</h3>
+                            </div>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                Beyond technical metrics, the AI monitors the human element. By analyzing <strong>speech patterns, voice pitch, and response latency</strong> over a shift, it detects signs of cognitive fatigue.
+                            </p>
+                            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 mt-auto">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-bold text-gray-300">Agent Wellness Score</span>
+                                    <span class="text-sm font-bold text-yellow-400">Needs Break</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                    <div class="bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 h-2.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-bell text-yellow-500"></i> Alert triggered to Team Lead to arrange a rotation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Business Value -->
+            <div class="slide" id="slide-4">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Business Value & <span class="text-gradient">Benefits</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-12">Quantifiable impact on operations and customer satisfaction.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 flex-1 items-center">
+                        <div class="slide-element stagger-2 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                            <div class="text-5xl md:text-6xl font-extrabold text-corpCyan mb-4 group-hover:scale-110 transition-transform">-40%</div>
+                            <h3 class="text-xl font-bold text-white mb-2">AHT Reduction</h3>
+                            <p class="text-sm text-gray-400">Zero search time drops call lengths drastically, saving immense operational costs.</p>
+                        </div>
+                        <div class="slide-element stagger-3 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                            <div class="text-5xl md:text-6xl font-extrabold text-blue-400 mb-4 group-hover:scale-110 transition-transform">100%</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Call Auditing</h3>
+                            <p class="text-sm text-gray-400">Instant AI summaries and QA checks after every call ensure zero missed errors.</p>
+                        </div>
+                        <div class="slide-element stagger-4 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
+                            <div class="text-5xl md:text-6xl font-extrabold text-purple-400 mb-4 group-hover:scale-110 transition-transform">CSAT ↑</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Customer Exp</h3>
+                            <p class="text-sm text-gray-400">Faster answers, zero hold music, all while maintaining the vital human touch.</p>
+                        </div>
+                        <div class="slide-element stagger-5 text-center p-8 glass-card hover:bg-white/5 transition-colors group border-b-4 border-b-green-500">
+                            <div class="text-5xl md:text-6xl font-extrabold text-green-400 mb-4 group-hover:scale-110 transition-transform">ESAT ↑</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Agent Wellbeing</h3>
+                            <p class="text-sm text-gray-400">Fatigue alerts and vastly reduced cognitive load keeps officers happier and sharper.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Implementation -->
+            <div class="slide" id="slide-5">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Implementation <span class="text-gradient">Approach</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-10">Strategic rollout combining modern infrastructure and phased scaling.</p>
+                    
+                    <div class="slide-element stagger-3 grid grid-cols-3 gap-6 mb-10">
+                        <div class="glass-card p-5 text-center hover:bg-white/5">
+                            <i class="fa-brands fa-google text-4xl text-gray-300 mb-3"></i>
+                            <h4 class="font-bold text-white text-lg">Cloud STT Engine</h4>
+                            <p class="text-sm text-gray-400 mt-1">Mixed Sinhala/English real-time streaming audio.</p>
+                        </div>
+                        <div class="glass-card p-5 text-center hover:bg-white/5">
+                            <i class="fa-solid fa-microchip text-4xl text-gray-300 mb-3"></i>
+                            <h4 class="font-bold text-white text-lg">Local/Cloud LLM</h4>
+                            <p class="text-sm text-gray-400 mt-1">Secure intent extraction & call summarization logic.</p>
+                        </div>
+                        <div class="glass-card p-5 text-center hover:bg-white/5">
+                            <i class="fa-brands fa-react text-4xl text-corpCyan mb-3 pulse-icon"></i>
+                            <h4 class="font-bold text-white text-lg">React Stack</h4>
+                            <p class="text-sm text-gray-400 mt-1">Low-latency backend and reactive agent dashboard UI.</p>
+                        </div>
+                    </div>
+
+                    <div class="slide-element stagger-4 relative flex-1">
+                        <!-- Timeline Line -->
+                        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-corpCyan to-gray-600 -translate-x-1/2 rounded-full"></div>
+                        
+                        <!-- Timeline Items -->
+                        <div class="relative z-10 flex flex-col justify-center h-full gap-10">
+                            <div class="flex flex-col md:flex-row items-center w-full group">
+                                <div class="w-full md:w-1/2 md:pr-12 text-left md:text-right transition-transform group-hover:-translate-x-2">
+                                    <h3 class="text-2xl font-bold text-corpCyan">Phase 1: Directory Service</h3>
+                                    <p class="text-gray-400 mt-1 text-lg">Implement on the 1912 hotline. Instant data retrieval for high-volume inquiries.</p>
+                                </div>
+                                <div class="absolute left-4 md:left-1/2 w-5 h-5 bg-corpCyan rounded-full shadow-[0_0_20px_#00E5FF] -translate-x-1/2 mt-1 md:mt-0 z-20 border-4 border-[#0A192F]"></div>
+                                <div class="w-full md:w-1/2 md:pl-12 hidden md:block"></div>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row items-center w-full mt-4 md:mt-0 group">
+                                <div class="w-full md:w-1/2 md:pr-12 hidden md:block"></div>
+                                <div class="absolute left-4 md:left-1/2 w-5 h-5 bg-gray-500 rounded-full border-4 border-[#0A192F] -translate-x-1/2 mt-1 md:mt-0 z-20"></div>
+                                <div class="w-full md:w-1/2 md:pl-12 text-left pl-12 md:pl-12 transition-transform group-hover:translate-x-2">
+                                    <h3 class="text-2xl font-bold text-gray-300">Phase 2: Full Integration</h3>
+                                    <p class="text-gray-400 mt-1 text-lg">Expand to Faults Reporting, Products, and Billing based on voice verification.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Market Potential -->
+            <div class="slide" id="slide-6">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Market <span class="text-gradient">Potential</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-10">Starting at SLT, adaptable to the global BPO industry.</p>
+                    
+                    <div class="flex flex-1 gap-8">
+                        <div class="w-1/2 flex flex-col justify-center">
+                            <div class="slide-element stagger-3 glass-card p-8 border-l-4 border-l-corpCyan mb-6 hover:translate-x-2 transition-transform">
+                                <h3 class="text-2xl font-bold text-white mb-2">Primary Target: SLT Contact Centers</h3>
+                                <p class="text-gray-400 text-lg">Immediate deployment capability for directory operations, reducing operational costs internally while proving the concept at scale.</p>
+                            </div>
+                            <div class="slide-element stagger-4 glass-card p-8 border-l-4 border-l-blue-500 hover:translate-x-2 transition-transform">
+                                <h3 class="text-2xl font-bold text-white mb-2">Expansion Target: BPO Ecosystem</h3>
+                                <p class="text-gray-400 text-lg">The architecture is system-agnostic. Can be licensed as a SaaS plugin for banks, hospitals, and generic call centers across Sri Lanka.</p>
+                            </div>
+                        </div>
+                        <div class="slide-element stagger-5 w-1/2 flex items-center justify-center relative">
+                            <!-- Decorative visual -->
+                            <div class="w-full h-full glass-card flex items-center justify-center p-8 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center bg-blend-overlay overflow-hidden group" style="background-color: rgba(10, 25, 47, 0.9);">
+                                <div class="absolute inset-0 bg-gradient-to-t from-corpBlue to-transparent opacity-80"></div>
+                                <div class="text-center relative z-10 transform group-hover:scale-105 transition-transform duration-500">
+                                    <i class="fa-solid fa-globe text-7xl text-corpCyan mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]"></i>
+                                    <h3 class="text-4xl font-bold text-white">Scalable AI<br/>Infrastructure</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Current Status -->
+            <div class="slide" id="slide-7">
+                <div class="flex flex-col h-full">
+                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Current <span class="text-gradient">Status</span></h2>
+                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-12">From concept to functioning Proof of Concept.</p>
+                    
+                    <div class="flex-1 flex items-center justify-center">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+                            
+                            <div class="slide-element stagger-3 glass-card p-8 text-center relative overflow-hidden group border-green-500/30">
+                                <div class="absolute inset-0 bg-green-500/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                <i class="fa-solid fa-check-circle text-6xl text-green-400 mb-6 relative z-10 drop-shadow-[0_0_15px_rgba(74,222,128,0.4)]"></i>
+                                <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Concept Verified</h3>
+                                <p class="text-gray-400 relative z-10">LLM successfully extracts intents (locations, names) from sample Singlish audio files with high accuracy.</p>
+                            </div>
+
+                            <div class="slide-element stagger-4 glass-card p-8 text-center relative overflow-hidden group border-corpCyan/60 shadow-[0_0_20px_rgba(0,229,255,0.1)]">
+                                <div class="absolute inset-0 bg-corpCyan/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                <i class="fa-solid fa-code-compare text-6xl text-corpCyan mb-6 relative z-10 pulse-icon drop-shadow-[0_0_15px_rgba(0,229,255,0.4)]"></i>
+                                <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Architecture Designed</h3>
+                                <p class="text-gray-400 relative z-10">Real-time Node.js streaming layer and Agent dashboard UI wireframes are complete.</p>
+                                <div class="mt-6 inline-block px-4 py-1.5 bg-corpCyan/20 text-corpCyan text-sm font-bold rounded-full border border-corpCyan/50 relative z-10 uppercase tracking-wide">In Progress (PoC)</div>
+                            </div>
+
+                            <div class="slide-element stagger-5 glass-card p-8 text-center relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gray-600/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                <i class="fa-solid fa-link text-6xl text-gray-500 mb-6 relative z-10"></i>
+                                <h3 class="text-2xl font-bold text-gray-400 mb-4 relative z-10">System Integration</h3>
+                                <p class="text-gray-500 relative z-10">Pending access to SLT's sandbox environment/API to fetch actual live directory data dynamically.</p>
+                                <div class="mt-6 inline-block px-4 py-1.5 bg-gray-800 text-gray-400 text-sm font-bold rounded-full relative z-10 uppercase tracking-wide">Upcoming Stage</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Next Steps -->
+            <div class="slide" id="slide-8">
+                <div class="flex flex-col h-full items-center justify-center text-center">
+                    <h2 class="slide-element stagger-1 text-5xl md:text-6xl font-bold mb-6">Support & <span class="text-gradient">Next Steps</span></h2>
+                    <p class="slide-element stagger-2 text-2xl text-gray-400 mb-12 max-w-3xl">Accelerating the vision to revolutionize SLT's customer experience.</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-8 w-full max-w-5xl text-left">
+                        <div class="slide-element stagger-3 flex-1 glass-card p-10 border-t-4 border-t-corpCyan hover:scale-[1.02] transition-transform">
+                            <h3 class="text-3xl font-bold text-white mb-8 flex items-center gap-4">
+                                <div class="p-3 bg-corpCyan/20 rounded-lg"><i class="fa-solid fa-handshake text-corpCyan"></i></div> 
+                                Support Required
+                            </h3>
+                            <ul class="space-y-6 text-gray-300 text-lg">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-arrow-right text-corpCyan mt-1"></i>
+                                    <span><strong>API Access:</strong> Sandbox connection to SLT Directory Database.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-arrow-right text-corpCyan mt-1"></i>
+                                    <span><strong>Cloud Funding:</strong> Credits for Cloud STT & LLM processing during PoC.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-arrow-right text-corpCyan mt-1"></i>
+                                    <span><strong>Operational Support:</strong> Access to a small pilot group for live testing.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="slide-element stagger-4 flex-1 glass-card p-10 border-t-4 border-t-blue-500 hover:scale-[1.02] transition-transform">
+                            <h3 class="text-3xl font-bold text-white mb-8 flex items-center gap-4">
+                                <div class="p-3 bg-blue-500/20 rounded-lg"><i class="fa-solid fa-rocket text-blue-400"></i></div>
+                                Next Steps
+                            </h3>
+                            <ul class="space-y-6 text-gray-300 text-lg">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check-circle text-blue-400 mt-1"></i>
+                                    <span>Finalize UI integration with live STT outputs.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check-circle text-blue-400 mt-1"></i>
+                                    <span>Conduct simulated call testing internally.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check-circle text-blue-400 mt-1"></i>
+                                    <span>Deploy MVP prototype to test agents and measure AHT reduction.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-element stagger-5 mt-16 text-center w-full relative">
+                        <h3 class="text-5xl font-extrabold text-white tracking-wider">Thank You.</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-6 glass-card px-6 py-3 z-50 scale-90 md:scale-100">
+            <button id="prevBtn" class="text-gray-400 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-chevron-left text-xl"></i>
+            </button>
+            
+            <div class="flex gap-3" id="dotsContainer">
+                <!-- Dots generated by JS -->
+            </div>
+            
+            <button id="nextBtn" class="text-corpCyan hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-chevron-right text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Progress Bar at top -->
+        <div class="absolute top-0 left-0 h-1.5 bg-white/10 w-full z-50">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-corpCyan to-blue-500 w-0 transition-all duration-700 ease-out shadow-[0_0_15px_#00E5FF]"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentSlide = 0;
+            
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dotsContainer = document.getElementById('dotsContainer');
+            const progressBar = document.getElementById('progressBar');
+
+            // Initialize dots
+            for(let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-corpCyan scale-125' : 'bg-gray-500'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+            const dots = dotsContainer.querySelectorAll('button');
+
+            function updateUI() {
+                // Update slides
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'prev-slide');
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else if (index < currentSlide) {
+                        slide.classList.add('prev-slide');
+                    }
+                });
+
+                // Update dots
+                dots.forEach((dot, index) => {
+                    if(index === currentSlide) {
+                        dot.className = 'w-2.5 h-2.5 rounded-full transition-all duration-300 bg-corpCyan scale-125 shadow-[0_0_8px_#00E5FF]';
+                    } else {
+                        dot.className = 'w-2.5 h-2.5 rounded-full transition-all duration-300 bg-gray-600 hover:bg-gray-400';
+                    }
+                });
+
+                // Update Progress bar
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                // Update buttons
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            function goToSlide(index) {
+                if(index >= 0 && index < totalSlides) {
+                    currentSlide = index;
+                    updateUI();
+                }
+            }
+
+            prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+            nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter' || e.key === 'PageDown') {
+                    goToSlide(currentSlide + 1);
+                } else if(e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    goToSlide(currentSlide - 1);
+                }
+            });
+
+            // Add 'Continue to Next Slide' buttons dynamically to the bottom of each slide
+            slides.forEach((slide, index) => {
+                if (index < totalSlides - 1) {
+                    const btnContainer = document.createElement('div');
+                    // Use mt-auto to push it to the very bottom, after all content
+                    btnContainer.className = 'mt-auto pt-16 pb-24 w-full flex justify-center slide-element stagger-5';
+                    btnContainer.innerHTML = `
+                        <button class="flex items-center gap-3 px-8 py-3 rounded-full bg-corpCyan/10 border border-corpCyan/30 text-corpCyan hover:bg-corpCyan hover:text-corpBlue hover:scale-105 transition-all font-bold group shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+                            <span>Continue to Next Slide</span>
+                            <i class="fa-solid fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
+                        </button>
+                    `;
+                    btnContainer.querySelector('button').addEventListener('click', () => {
+                        goToSlide(index + 1);
+                    });
+                    slide.appendChild(btnContainer);
+                }
+            });
+
+            // Initial UI setup
+            updateUI();
+        });
+    </script>
+</body>
+</html>

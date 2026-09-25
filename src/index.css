@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-corpBlue: #0A192F;
+  --color-corpLightBlue: #112240;
+  --color-corpCyan: #00E5FF;
+  --color-corpCyanDim: rgba(0, 229, 255, 0.2);
+  --font-sans: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-corpBlue text-slate-200 overflow-hidden font-sans antialiased selection:bg-corpCyan selection:text-corpBlue;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl transition-all duration-300;
+  }
+  .glass-card:hover {
+    @apply -translate-y-2 border-corpCyan/40 shadow-2xl shadow-corpCyan/20;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-corpCyan to-blue-500;
+  }
+}
