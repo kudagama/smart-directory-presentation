@@ -1,26 +1,160 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChevronLeft, ChevronRight, Clock, Headset, TrendingUp,
-  Users, Ear, Brain, Zap, Sparkles, ArrowDown,
-  ClipboardCheck, CheckCircle, AlertTriangle, PieChart, HeartPulse, Bell,
-  Cloud, Cpu, Atom, Globe
+  ChevronLeft, ChevronRight, Clock, Brain, Zap, Sparkles,
+  XCircle, CheckCircle2, Search, Target, Layers, MessageSquare,
+  Briefcase, HeartHandshake, Coins, Building2, Phone,
+  Cpu, Play, Maximize, Minimize,
+  RotateCcw, AlertTriangle, Headphones, Mic,
+  Radio, Activity, Users, Eye, Timer, Rocket
 } from 'lucide-react';
 
-const TOTAL_SLIDES = 8;
+const SLIDES = [
+  { id: 0, title: "Overview", tag: "Cover" },
+  { id: 1, title: "01) Problem / Opportunity", tag: "01" },
+  { id: 2, title: "02) Proposed Solution", tag: "02" },
+  { id: 3, title: "03) Business Value & Benefits", tag: "03" },
+  { id: 4, title: "Live Search Demo", tag: "Demo" },
+  { id: 5, title: "04) Implementation Approach", tag: "04" },
+  { id: 6, title: "05) Market / Customer Potential", tag: "05" },
+  { id: 7, title: "06) Support Required & Next Steps", tag: "06" },
+  { id: 8, title: "Conclusion", tag: "Summary" }
+];
+
+const TOTAL_SLIDES = SLIDES.length;
+
+// Section 1: Traditional Search Jitter Simulation Steps
+const CHARACTER_SIMULATION_STEPS = [
+  {
+    step: 1,
+    char: "P",
+    matchesCount: "1,420 matches",
+    elapsed: "00:07s",
+    shiftsCount: 1,
+    alertText: "UI Shift #1: Entire table updates. Massive unfiltered list.",
+    badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+    problemTitle: "Search results continuously change while users type",
+    problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
+    rows: [
+      { name: "Packaging & Supplies HQ", dept: "Logistics Dept", ext: "1102", status: "Not a person" },
+      { name: "Pathirana, D.B.", dept: "Customer Care Unit", ext: "5421", status: "Wrong department" },
+      { name: "Perera, A.K.", dept: "Administration", ext: "4120", status: "Unclear division" },
+      { name: "Perera, B.N.", dept: "Finance Division", ext: "3310", status: "Wrong location" }
+    ]
+  },
+  {
+    step: 2,
+    char: "Pe",
+    matchesCount: "680 matches",
+    elapsed: "00:15s",
+    shiftsCount: 2,
+    alertText: "UI Shift #2: Screen jolts! Previous names disappear, new ones flood in.",
+    badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
+    problemTitle: "Similar names generate multiple results, flooding the view",
+    problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
+    rows: [
+      { name: "Personnel Division", dept: "Corporate HR HQ", ext: "9001", status: "General line only" },
+      { name: "Peter, M.L.", dept: "IT Infrastructure", ext: "7742", status: "Wrong contact" },
+      { name: "Perera, C.W.", dept: "Regional Warehouse", ext: "6109", status: "Wrong branch" },
+      { name: "Petroleum Advisory", dept: "External Relations", ext: "2201", status: "Irrelevant" }
+    ]
+  },
+  {
+    step: 3,
+    char: "Per",
+    matchesCount: "310 matches",
+    elapsed: "00:24s",
+    shiftsCount: 3,
+    alertText: "UI Shift #3: List jumps again! Agent loses previously spotted row.",
+    badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
+    problemTitle: "Difficult to identify the correct contact quickly due to UI jitter",
+    problemIcon: <Eye className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
+    rows: [
+      { name: "Perera, D.S.", dept: "Branch Billing", ext: "4811", status: "Wrong person" },
+      { name: "Perry, L.A.", dept: "Fleet Operations", ext: "2190", status: "Wrong section" },
+      { name: "Perera, G.K.", dept: "Network Maintenance", ext: "3911", status: "Is this Kandy?" },
+      { name: "Perera, H.M.", dept: "Legal Advisory", ext: "5020", status: "Unrelated" }
+    ]
+  },
+  {
+    step: 4,
+    char: "Perera",
+    matchesCount: "48 Identical Names",
+    elapsed: "00:42s",
+    shiftsCount: 4,
+    alertText: "CRITICAL OVERLOAD: 48 similar names! Zero context on responsible personnel.",
+    badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
+    problemTitle: "Time wasted searching for personnel, increasing overall AHT",
+    problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
+    rows: [
+      { name: "Perera, K.A.D.", dept: "General Pool (Dept: ???)", ext: "4120", status: "Ambiguous" },
+      { name: "Perera, K.M.", dept: "Regional Office (Unknown)", ext: "8812", status: "Ambiguous" },
+      { name: "Perera, K.S.", dept: "Maintenance (Kandy or Colombo?)", ext: "3911", status: "Target contact?" },
+      { name: "Perera, M.T.", dept: "Network Services (Inactive?)", ext: "1042", status: "Time wasted" }
+    ]
+  }
+];
+
+// Section 2: Human Agent with Embedded Softphone Animation Stages
+const EMBEDDED_SOFTPHONE_STAGES = [
+  {
+    id: 0,
+    title: "1. Voice Inbound",
+    tag: "Headset Audio Stream",
+    callerVoice: "Customer: 'Mata Kandy hospital eke number eka one...'",
+    softphoneStatus: "Active Call • Inbound 1912",
+    pulseRate: "pulse-fast",
+    aiState: "Listening to Sinhala / Singlish stream...",
+    highlight: "audio",
+    contactReady: false
+  },
+  {
+    id: 1,
+    title: "2. Embedded Softphone",
+    tag: "Core Telephony Processing",
+    callerVoice: "Voice decoded inside agent's system...",
+    softphoneStatus: "Audio Channel 01 • Live VoIP Stream",
+    pulseRate: "pulse-normal",
+    aiState: "Softphone audio routed directly to Neural AI Core",
+    highlight: "softphone",
+    contactReady: false
+  },
+  {
+    id: 2,
+    title: "3. Intent Extracted",
+    tag: "Bio-Digital Intelligence",
+    callerVoice: "Intent: [Healthcare] [Kandy General Hospital] [Emergency/Direct]",
+    softphoneStatus: "Internal AI Copilot • 99% Confidence",
+    pulseRate: "pulse-cyan",
+    aiState: "Zero manual typing required • Query synthesized",
+    highlight: "ai",
+    contactReady: true
+  },
+  {
+    id: 3,
+    title: "4. Zero-Click HUD",
+    tag: "Instant Resolution",
+    callerVoice: "Agent: 'General Hospital Kandy number eka 081 222 2222'",
+    softphoneStatus: "Resolved in 00:09s • AHT Reduced",
+    pulseRate: "pulse-success",
+    aiState: "Contact delivered right to agent's visual field!",
+    highlight: "hud",
+    contactReady: true
+  }
+];
 
 const Particles = () => {
   const particles = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
     id: i,
-    size: Math.random() * 4 + 1 + 'px',
+    size: Math.random() * 3 + 1.5 + 'px',
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 100}%`,
-    baseOpacity: Math.random() * 0.5 + 0.1,
-    yAnim: Math.random() * -150 - 50,
+    baseOpacity: Math.random() * 0.4 + 0.1,
+    yAnim: Math.random() * -140 - 50,
     xAnim: (Math.random() - 0.5) * 50,
     targetOpacity: Math.random() * 0.8 + 0.2,
-    duration: Math.random() * 10 + 10,
-    delay: Math.random() * 10,
+    duration: Math.random() * 14 + 10,
+    delay: Math.random() * 8,
   })), []);
 
   return (
@@ -53,8 +187,856 @@ const Particles = () => {
   );
 };
 
-const App = () => {
+// Section 1: Agent Brain Overload — Softphone inside the Head visualization
+const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
+  const steps = CHARACTER_SIMULATION_STEPS;
+  
+  const s = steps[stepIdx];
+  const chaos = stepIdx / (steps.length - 1); // 0→1 as chaos escalates
+
+
+
+  return (
+    <div
+      className="glass-card rounded-2xl border-2 border-rose-500/40 bg-gradient-to-b from-rose-950/30 via-[#0A0515]/80 to-[#050010]/90 flex flex-col flex-1 min-h-0 shadow-[0_0_50px_rgba(244,63,94,0.2)] relative overflow-hidden"
+    >
+      {/* Subtle red ambient pulse behind whole card */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl pointer-events-none"
+        animate={{ boxShadow: stepIdx === 3
+          ? ['inset 0 0 40px rgba(244,63,94,0.08)', 'inset 0 0 70px rgba(244,63,94,0.2)', 'inset 0 0 40px rgba(244,63,94,0.08)']
+          : 'none'
+        }}
+        transition={{ duration: 0.9, repeat: Infinity }}
+      />
+
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 pt-3.5 pb-2.5 border-b border-rose-500/20">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+          </span>
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
+            <Headphones className="w-3.5 h-3.5 text-rose-400" />
+            Agent Cognitive Overload — Brain Under Siege
+          </span>
+        </div>
+        <button
+          onClick={() => { setStepIdx(0); setAuto(true); }}
+          className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 hover:bg-white/15 text-[10px] font-mono text-slate-400 border border-white/10 cursor-pointer transition-colors"
+        >
+          <RotateCcw className="w-2.5 h-2.5" /> Reset
+        </button>
+      </div>
+
+      {/* Step Pills row */}
+      <div className="flex gap-1.5 items-center px-4 pt-2.5">
+        <span className="text-[9px] uppercase font-bold text-slate-500 mr-1">Typed:</span>
+        {steps.map((st, i) => (
+          <button
+            key={i}
+            onClick={() => { setStepIdx(i); setAuto(false); }}
+            className={`px-2.5 py-0.5 rounded text-[10px] font-mono font-bold transition-all cursor-pointer ${
+              stepIdx === i
+                ? 'bg-rose-500 text-white shadow-[0_0_10px_rgba(244,63,94,0.7)] scale-110'
+                : 'bg-white/5 text-slate-400 border border-white/5 hover:text-white'
+            }`}
+          >
+            &ldquo;{st.char}&rdquo;
+          </button>
+        ))}
+        <span className={`ml-auto text-[10px] font-mono px-2 py-0.5 rounded-full border font-bold ${s.badgeClass}`}>
+          {s.matchesCount}
+        </span>
+      </div>
+
+      <div className="flex flex-1 min-h-0 items-center justify-center relative px-2 py-1">
+        <svg
+          viewBox="0 0 360 265"
+          className="w-full h-full"
+          style={{ filter: `drop-shadow(0 0 ${12 + chaos * 30}px rgba(244,63,94,${0.3 + chaos * 0.4}))` }}
+        >
+          {/* ── Background Tech Grid ── */}
+          <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,229,255,0.06)" strokeWidth="0.5" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#gridPattern)" />
+
+          {/* ── Rotating Tech Rings (Background) ── */}
+          <motion.g animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} style={{ originX: '180px', originY: '118px' }}>
+            <circle cx="180" cy="118" r="110" fill="none" stroke={`rgba(0,229,255,${0.1 - chaos*0.05})`} strokeWidth="1" strokeDasharray="4 8" />
+            <circle cx="180" cy="118" r="130" fill="none" stroke={`rgba(244,63,94,${chaos*0.25})`} strokeWidth="2" strokeDasharray="20 40" />
+          </motion.g>
+
+          <motion.g animate={{ rotate: -360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} style={{ originX: '180px', originY: '118px' }}>
+            <circle cx="180" cy="118" r="100" fill="none" stroke={`rgba(0,229,255,${0.15 - chaos*0.1})`} strokeWidth="0.5" strokeDasharray="2 4" />
+          </motion.g>
+
+          {/* ── Head Base ── */}
+          {/* Glowing aura */}
+          <motion.ellipse cx="180" cy="118" rx="85" ry="105"
+            fill="none" stroke={`rgba(${244 * chaos}, ${200 * (1-chaos)}, 255, ${0.1 + chaos * 0.2})`} strokeWidth="20"
+            style={{ filter: 'blur(15px)' }}
+          />
+
+          <path d="M 60 265 Q 82 215, 118 205 Q 138 200, 152 197 L 208 197 Q 222 200, 242 205 Q 278 215, 300 265 Z"
+            fill="rgba(6,10,25,0.95)" stroke="rgba(0,229,255,0.2)" strokeWidth="1.5" />
+          <ellipse cx="180" cy="118" rx="76" ry="90" fill="rgba(4,8,20,0.98)" stroke="rgba(0,229,255,0.4)" strokeWidth="2" />
+          
+          {/* Cybernetic details on head */}
+          <path d="M 110 50 L 250 50 M 105 118 L 255 118" stroke="rgba(0,229,255,0.15)" strokeWidth="1" strokeDasharray="8 6" />
+          <path d="M 180 28 L 180 60" stroke="rgba(0,229,255,0.5)" strokeWidth="2" />
+          <circle cx="180" cy="60" r="3" fill="rgba(0,229,255,0.8)" />
+
+          {/* ── Neural Brain Core ── */}
+          <clipPath id="brain-clip">
+            <ellipse cx="180" cy="85" rx="65" ry="55" />
+          </clipPath>
+          <g clipPath="url(#brain-clip)">
+            {/* Pulsing background */}
+            <motion.rect x="100" y="20" width="160" height="130"
+              fill={`rgba(${244 * chaos}, ${63 * (1-chaos)}, ${94 + 160*(1-chaos)}, ${0.1 + chaos * 0.3})`}
+              animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1-chaos*0.8, repeat: Infinity }}
+            />
+            {/* Neural Nodes & Connections */}
+            {Array.from({ length: 20 }).map((_, i) => (
+               <motion.circle key={`node-${i}`}
+                 cx={120 + (i * 27) % 120} cy={40 + (i * 19) % 90} r={1.5 + (i%3)}
+                 fill={stepIdx >= 2 ? '#F43F5E' : '#00E5FF'}
+                 animate={{ opacity: [0.2, 0.9, 0.2] }}
+                 transition={{ duration: 0.5 + (i%3)*0.2, repeat: Infinity, delay: (i%5)*0.1 }}
+               />
+            ))}
+            {/* Network lines */}
+            <path d="M 130 50 L 160 80 L 210 60 L 230 90 L 190 110 L 140 90 M 150 70 L 180 95 L 220 75" 
+                  fill="none" stroke={stepIdx >= 2 ? "rgba(244,63,94,0.5)" : "rgba(0,229,255,0.3)"} strokeWidth="1" />
+          </g>
+          <ellipse cx="180" cy="85" rx="65" ry="55" fill="none" stroke={stepIdx >= 2 ? "rgba(244,63,94,0.7)" : "rgba(0,229,255,0.4)"} strokeWidth="2" strokeDasharray="5 5" />
+
+          {/* ── Eyes (Digital Visor) ── */}
+          <rect x="130" y="145" width="100" height="18" rx="9" fill="rgba(0,0,0,0.9)" stroke="rgba(0,229,255,0.4)" strokeWidth="1.5" />
+          <motion.rect x="142" y="152" width="28" height="4" rx="2"
+            fill={stepIdx >= 2 ? '#F43F5E' : '#00E5FF'}
+            style={{ filter: `drop-shadow(0 0 6px ${stepIdx >= 2 ? '#F43F5E' : '#00E5FF'})` }}
+            animate={stepIdx >= 3 ? { x: [-3, 3, -3] } : {}} transition={{ duration: 0.12, repeat: Infinity }}
+          />
+          <motion.rect x="190" y="152" width="28" height="4" rx="2"
+            fill={stepIdx >= 2 ? '#F43F5E' : '#00E5FF'}
+            style={{ filter: `drop-shadow(0 0 6px ${stepIdx >= 2 ? '#F43F5E' : '#00E5FF'})` }}
+            animate={stepIdx >= 3 ? { x: [3, -3, 3] } : {}} transition={{ duration: 0.12, repeat: Infinity }}
+          />
+
+          {/* ── Stress / Overload Meters (Cheeks/Jaw) ── */}
+          <path d="M 120 155 A 70 70 0 0 0 145 195" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="4" strokeLinecap="round" />
+          <motion.path d="M 120 155 A 70 70 0 0 0 145 195" fill="none" 
+            stroke={stepIdx >= 2 ? '#F43F5E' : '#00E5FF'} strokeWidth="4" strokeLinecap="round"
+            strokeDasharray="100" strokeDashoffset={100 - (chaos * 100)}
+            style={{ transition: 'stroke-dashoffset 0.5s ease-in-out' }}
+          />
+          
+          <path d="M 240 155 A 70 70 0 0 1 215 195" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="4" strokeLinecap="round" />
+          <motion.path d="M 240 155 A 70 70 0 0 1 215 195" fill="none" 
+            stroke={stepIdx >= 2 ? '#F43F5E' : '#00E5FF'} strokeWidth="4" strokeLinecap="round"
+            strokeDasharray="100" strokeDashoffset={100 - (chaos * 100)}
+            style={{ transition: 'stroke-dashoffset 0.5s ease-in-out' }}
+          />
+
+          {/* ── Advanced Holographic Search UI (Projected from brain) ── */}
+          <motion.g
+            animate={stepIdx >= 2 ? { 
+               x: [0, -4, 4, -2, 3, 0], 
+               y: [0, 3, -3, 4, -2, 0] 
+            } : {}}
+            transition={{ duration: 0.35, repeat: Infinity, ease: "linear" }}
+          >
+            {/* Projection beams */}
+            <polygon points="180,95 90,40 270,40" fill="rgba(0,229,255,0.04)" />
+            
+            {/* Main Holographic Panel */}
+            <rect x="80" y="30" width="200" height="95" rx="8" 
+              fill="rgba(10,15,30,0.85)" 
+              stroke={stepIdx >= 2 ? "rgba(244,63,94,0.8)" : "rgba(0,229,255,0.6)"} 
+              strokeWidth="1.5" 
+            />
+            
+            {/* Search Bar */}
+            <rect x="90" y="40" width="180" height="18" rx="4" fill="rgba(255,255,255,0.05)" stroke={stepIdx >= 2 ? "rgba(244,63,94,0.5)" : "rgba(255,255,255,0.15)"} />
+            <text x="100" y="53" fill="white" fontSize="11" fontFamily="monospace" fontWeight="bold">
+              <tspan fill={stepIdx >= 2 ? "#F43F5E" : "#00E5FF"}>&gt;</tspan> {s.char}
+              <motion.tspan animate={{ opacity: [1,0] }} transition={{ duration: 0.5, repeat: Infinity }}>_</motion.tspan>
+            </text>
+            <text x="210" y="53" fill={stepIdx >= 2 ? "#F43F5E" : "#00E5FF"} fontSize="9" fontFamily="monospace" fontWeight="bold">
+              [{stepIdx === 0 ? '1420' : stepIdx === 1 ? '680' : stepIdx === 2 ? '310' : '48!!'}]
+            </text>
+
+            {/* Holographic Results */}
+            <g transform="translate(90, 65)">
+              <AnimatePresence mode="wait">
+                <motion.g key={stepIdx}
+                  initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.15 }}
+                >
+                  {s.rows.slice(0, 3).map((row, ri) => (
+                    <g key={ri} transform={`translate(0, ${ri * 17})`}>
+                      <rect width="180" height="14" rx="3" fill={`rgba(${stepIdx >= 2 ? '244,63,94' : '0,229,255'}, ${0.1 + ri*0.05 + chaos*0.1})`} />
+                      <text x="5" y="10" fill="rgba(255,255,255,0.95)" fontSize="8" fontFamily="monospace">
+                        {row.name.length > 22 ? row.name.slice(0, 22) + '…' : row.name}
+                      </text>
+                      <text x="175" y="10" textAnchor="end" fill={stepIdx >= 2 ? "rgba(244,63,94,0.9)" : "rgba(0,229,255,0.7)"} fontSize="7.5" fontFamily="monospace">
+                        EXT:{row.ext}
+                      </text>
+                    </g>
+                  ))}
+                </motion.g>
+              </AnimatePresence>
+            </g>
+          </motion.g>
+
+          {/* ── Warning/Error Banners overlapping at high chaos ── */}
+          {stepIdx >= 2 && (
+            <motion.g
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 0.25, repeat: Infinity }}
+              style={{ originX: '180px', originY: '115px' }}
+            >
+              <rect x="100" y="100" width="160" height="30" rx="4" fill="rgba(244,63,94,0.95)" style={{ filter: 'drop-shadow(0 0 15px rgba(244,63,94,0.9))' }} />
+              <text x="180" y="120" textAnchor="middle" fill="white" fontSize="14" fontWeight="black" fontFamily="sans-serif" letterSpacing="3">
+                COGNITIVE OVERLOAD
+              </text>
+            </motion.g>
+          )}
+
+          {stepIdx === 3 && (
+            <motion.g
+              animate={{ opacity: [0, 1, 0], scale: [0.95, 1.05, 0.95] }}
+              transition={{ duration: 0.35, repeat: Infinity }}
+              style={{ originX: '180px', originY: '77px' }}
+            >
+              <rect x="120" y="65" width="120" height="24" rx="3" fill="none" stroke="#F43F5E" strokeWidth="2.5" style={{ filter: 'drop-shadow(0 0 8px red)' }} />
+              <text x="180" y="81" textAnchor="middle" fill="#F43F5E" fontSize="12" fontWeight="bold">MULTIPLE MATCHES</text>
+            </motion.g>
+          )}
+          
+          {/* ── Bionic Headset ── */}
+          <path d="M 106 116 Q 106 50, 180 44 Q 254 50, 254 116" fill="none" stroke="rgba(0,229,255,0.6)" strokeWidth="3" strokeLinecap="round" />
+          {/* Ear cups */}
+          <rect x="90" y="105" width="22" height="35" rx="6" fill="rgba(4,8,20,0.98)" stroke="rgba(0,229,255,0.8)" strokeWidth="2" />
+          <rect x="248" y="105" width="22" height="35" rx="6" fill="rgba(4,8,20,0.98)" stroke="rgba(0,229,255,0.8)" strokeWidth="2" />
+          {/* Equalizer bars on ear cups */}
+          <g transform="translate(94, 112)">
+            <motion.rect x="0" y="0" width="2.5" height="20" fill="#00E5FF" animate={{ y: [0, 10, 0], height: [20, 10, 20] }} transition={{ duration: 0.35, repeat: Infinity }} />
+            <motion.rect x="5" y="5" width="2.5" height="15" fill="#00E5FF" animate={{ y: [5, 0, 5], height: [15, 20, 15] }} transition={{ duration: 0.45, repeat: Infinity }} />
+            <motion.rect x="10" y="10" width="2.5" height="10" fill="#00E5FF" animate={{ y: [10, 5, 10], height: [10, 15, 10] }} transition={{ duration: 0.25, repeat: Infinity }} />
+          </g>
+          {/* Mic */}
+          <path d="M 100 135 C 120 165, 140 170, 155 170" fill="none" stroke="rgba(0,229,255,0.7)" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="155" cy="170" r="4.5" fill="#00E5FF" />
+          <motion.circle cx="155" cy="170" r="8" fill="none" stroke="#00E5FF" strokeWidth="1.5" animate={{ r: [8, 16], opacity: [1, 0] }} transition={{ duration: 1.2, repeat: Infinity }} />
+        </svg>
+      </div>
+
+      {/* Alert banner */}
+      <motion.div
+        key={s.step + '-alert'}
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mx-3 mb-2 px-3 py-1.5 rounded-lg bg-rose-500/12 border border-rose-500/25 text-[11px] font-medium text-rose-200 flex items-center gap-2"
+      >
+        <AlertTriangle className="w-3 h-3 text-rose-400 shrink-0" />
+        <span>{s.alertText}</span>
+      </motion.div>
+
+      {/* Bottom stats */}
+      <div className="grid grid-cols-3 gap-2 px-3 pb-3 font-mono">
+        <div className="bg-white/5 p-1.5 rounded-lg border border-white/5 text-center">
+          <span className="text-[9px] text-slate-400 uppercase block">UI Shifts</span>
+          <span className="text-rose-400 font-bold text-sm">{s.shiftsCount}x</span>
+        </div>
+        <div className="bg-white/5 p-1.5 rounded-lg border border-white/5 text-center">
+          <span className="text-[9px] text-slate-400 uppercase block">Hold Time</span>
+          <span className="text-amber-400 font-bold text-sm">{s.elapsed}</span>
+        </div>
+        <div className="bg-white/5 p-1.5 rounded-lg border border-white/5 text-center">
+          <span className="text-[9px] text-slate-400 uppercase block">Brain State</span>
+          <span className={`font-bold text-[10px] block ${stepIdx < 2 ? 'text-amber-300' : stepIdx < 3 ? 'text-rose-300' : 'text-rose-400'}`}>
+            {stepIdx === 0 ? '🙁 Confused' : stepIdx === 1 ? '😟 Frustrated' : stepIdx === 2 ? '😩 Overloaded' : '🔥 Meltdown'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Section 2: Human Agent with Embedded Softphone Animation Component
+const EmbeddedSoftphoneAgent = () => {
+  const [stageIdx, setStageIdx] = useState(0);
+  const [autoCycle, setAutoCycle] = useState(true);
+
+  useEffect(() => {
+    if (!autoCycle) return;
+    const interval = setInterval(() => {
+      setStageIdx((prev) => (prev + 1) % EMBEDDED_SOFTPHONE_STAGES.length);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, [autoCycle]);
+
+  const current = EMBEDDED_SOFTPHONE_STAGES[stageIdx];
+
+  return (
+    <div className="glass-card p-0 rounded-2xl border-0 bg-transparent flex flex-col justify-between relative overflow-hidden h-full shadow-none">
+      {/* HUD Border Overlay */}
+      <div className="absolute inset-0 border-2 border-corpCyan/20 rounded-2xl pointer-events-none" style={{ clipPath: 'polygon(0 10%, 10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%)' }}></div>
+      <div className="absolute top-0 left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-transparent via-corpCyan/80 to-transparent"></div>
+      
+      {/* Background Cyber-Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-corpCyan/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="p-5 md:p-6 flex-1 flex flex-col z-10">
+        {/* Header Bar */}
+        <div className="flex items-center justify-between pb-4 border-b border-corpCyan/20 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="relative flex h-4 w-4">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-corpCyan opacity-75"></span>
+              <span className="relative flex items-center justify-center rounded-full h-4 w-4 bg-corpCyan/20 border border-corpCyan text-corpCyan">
+                <div className="w-1.5 h-1.5 bg-corpCyan rounded-full"></div>
+              </span>
+            </div>
+            <span className="text-sm md:text-base font-extrabold uppercase tracking-widest text-white flex items-center gap-2 drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]">
+              <Activity className="w-5 h-5 text-corpCyan" />
+              CYBERNETIC SOFTPHONE SYNC
+            </span>
+          </div>
+          <div className="hidden sm:flex items-center gap-2">
+            <span className="text-xs font-mono px-3 py-1 rounded bg-corpCyan/10 border border-corpCyan/30 text-corpCyan font-bold uppercase tracking-widest">
+              SYS_ID: BIONIC_001
+            </span>
+          </div>
+        </div>
+
+        {/* Stage Switcher */}
+        <div className="grid grid-cols-4 gap-2 mb-6 relative z-30">
+          {EMBEDDED_SOFTPHONE_STAGES.map((s, idx) => (
+            <button
+              key={s.id}
+              onClick={() => { setStageIdx(idx); setAutoCycle(false); }}
+              className={`relative py-1.5 px-2 rounded-none text-[10px] md:text-[11px] font-bold font-mono tracking-widest uppercase transition-all overflow-hidden border ${
+                stageIdx === idx
+                  ? 'bg-corpCyan/10 border-corpCyan text-corpCyan shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                  : 'bg-white/[0.02] border-white/10 text-slate-500 hover:text-white hover:border-white/30'
+              }`}
+            >
+              {stageIdx === idx && (
+                <motion.div
+                  layoutId="activeStageGlow"
+                  className="absolute inset-0 bg-gradient-to-r from-corpCyan/0 via-corpCyan/20 to-corpCyan/0 pointer-events-none"
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '100%' }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+              )}
+              {s.title}
+            </button>
+          ))}
+        </div>
+
+        {/* Bionic Human Canvas */}
+        <div className="relative flex-1 bg-[#020611] rounded-xl border border-white/5 overflow-hidden flex items-center justify-center p-4">
+          {/* Grid Background */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMCwgMjQwLCAyNTUsIDAuMSkiLz48L3N2Zz4=')] opacity-30"></div>
+
+          {/* Holographic Wireframe SVG */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 300">
+            <defs>
+              <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <linearGradient id="bodyGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#00F0FF" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#00F0FF" stopOpacity="0.05" />
+              </linearGradient>
+            </defs>
+
+            {/* Rotating Data Rings behind Head */}
+            <g transform="translate(200, 50)">
+              <motion.circle cx="0" cy="0" r="45" fill="none" stroke="rgba(0,240,255,0.15)" strokeWidth="1" strokeDasharray="4 8" animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
+              <motion.circle cx="0" cy="0" r="55" fill="none" stroke="rgba(0,240,255,0.1)" strokeWidth="1" strokeDasharray="20 10 5 10" animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} />
+            </g>
+
+            {/* Human Head & Torso Mesh */}
+            <path d="M 200 15 C 220 15, 235 30, 235 50 C 235 70, 220 85, 200 85 C 180 85, 165 70, 165 50 C 165 30, 180 15, 200 15 Z" fill="none" stroke="#00F0FF" strokeWidth="1.5" strokeDasharray="2 4" filter="url(#glowCyan)"/>
+            <path d="M 130 140 Q 160 100, 190 100 L 210 100 Q 240 100, 270 140 L 300 300 L 100 300 Z" fill="url(#bodyGradient)" stroke="#00F0FF" strokeWidth="1.5" opacity="0.6" filter="url(#glowCyan)"/>
+            
+            {/* Cybernetic Implants / Nodes */}
+            <circle cx="170" cy="50" r="10" fill="rgba(0,240,255,0.2)" stroke="#00F0FF" strokeWidth="2" filter="url(#glowCyan)"/>
+            <circle cx="230" cy="50" r="10" fill="rgba(0,240,255,0.2)" stroke="#00F0FF" strokeWidth="2" filter="url(#glowCyan)"/>
+            
+            {/* Neural Data Pathways (Head to Core) */}
+            <motion.path
+              d="M 170 60 Q 185 100, 200 140"
+              fill="none" stroke="#00F0FF" strokeWidth="3"
+              strokeDasharray="10 10"
+              animate={{ strokeDashoffset: [20, 0] }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              filter="url(#glowCyan)"
+            />
+            <motion.path
+              d="M 230 60 Q 215 100, 200 140"
+              fill="none" stroke="#00F0FF" strokeWidth="3"
+              strokeDasharray="10 10"
+              animate={{ strokeDashoffset: [20, 0] }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              filter="url(#glowCyan)"
+            />
+          </svg>
+
+          {/* Softphone Core Embedded in Chest */}
+          <motion.div
+            initial={{ scale: 0.95 }}
+            animate={{ scale: [0.97, 1.03, 0.97] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-20 w-[95%] max-w-[420px] mt-16 bg-[#030712]/80 rounded-none border border-corpCyan/40 p-4 backdrop-blur-xl shadow-[0_0_40px_rgba(0,240,255,0.2)]"
+            style={{
+              clipPath: 'polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)'
+            }}
+          >
+            {/* Corner Accents */}
+            <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-corpCyan"></div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-corpCyan"></div>
+
+            {/* Core Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-corpCyan/20 mb-3">
+              <div className="flex items-center gap-2 text-xs text-white">
+                <Radio className="w-4 h-4 text-emerald-400 animate-pulse-glow" />
+                <span className="font-mono text-emerald-400 tracking-widest text-xs uppercase">{current.softphoneStatus}</span>
+              </div>
+              <span className="text-[9px] font-mono bg-corpCyan/10 border border-corpCyan/30 text-corpCyan px-2 py-0.5 uppercase tracking-widest">
+                INTERNAL_CORE_V2
+              </span>
+            </div>
+
+            {/* Audio Stream Visualizer */}
+            <div className="bg-black/50 p-2.5 border border-white/5 mb-3 flex items-center justify-between relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-corpCyan/50"></div>
+              <div className="flex items-center gap-3 pl-2">
+                <Mic className="w-4 h-4 text-corpCyan animate-pulse" />
+                <span className="text-xs font-mono text-slate-300">
+                  {current.callerVoice}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 h-4 opacity-80">
+                {[14, 28, 18, 34, 16, 24, 12, 20].map((h, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ height: [8, h, 8] }}
+                    transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }}
+                    className="w-1.5 bg-corpCyan"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* HUD Call Actions */}
+            <div className="grid grid-cols-4 gap-2 mb-3">
+              <div className="py-1.5 bg-white/5 border border-white/10 text-[10px] font-mono text-slate-400 text-center uppercase hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
+                Mute_Tx
+              </div>
+              <div className="py-1.5 bg-white/5 border border-white/10 text-[10px] font-mono text-slate-400 text-center uppercase hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
+                Hold_Q
+              </div>
+              <div className="py-1.5 bg-white/5 border border-white/10 text-[10px] font-mono text-slate-400 text-center uppercase hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
+                XFER_P
+              </div>
+              <div className="py-1.5 bg-rose-500/20 border border-rose-500/40 text-[10px] font-mono text-rose-300 font-bold text-center uppercase shadow-[0_0_10px_rgba(244,63,94,0.2)]">
+                L_1912
+              </div>
+            </div>
+
+            {/* AI HUD Resolution */}
+            <AnimatePresence mode="wait">
+              {current.contactReady ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="bg-corpCyan/10 border border-corpCyan p-3 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-12 h-12 bg-corpCyan/20 blur-xl"></div>
+                  <div className="flex items-start justify-between relative z-10">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-corpCyan uppercase tracking-widest block mb-1">
+                        &gt;&gt; INTENT_LOCKED
+                      </span>
+                      <span className="text-sm font-sans font-black text-white tracking-wide block">
+                        Kandy General Hospital
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                        [Emergency] [Direct Inquiries]
+                      </span>
+                    </div>
+                    <div className="text-right flex flex-col items-end">
+                      <span className="text-sm font-mono font-black text-corpCyan bg-black/50 px-2.5 py-1 border border-corpCyan/30 mb-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                        081 222 2222
+                      </span>
+                      <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest flex items-center gap-1">
+                        <Zap className="w-3 h-3" /> Auto-Generated
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="p-4 border border-white/5 bg-black/30 text-center flex items-center justify-center h-[76px]">
+                  <span className="text-xs font-mono text-corpCyan/60 animate-pulse tracking-widest uppercase">
+                    {current.aiState}
+                  </span>
+                </div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-4 pt-3 border-t border-corpCyan/20 flex items-center justify-between text-[11px] font-mono text-corpCyan/70 uppercase tracking-widest">
+          <span>// Biometric Integration Active</span>
+          <span className="flex items-center gap-2">
+            Empathy: Human <span className="w-1 h-1 bg-corpCyan rounded-full"></span> Speed: Machine
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ImplementationAnimation = ({ stepIdx }: { stepIdx: number }) => {
+  return (
+    <div className="h-full w-full relative flex flex-col justify-center items-center overflow-hidden bg-black/20 rounded-2xl border border-white/10 p-6 md:p-10 backdrop-blur-md shadow-2xl">
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiLz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
+      
+      <div className="absolute top-4 left-4 text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Implementation Phases
+      </div>
+
+      <AnimatePresence mode="wait">
+        {/* Phase 1: Discover & Design */}
+        {stepIdx === 0 && (
+          <motion.div
+            key="0"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-blue-500/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(59,130,246,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-blue-500 animate-spin" style={{ animationDuration: '4s' }}></div>
+              <Brain className="w-12 h-12 text-blue-500 drop-shadow-lg" />
+            </div>
+            <h3 className="text-2xl font-black text-white mb-2">Discover & Design</h3>
+            <p className="text-sm text-slate-300">Defining AI capabilities and designing the Copilot interface.</p>
+          </motion.div>
+        )}
+
+        {/* Phase 2: Build & Integrate */}
+        {stepIdx === 1 && (
+          <motion.div
+            key="1"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-corpCyan/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(0,229,255,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-corpCyan animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
+              <Layers className="w-12 h-12 text-corpCyan drop-shadow-lg" />
+            </div>
+            <h3 className="text-2xl font-black text-white mb-2">Build & Integrate</h3>
+            <p className="text-sm text-slate-300">Connecting AI with directories, enabling NLP & smart ranking.</p>
+          </motion.div>
+        )}
+
+        {/* Phase 3: Pilot Testing */}
+        {stepIdx === 2 && (
+          <motion.div
+            key="2"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-purple-500/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(168,85,247,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-purple-500 animate-pulse"></div>
+              <Target className="w-12 h-12 text-purple-500 drop-shadow-lg" />
+            </div>
+            <h3 className="text-2xl font-black text-white mb-2">Pilot Testing</h3>
+            <p className="text-sm text-slate-300">Launching in Contact Centre to collect feedback and fine-tune AI.</p>
+          </motion.div>
+        )}
+
+        {/* Phase 4: Enterprise Rollout */}
+        {stepIdx === 3 && (
+          <motion.div
+            key="3"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-emerald-500/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(16,185,129,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-emerald-500 animate-spin" style={{ animationDuration: '5s' }}></div>
+              <Rocket className="w-12 h-12 text-emerald-500 drop-shadow-lg" />
+            </div>
+            <h3 className="text-2xl font-black text-white mb-2">Enterprise Rollout</h3>
+            <p className="text-sm text-slate-300">Org-wide deployment, continuous monitoring, and training.</p>
+          </motion.div>
+        )}
+
+        {stepIdx === 4 && (
+          <motion.div
+            key="4"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 w-full h-full flex items-center justify-center"
+          >
+            <div className="relative w-72 h-72 flex items-center justify-center">
+              {/* Core Search Engine */}
+              <motion.div 
+                className="w-20 h-20 rounded-full bg-rose-500/20 border-2 border-rose-500 flex flex-col items-center justify-center z-30 shadow-[0_0_30px_rgba(244,63,94,0.4)] backdrop-blur-md"
+              >
+                <Search className="w-8 h-8 text-white" />
+              </motion.div>
+              
+              {/* Ping Rings */}
+              <motion.div
+                 animate={{ scale: [1, 2], opacity: [0.8, 0] }}
+                 transition={{ duration: 2, repeat: Infinity }}
+                 className="absolute inset-0 rounded-full border border-rose-500/50 pointer-events-none"
+              />
+
+              {/* Orbiting Modules */}
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 15, ease: "linear" }} className="absolute inset-0 z-20">
+                {/* Fault Reporting */}
+                <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 15, ease: "linear" }} className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-[#050D1A] border-2 border-corpCyan rounded-xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+                  <AlertTriangle className="w-6 h-6 text-corpCyan mb-1" />
+                  <span className="text-[8px] font-black uppercase text-corpCyan">Faults</span>
+                </motion.div>
+                {/* Knowledge Hub */}
+                <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 15, ease: "linear" }} className="absolute bottom-4 right-4 w-16 h-16 bg-[#050D1A] border-2 border-amber-400 rounded-xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(251,191,36,0.4)]">
+                  <Brain className="w-6 h-6 text-amber-400 mb-1" />
+                  <span className="text-[8px] font-black uppercase text-amber-400">Knowledge</span>
+                </motion.div>
+                {/* Billing Systems */}
+                <motion.div animate={{ rotate: -360 }} transition={{ repeat: Infinity, duration: 15, ease: "linear" }} className="absolute bottom-4 left-4 w-16 h-16 bg-[#050D1A] border-2 border-purple-500 rounded-xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                  <Coins className="w-6 h-6 text-purple-500 mb-1" />
+                  <span className="text-[8px] font-black uppercase text-purple-500">Billing</span>
+                </motion.div>
+              </motion.div>
+              
+              {/* Inner Orbit */}
+              <svg className="absolute inset-0 w-full h-full z-0 opacity-20 pointer-events-none">
+                <circle cx="144" cy="144" r="144" fill="none" stroke="#fff" strokeWidth="1" strokeDasharray="4 4" />
+              </svg>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const BusinessROIAnimation = ({ stepIdx }: { stepIdx: number }) => {
+  return (
+    <div className="h-full w-full relative flex flex-col justify-center items-center overflow-hidden bg-black/20 rounded-2xl border border-white/10 p-6 md:p-10 backdrop-blur-md shadow-2xl">
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiLz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
+      
+      <div className="absolute top-4 left-4 text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Live Metrics Simulation
+      </div>
+
+      <AnimatePresence mode="wait">
+        {stepIdx === 0 && (
+          <motion.div
+            key="0"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 flex flex-col items-center text-center w-full max-w-sm"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-corpCyan/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(0,229,255,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-corpCyan animate-spin" style={{ animationDuration: '3s' }}></div>
+              <Zap className="w-12 h-12 text-corpCyan drop-shadow-lg" />
+            </div>
+            <span className="text-sm uppercase font-mono font-bold tracking-widest text-corpCyan mb-2">Search Speed Optimization</span>
+            <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.8)] mb-6">+65%</span>
+            
+            <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }} 
+                animate={{ width: '85%' }} 
+                transition={{ duration: 1.5, ease: "easeOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }}
+                className="h-full bg-corpCyan shadow-[0_0_15px_rgba(0,229,255,0.8)]"
+              />
+            </div>
+          </motion.div>
+        )}
+
+        {stepIdx === 1 && (
+          <motion.div
+            key="1"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 flex flex-col items-center text-center w-full max-w-sm"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-blue-400/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(59,130,246,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-blue-400 animate-spin" style={{ animationDuration: '4s', animationDirection: 'reverse' }}></div>
+              <HeartHandshake className="w-12 h-12 text-blue-400 drop-shadow-lg" />
+            </div>
+            <span className="text-sm uppercase font-mono font-bold tracking-widest text-blue-400 mb-2">Customer Satisfaction (CSAT)</span>
+            <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] mb-6">+35%</span>
+            
+            <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }} 
+                animate={{ width: '70%' }} 
+                transition={{ duration: 1.5, ease: "easeOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }}
+                className="h-full bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.8)]"
+              />
+            </div>
+          </motion.div>
+        )}
+
+        {stepIdx === 2 && (
+          <motion.div
+            key="2"
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="relative z-10 flex flex-col items-center text-center w-full max-w-sm"
+          >
+            <div className="w-32 h-32 shrink-0 rounded-full border-8 border-emerald-400/30 flex items-center justify-center relative shadow-[0_0_30px_rgba(16,185,129,0.4)] mb-8">
+              <div className="absolute inset-0 rounded-full border-t-8 border-emerald-400 animate-spin" style={{ animationDuration: '2.5s' }}></div>
+              <Activity className="w-12 h-12 text-emerald-400 drop-shadow-lg" />
+            </div>
+            <span className="text-sm uppercase font-mono font-bold tracking-widest text-emerald-400 mb-2">AHT / Operating Overhead</span>
+            <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(16,185,129,0.8)] mb-6">-40%</span>
+            
+            <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden flex justify-end">
+              <motion.div 
+                initial={{ width: '100%' }} 
+                animate={{ width: '40%' }} 
+                transition={{ duration: 1.5, ease: "easeOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 3 }}
+                className="h-full bg-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.8)]"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating particles */}
+      <motion.div 
+        animate={{ y: [0, -30, 0], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-16 right-16 w-2 h-2 rounded-full bg-corpCyan shadow-[0_0_15px_rgba(0,229,255,1)]"
+      />
+      <motion.div 
+        animate={{ y: [0, 40, 0], opacity: [0.3, 0.8, 0.3] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute top-16 left-24 w-3 h-3 rounded-full bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,1)]"
+      />
+      <motion.div 
+        animate={{ y: [0, -20, 0], opacity: [0.3, 0.9, 0.3] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-32 right-32 w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,1)]"
+      />
+    </div>
+  );
+};
+
+export const App = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Sync state for Slide 1 Problem & Animation
+  const [slide1StepIdx, setSlide1StepIdx] = useState(0);
+  const [slide1Auto, setSlide1Auto] = useState(false);
+
+  // Sync state for Slide 3 Business Value
+  const [slide3StepIdx, setSlide3StepIdx] = useState(0);
+
+  // Sync state for Slide 5 Implementation
+  const [slide5StepIdx, setSlide5StepIdx] = useState(0);
+
+  useEffect(() => {
+    if (currentSlide !== 1 || !slide1Auto) return;
+    const t = setInterval(() => setSlide1StepIdx(p => (p + 1) % CHARACTER_SIMULATION_STEPS.length), 3000);
+    return () => clearInterval(t);
+  }, [currentSlide, slide1Auto]);
+
+  // Demo state for interactive slide 4
+  const [demoQuery, setDemoQuery] = useState("Need contact for fiber maintenance in Kandy");
+  const [activeQueryIndex, setActiveQueryIndex] = useState(0);
+
+  const sampleQueries = [
+    {
+      query: "Need contact for fiber maintenance in Kandy",
+      feature: "Natural Language Search",
+      match: {
+        name: "Kasun S. Perera",
+        role: "Lead Engineer • Optical Fiber Network Maintenance",
+        dept: "Network Operations Division",
+        location: "Kandy Regional HQ, 2nd Floor",
+        phone: "081 228 4911",
+        ext: "3911",
+        status: "Available Now"
+      }
+    },
+    {
+      query: "Customer Billing Escalations Colombo Manager",
+      feature: "Smart Result Identification",
+      match: {
+        name: "Dilini Senanayake",
+        role: "Senior Manager • Billing Dispute Resolution",
+        dept: "Finance & Revenue Assurance",
+        location: "Colombo Head Office, Tower B",
+        phone: "011 202 3344",
+        ext: "1240",
+        status: "Available Now"
+      }
+    },
+    {
+      query: "IT Helpdesk & Active Directory Support",
+      feature: "Single Search: People, Dept & Org",
+      match: {
+        name: "Enterprise IT Support Desk",
+        role: "Internal Service Desk Hotline",
+        dept: "Enterprise Information Systems",
+        location: "Central Operations Centre",
+        phone: "011 244 8000",
+        ext: "5555",
+        status: "24/7 Active"
+      }
+    }
+  ];
+
+  // Fullscreen Listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
 
   // Keyboard Navigation
   useEffect(() => {
@@ -63,6 +1045,8 @@ const App = () => {
         nextSlide();
       } else if (['ArrowLeft', 'PageUp'].includes(e.key)) {
         prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -73,380 +1057,1455 @@ const App = () => {
   const prevSlide = () => setCurrentSlide((prev) => Math.max(prev - 1, 0));
   const goToSlide = (index: number) => setCurrentSlide(index);
 
-  // Slide Animation Variants
   const slideVariants: any = {
-    initial: { opacity: 0, x: 50, scale: 0.98 },
-    animate: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-    exit: { opacity: 0, x: -50, scale: 0.98, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
+    initial: { opacity: 0, rotateY: 20, rotateX: 10, scale: 0.92, z: -200 },
+    animate: { opacity: 1, rotateY: 0, rotateX: 0, scale: 1, z: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    exit: { opacity: 0, rotateY: -20, rotateX: -10, scale: 0.92, z: -200, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
   };
 
   const staggerVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    initial: { opacity: 0, y: 15 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } }
   };
 
-  const NextButton = () => (
-    <div className="mt-auto pt-16 pb-24 w-full flex justify-center">
-      <button
-        onClick={nextSlide}
-        className="flex items-center gap-3 px-8 py-3 rounded-full bg-corpCyan/10 border border-corpCyan/30 text-corpCyan hover:bg-corpCyan hover:text-corpBlue hover:scale-105 transition-all font-bold group shadow-[0_0_15px_rgba(0,229,255,0.15)]"
-      >
-        <span>Continue to Next Slide</span>
-        <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
-      </button>
-    </div>
-  );
-
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-corpBlue flex flex-col items-center justify-center p-4 md:p-8">
-      {/* Background Glows and Particles */}
+    <div className="relative w-screen h-screen overflow-hidden bg-corpBlue flex flex-col justify-between select-none font-sans text-slate-100" style={{ perspective: '1200px' }}>
+      <div className="scanlines" />
+      {/* Background Animated Gradient Mesh and Particles */}
       <Particles />
-      <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
-        backgroundImage: 'linear-gradient(to right, #00E5FF 1px, transparent 1px), linear-gradient(to bottom, #00E5FF 1px, transparent 1px)',
-        backgroundSize: '4rem 4rem',
-        maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)',
-        WebkitMaskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)'
-      }} />
+      <div
+        className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(to right, #00E5FF 1px, transparent 1px), linear-gradient(to bottom, #00E5FF 1px, transparent 1px)',
+          backgroundSize: '4rem 4rem',
+          maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 100%)'
+        }}
+      />
 
       <motion.div
         animate={{ y: [0, -30, 0], scale: [1, 1.05, 1] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] bg-blue-900 rounded-full blur-[100px] opacity-30 z-0"
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-[15%] -left-[10%] w-[60vw] h-[60vw] bg-blue-900/30 rounded-full blur-[130px] pointer-events-none z-0"
       />
       <motion.div
         animate={{ y: [0, -30, 0], scale: [1, 1.05, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute -bottom-[20%] -right-[10%] w-[60vw] h-[60vw] bg-teal-800 rounded-full blur-[100px] opacity-30 z-0"
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute -bottom-[20%] -right-[10%] w-[65vw] h-[65vw] bg-teal-900/25 rounded-full blur-[130px] pointer-events-none z-0"
       />
 
-      {/* Slide Deck Container */}
-      <div className="relative z-10 w-full max-w-7xl h-full max-h-[720px] aspect-video bg-corpLightBlue/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-
-        {/* Progress Bar */}
-        <div className="absolute top-0 left-0 h-1.5 bg-white/10 w-full z-50">
-          <motion.div
-            className="h-full bg-gradient-to-r from-corpCyan to-blue-500 shadow-[0_0_15px_#00E5FF]"
-            initial={{ width: 0 }}
-            animate={{ width: `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%` }}
-            transition={{ duration: 0.5 }}
-          />
+      {/* TOP HEADER: Full Page Progress & Navigation Bar */}
+      <header className="relative z-30 w-full px-6 md:px-12 py-3 border-b border-white/10 bg-corpLightBlue/80 backdrop-blur-xl flex items-center justify-between shrink-0 shadow-lg">
+        {/* Left: Branding */}
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-corpCyan/20 border border-corpCyan/40 flex items-center justify-center text-corpCyan shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <div>
+            <h1 className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
+              Directory <span className="text-gradient">AI</span>
+            </h1>
+            <span className="text-[10px] text-corpCyan/80 font-mono tracking-widest uppercase block -mt-0.5">
+              SLT Innovation Pitch 2026
+            </span>
+          </div>
         </div>
 
-        <div className="flex-1 relative overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              variants={slideVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="absolute inset-0 p-8 md:p-16 flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar"
+        {/* Center: Slide Switcher Tabs */}
+        <nav className="hidden md:flex items-center gap-1.5 bg-black/30 p-1 rounded-xl border border-white/10">
+          {SLIDES.map((slide, i) => (
+            <button
+              key={slide.id}
+              onClick={() => goToSlide(i)}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                currentSlide === i
+                  ? 'bg-corpCyan text-corpBlue shadow-[0_0_15px_#00E5FF] scale-105'
+                  : 'text-slate-300 hover:text-white hover:bg-white/10'
+              }`}
             >
-              {currentSlide === 0 && (
-                <div className="flex-1 flex flex-col justify-center items-center text-center">
-                  <motion.div variants={staggerVariants} initial="initial" animate="animate" className="mb-6 inline-block px-4 py-1.5 rounded-full border border-corpCyan/30 bg-corpCyan/10 text-corpCyan text-sm font-semibold tracking-wider uppercase shadow-[0_0_15px_rgba(0,229,255,0.2)]">
-                    SLT Innovation Pitch 2026
-                  </motion.div>
-                  <motion.h1 variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-6xl md:text-8xl font-extrabold mb-6 tracking-tight text-white">
-                    Smart Directory <span className="text-gradient">AI</span>
-                  </motion.h1>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.2 }} className="text-2xl md:text-3xl text-gray-300 font-light mb-12 max-w-3xl leading-relaxed">
-                    Empowering Human Empathy with <br /> AI Intelligence
-                  </motion.p>
+              <span>{slide.title}</span>
+            </button>
+          ))}
+        </nav>
 
-                  <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="grid grid-cols-2 gap-12 w-full max-w-2xl mt-8 pt-8 border-t border-white/10 text-left">
-                    <div>
-                      <h3 className="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Team</h3>
-                      <p className="text-lg text-white font-medium">Contact Center Team</p>
-                    </div>
-                    <div>
-                      <h3 className="text-corpCyan text-sm uppercase font-bold tracking-widest mb-2">Reference</h3>
-                      <p className="text-lg text-white font-medium font-mono bg-white/5 px-3 py-1 rounded inline-block border border-white/10">ISP/S/2026/40/179</p>
-                    </div>
-                  </motion.div>
-                  <NextButton />
+        {/* Right: Fullscreen & Progress */}
+        <div className="flex items-center gap-4">
+          <div className="text-xs font-mono bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-slate-300">
+            Slide <span className="text-corpCyan font-extrabold text-sm">{currentSlide + 1}</span> of {TOTAL_SLIDES}
+          </div>
+
+          <button
+            onClick={toggleFullscreen}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-corpCyan/20 hover:text-corpCyan border border-white/10 text-xs font-semibold transition-all cursor-pointer"
+            title="Toggle Fullscreen (F)"
+          >
+            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+            <span className="hidden sm:inline">{isFullscreen ? 'Exit Full' : 'Full Screen'}</span>
+          </button>
+        </div>
+
+        {/* Thin top accent indicator */}
+        <div
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-corpCyan via-blue-500 to-teal-400 w-full transition-all duration-300"
+          style={{ width: `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%` }}
+        />
+      </header>
+
+      {/* MAIN VIEWPORT */}
+      <main className="relative z-20 flex-1 min-h-0 w-full max-w-[1700px] mx-auto px-6 md:px-10 lg:px-16 py-3 flex flex-col overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            variants={slideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="w-full flex-1 min-h-0 flex flex-col"
+          >
+            {/* ======================================================== */}
+            {/* SLIDE 0: TITLE / HERO COVER                              */}
+            {/* ======================================================== */}
+            {currentSlide === 0 && (
+              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-4">
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  SLT Innovation Pitch 2026 • Enterprise Directory
+                </motion.div>
+
+                <motion.h1
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.1 }}
+                  className="text-7xl md:text-9xl lg:text-[10rem] font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl"
+                >
+                  Directory
+                </motion.h1>
+
+                <motion.p
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.2 }}
+                  className="text-2xl md:text-3xl lg:text-4xl text-slate-200 font-light mb-10 max-w-4xl leading-relaxed"
+                >
+                  Use AI to transform the traditional directory into an <br className="hidden md:inline" />
+                  <span className="text-corpCyan font-bold underline decoration-corpCyan/50 decoration-4 underline-offset-8">
+                    intelligent search assistant
+                  </span>.
+                </motion.p>
+
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-8 border-t border-white/10 text-left"
+                >
+                  <div className="bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10 hover:border-corpCyan/40 transition-colors">
+                    <span className="text-rose-400 text-xs font-mono font-bold uppercase tracking-wider block mb-1">
+                      01 / The Challenge
+                    </span>
+                    <h2 className="text-white font-extrabold text-lg">Problem & Opportunity</h2>
+                    <p className="text-sm text-slate-300 mt-1">Solve character-filtering hassle and search friction.</p>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10 hover:border-corpCyan/40 transition-colors">
+                    <span className="text-corpCyan text-xs font-mono font-bold uppercase tracking-wider block mb-1">
+                      02 / The Breakthrough
+                    </span>
+                    <h2 className="text-white font-extrabold text-lg">Proposed Solution</h2>
+                    <p className="text-sm text-slate-300 mt-1">5 Key conversational innovations with in-system softphone.</p>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10 hover:border-corpCyan/40 transition-colors">
+                    <span className="text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider block mb-1">
+                      03 / The ROI
+                    </span>
+                    <h2 className="text-white font-extrabold text-lg">Business Value & Benefits</h2>
+                    <p className="text-sm text-slate-300 mt-1">Operational efficiency, CSAT boost & cost savings.</p>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 1: 01) PROBLEM / OPPORTUNITY                       */}
+            {/* ======================================================== */}
+            {currentSlide === 1 && (
+              <div className="flex flex-col flex-1 min-h-0 gap-2 py-1">
+
+                {/* ── TOP: Title + Quote ── */}
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="px-3 py-1 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase tracking-wider shrink-0">
+                    Section 01
+                  </span>
+                  <h2 className="text-2xl md:text-4xl font-black text-white leading-tight">
+                    Problem / <span className="text-gradient">Opportunity</span>
+                  </h2>
                 </div>
-              )}
 
-              {currentSlide === 1 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">The <span className="text-gradient">Problem & Opportunity</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-10">Why modernizing the SLT contact center is crucial right now.</motion.p>
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="shrink-0 px-3 py-2 rounded-xl bg-amber-500/12 border border-amber-500/35 text-amber-200 text-xs md:text-sm leading-relaxed flex items-center gap-2.5 shadow-lg"
+                >
+                  <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+                  <p className="font-semibold">
+                    &ldquo;The information displayed changes based on the characters entered, which can sometimes make it a hassle to find the right result.&rdquo;
+                  </p>
+                </motion.div>
 
-                  <div className="grid grid-cols-2 gap-6 flex-1">
+                {/* ── MAIN GRID: fills remaining height ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+
+                  {/* LEFT: Problems + Why It Matters */}
+                  <div className="lg:col-span-5 flex flex-col gap-2 min-h-0">
+
+                    <span className="text-rose-400 font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5 shrink-0">
+                      <XCircle className="w-3.5 h-3.5 text-rose-400" /> Problems Identified
+                    </span>
+
+                    <div className="flex flex-col gap-1.5 flex-1 min-h-[160px] relative">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={slide1StepIdx}
+                          initial={{ opacity: 0, x: -30, scale: 0.95, filter: 'blur(10px)' }}
+                          animate={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+                          exit={{ opacity: 0, x: 30, scale: 0.95, filter: 'blur(10px)' }}
+                          transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 25 }}
+                          className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-md"
+                          style={{
+                            background: slide1StepIdx >= 2 ? 'linear-gradient(135deg, rgba(244,63,94,0.15) 0%, rgba(10,5,21,0.9) 100%)' : 'linear-gradient(135deg, rgba(0,229,255,0.1) 0%, rgba(5,13,26,0.9) 100%)',
+                            border: `1px solid ${slide1StepIdx >= 2 ? 'rgba(244,63,94,0.4)' : 'rgba(0,229,255,0.3)'}`,
+                            clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                          }}
+                        >
+                          {/* Grid Background Overlay */}
+                          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiLz48L3N2Zz4=')] opacity-50 pointer-events-none"></div>
+                          
+                          {/* Decorative Corner Accents */}
+                          <div className={`absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 ${slide1StepIdx >= 2 ? 'border-rose-500' : 'border-corpCyan'}`}></div>
+                          <div className={`absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 ${slide1StepIdx >= 2 ? 'border-rose-500' : 'border-corpCyan'}`}></div>
+
+                          {/* Animated Warning Stripes if Critical */}
+                          {slide1StepIdx >= 2 && (
+                            <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden opacity-50">
+                              <motion.div
+                                animate={{ x: [0, 40] }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                className="w-[200%] h-full flex"
+                                style={{
+                                  background: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #F43F5E 10px, #F43F5E 20px)'
+                                }}
+                              />
+                            </div>
+                          )}
+
+                          {/* Header Tag */}
+                          <div className="relative z-10 flex items-center gap-2 mb-2">
+                            <span className="relative flex h-2 w-2">
+                              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${slide1StepIdx >= 2 ? 'bg-rose-500' : 'bg-corpCyan'}`}></span>
+                              <span className={`relative inline-flex rounded-full h-2 w-2 ${slide1StepIdx >= 2 ? 'bg-rose-500' : 'bg-corpCyan'}`}></span>
+                            </span>
+                            <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${slide1StepIdx >= 2 ? 'text-rose-400' : 'text-corpCyan'}`}>
+                              SYS_LOG // ISSUE DETECTED_0{slide1StepIdx + 1}
+                            </span>
+                          </div>
+
+                          {/* Problem Content */}
+                          <div className="relative z-10 flex-1 flex flex-col justify-center gap-3">
+                            <span className="text-4xl md:text-5xl drop-shadow-lg">
+                              {CHARACTER_SIMULATION_STEPS[slide1StepIdx].problemIcon}
+                            </span>
+                            <span className="text-xl md:text-3xl font-black text-white leading-tight">
+                              {CHARACTER_SIMULATION_STEPS[slide1StepIdx].problemTitle}
+                            </span>
+                          </div>
+                          
+                          {/* Navigation & Progress */}
+                          <div className="relative z-10 flex items-center justify-between mt-4 pt-4 w-full border-t border-white/10">
+                            {/* Tactical Progress Dots */}
+                            <div className="flex items-center gap-2">
+                              {CHARACTER_SIMULATION_STEPS.map((_, i) => (
+                                <div
+                                  key={i}
+                                  className={`h-1.5 transition-all duration-300 ${
+                                    i === slide1StepIdx 
+                                      ? `w-8 ${slide1StepIdx >= 2 ? 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.6)]' : 'bg-corpCyan shadow-[0_0_10px_rgba(0,240,255,0.6)]'}` 
+                                      : 'w-2 bg-white/20'
+                                  }`}
+                                  style={{ clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' }}
+                                />
+                              ))}
+                            </div>
+                            
+                            {/* Manual Controls - Tactical Buttons */}
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSlide1Auto(false);
+                                  setSlide1StepIdx(prev => Math.max(0, prev - 1));
+                                }}
+                                disabled={slide1StepIdx === 0}
+                                className="group relative px-3 py-1.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                                style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}
+                              >
+                                <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                                <span className="text-[10px] font-mono font-bold uppercase tracking-wider hidden sm:block">Prev</span>
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSlide1Auto(false);
+                                  setSlide1StepIdx(prev => Math.min(CHARACTER_SIMULATION_STEPS.length - 1, prev + 1));
+                                }}
+                                disabled={slide1StepIdx === CHARACTER_SIMULATION_STEPS.length - 1}
+                                className="group relative px-3 py-1.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                                style={{ clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))' }}
+                              >
+                                <span className="text-[10px] font-mono font-bold uppercase tracking-wider hidden sm:block">Next</span>
+                                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                              </button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Why It Matters */}
+                    <div className="glass-card p-4 md:p-5 rounded-2xl border border-white/10 shrink-0 bg-gradient-to-br from-white/5 to-transparent shadow-lg">
+                      <h3 className="text-xs md:text-sm uppercase font-extrabold text-corpCyan tracking-widest mb-3 flex items-center gap-2">
+                        <Clock className="w-4 h-4 md:w-5 md:h-5 text-corpCyan drop-shadow-md" /> 
+                        Why It Matters
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-3">
+                        {[
+                          "Delays customer issue resolution",
+                          "Reduces employee productivity",
+                          "Increases Average Handling Time (AHT)",
+                          "Frustration during urgent contact lookup"
+                        ].map((t, i) => (
+                          <div key={i} className="flex items-center gap-3 bg-white/5 hover:bg-white/10 transition-colors p-2.5 md:p-3 rounded-xl border border-white/5 shadow-sm">
+                            <div className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)] shrink-0"></div>
+                            <span className="font-semibold text-xs md:text-sm leading-snug text-slate-200">{t}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Opportunity callout */}
+                    <motion.div
+                      variants={staggerVariants}
+                      initial="initial"
+                      animate="animate"
+                      transition={{ delay: 0.3 }}
+                      className="shrink-0 p-3 rounded-xl bg-gradient-to-r from-corpCyan/20 via-blue-600/20 to-teal-500/15 border border-corpCyan/60 shadow-[0_0_20px_rgba(0,229,255,0.15)] flex items-center gap-2"
+                    >
+                      <Sparkles className="w-4 h-4 text-corpCyan shrink-0" />
+                      <p className="text-white text-xs md:text-sm font-black leading-snug">
+                        Use <span className="text-corpCyan">AI</span> to transform the traditional directory into an{' '}
+                        <span className="text-corpCyan underline decoration-corpCyan decoration-2 underline-offset-2">intelligent search assistant</span>.
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  {/* RIGHT: Brain Animation — fills full column height */}
+                  <div className="lg:col-span-7 min-h-0 flex flex-col">
+                    <AgentBrainOverload stepIdx={slide1StepIdx} setStepIdx={setSlide1StepIdx} auto={slide1Auto} setAuto={setSlide1Auto} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 2: 02) PROPOSED SOLUTION / INNOVATION              */}
+            {/* (WITH EMBEDDED SOFTPHONE AGENT ANIMATION)                */}
+            {/* ======================================================== */}
+            {currentSlide === 2 && (
+              <div className="flex flex-col h-full justify-between py-2">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
+                      Section 02
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-black text-white">
+                      Proposed Solution / <span className="text-gradient">Innovation</span>
+                    </h2>
+                  </div>
+                  <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider mb-4 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                  </div>
+                </div>
+
+                {/* 2-Column Split: Key Innovations (Left) vs Embedded Softphone Agent Animation (Right) */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+                  {/* Left Column (5 Cols): The 5 Key Innovations from Directory.txt */}
+                  <div className="lg:col-span-5 flex flex-col gap-3 md:gap-4 min-h-0 justify-center">
                     {[
-                      { icon: Clock, color: "text-corpCyan", title: "High Average Handling Time", desc: "Agents spend valuable time manually typing and searching directories while the customer is kept waiting on hold." },
-                      { icon: Headset, color: "text-blue-400", title: "Agent Burnout", desc: "Continuous manual data entry and searching leads to cognitive fatigue, impacting the quality of service provided." },
-                      { icon: TrendingUp, color: "text-purple-400", title: "Lack of Real-time QA", desc: "Call auditing happens days later. Missing information or incorrect advice isn't caught in real-time." },
-                      { icon: Users, color: "text-green-400", title: "The Human Touch", desc: "Sri Lankan customers prefer speaking to human agents. Standard IVR bots cause frustration and drop-offs.", border: "border-corpCyan/30" }
-                    ].map((item, i) => (
-                      <motion.div key={i} variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.2 + (i * 0.1) }} className={`glass-card p-6 flex flex-col justify-center relative overflow-hidden group ${item.border || ''}`}>
-                        <div className="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-white/10 transition-colors"><item.icon /></div>
-                        <item.icon className={`w-10 h-10 ${item.color} mb-4 ${i === 0 ? 'animate-pulse' : ''}`} />
-                        <h3 className="text-2xl font-semibold text-white mb-2">{item.title}</h3>
-                        <p className="text-gray-400">{item.desc}</p>
+                      {
+                        title: "Natural Language Search",
+                        desc: "Search using simple everyday language.",
+                        icon: MessageSquare,
+                        color: "text-corpCyan",
+                        badge: "Everyday Language",
+                        border: "border-corpCyan/40",
+                        bg: "rgba(0,229,255,0.05)"
+                      },
+                      {
+                        title: "Smart Result Identification",
+                        desc: "AI finds and prioritizes the most relevant contact.",
+                        icon: Target,
+                        color: "text-emerald-400",
+                        badge: "Semantic Priority",
+                        border: "border-emerald-400/40",
+                        bg: "rgba(16,185,129,0.05)"
+                      },
+                      {
+                        title: "Single Search Experience",
+                        desc: "Search people, departments, locations, and organizations from one place.",
+                        icon: Layers,
+                        color: "text-blue-400",
+                        badge: "Unified Discovery",
+                        border: "border-blue-400/40",
+                        bg: "rgba(59,130,246,0.05)"
+                      },
+                      {
+                        title: "Conversational Interface",
+                        desc: "Users ask questions instead of using complex filters.",
+                        icon: Brain,
+                        color: "text-purple-400",
+                        badge: "Zero Query Complexity",
+                        border: "border-purple-400/40",
+                        bg: "rgba(168,85,247,0.05)"
+                      },
+                      {
+                        title: "Faster Contact Discovery",
+                        desc: "Reduces time spent searching and improves productivity.",
+                        icon: Zap,
+                        color: "text-amber-400",
+                        badge: "Sub-Second Results",
+                        border: "border-amber-400/40",
+                        bg: "rgba(245,158,11,0.05)"
+                      }
+                    ].map((item, idx) => (
+                      <motion.div
+                        key={idx}
+                        variants={staggerVariants}
+                        initial="initial"
+                        animate="animate"
+                        transition={{ delay: 0.1 * idx }}
+                        className="relative group p-4 md:p-5 border-l-4 shadow-lg backdrop-blur-md overflow-hidden"
+                        style={{
+                          borderColor: item.color.split('-')[1] ? `var(--${item.color.split('-')[1]})` : '#00E5FF',
+                          background: `linear-gradient(90deg, ${item.bg} 0%, rgba(5,13,26,0.8) 100%)`,
+                          clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)'
+                        }}
+                      >
+                        {/* Hover accent */}
+                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none border border-white/5`}></div>
+                        
+                        <div className="flex items-start gap-4 relative z-10">
+                          <div className={`p-2.5 md:p-3 rounded-xl bg-black/40 ${item.color} border border-white/10 shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300`}>
+                            <item.icon className="w-5 h-5 md:w-6 md:h-6 drop-shadow-md" />
+                          </div>
+
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between gap-3 mb-1.5">
+                              <h3 className="text-base md:text-lg font-black text-white leading-tight drop-shadow-sm flex items-center gap-2">
+                                <CheckCircle2 className={`w-4 h-4 ${item.color}`} />
+                                {item.title}
+                              </h3>
+                              <span className={`text-[10px] font-mono uppercase font-bold tracking-widest px-2.5 py-1 border ${item.border} ${item.color} bg-black/40 shadow-sm shrink-0 rounded`}>
+                                {item.badge}
+                              </span>
+                            </div>
+                            <p className="text-xs md:text-sm text-slate-300 font-medium leading-relaxed pl-6">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </div>
                       </motion.div>
                     ))}
                   </div>
-                  <NextButton />
+
+                  {/* Right Column (7 Cols): Embedded Softphone Inside Human Body Visualization */}
+                  <div className="lg:col-span-7 min-h-0 flex flex-col justify-center">
+                    <EmbeddedSoftphoneAgent />
+                  </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Continuing other slides similarly... Add more conditions for slides 2-7 */}
-              {currentSlide === 2 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Proposed <span className="text-gradient">Solution</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-8">The Agent Copilot: Empathy from humans, speed from AI.</motion.p>
+            {/* ======================================================== */}
+            {/* SLIDE 3: 03) BUSINESS VALUE & BENEFITS                   */}
+            {/* ======================================================== */}
+            {currentSlide === 3 && (
+              <div className="flex flex-col h-full justify-between py-2">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
+                      Section 03
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-black text-white">
+                      Business Value & <span className="text-gradient">Benefits</span>
+                    </h2>
+                  </div>
+                  <p className="text-sm md:text-base text-slate-300 mb-6">
+                    Delivering measurable ROI across organizational productivity, customer experience, and operational costs.
+                  </p>
+                </div>
 
-                  <div className="flex flex-1 gap-8 items-center">
-                    <div className="flex-1 space-y-6">
-                      {[
-                        { icon: Ear, color: "text-corpCyan", bg: "bg-corpCyan/20 border-corpCyan/50 shadow-[0_0_15px_rgba(0,229,255,0.3)]", title: "Real-Time Listening", desc: "AI securely streams audio during the call, transcribing mixed Sinhala/English (Singlish) in milliseconds." },
-                        { icon: Brain, color: "text-blue-400", bg: "bg-blue-500/20 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]", title: "Intent Extraction", desc: "An LLM extracts exact requirements without manual input." },
-                        { icon: Zap, color: "text-purple-400", bg: "bg-purple-500/20 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.3)]", title: "Zero-Click Lookup", desc: "Results instantly pop up on the agent's screen. The agent simply reads it to the customer naturally." }
-                      ].map((item, i) => (
-                        <motion.div key={i} variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.2 + (i * 0.1) }} className="flex items-start gap-4">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 border ${item.bg}`}>
-                            <item.icon className={`w-5 h-5 ${item.color}`} />
-                          </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
+                  {/* Left Column (5 Cols): The Active Pillar Large */}
+                  <div className="lg:col-span-5 flex flex-col gap-4 min-h-0">
+                    
+                    <div className="flex-1 relative">
+                      <AnimatePresence mode="wait">
+                        {/* Pillar 1: Operational Efficiency */}
+                        {slide3StepIdx === 0 && (
+                          <motion.div
+                            key="0"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(0,229,255,0.1) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(0,229,255,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-corpCyan"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-corpCyan"></div>
+                            
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-corpCyan/20 text-corpCyan flex items-center justify-center mb-8 border border-corpCyan/30 shadow-[0_0_30px_rgba(0,229,255,0.4)]">
+                                <Briefcase className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Operational Efficiency</h3>
+                              <p className="text-sm md:text-base text-corpCyan font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-corpCyan rounded-full animate-pulse"></span> Internal Productivity
+                              </p>
+
+                              <div className="space-y-4">
+                                {[
+                                  "Faster contact lookup",
+                                  "Reduced employee effort",
+                                  "Improved internal collaboration"
+                                ].map((item, i) => (
+                                  <div key={i} className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-corpCyan/10 transition-colors">
+                                    <CheckCircle2 className="w-6 h-6 text-corpCyan shrink-0 drop-shadow-sm" />
+                                    <span className="text-base md:text-xl font-bold text-slate-200">{item}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Pillar 2: Customer Experience */}
+                        {slide3StepIdx === 1 && (
+                          <motion.div
+                            key="1"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(59,130,246,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-400"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-blue-400"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-8 border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                                <HeartHandshake className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Customer Experience</h3>
+                              <p className="text-sm md:text-base text-blue-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span> Customer Care & Speed
+                              </p>
+
+                              <div className="space-y-4">
+                                {[
+                                  "Faster issue resolution",
+                                  "Reduced customer waiting time",
+                                  "Improved first-contact resolution"
+                                ].map((item, i) => (
+                                  <div key={i} className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-blue-500/10 transition-colors">
+                                    <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0 drop-shadow-sm" />
+                                    <span className="text-base md:text-xl font-bold text-slate-200">{item}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Pillar 3: Cost Savings */}
+                        {slide3StepIdx === 2 && (
+                          <motion.div
+                            key="2"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(16,185,129,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-emerald-400"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-emerald-400"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-8 border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+                                <Coins className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Cost Savings</h3>
+                              <p className="text-sm md:text-base text-emerald-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Bottom-Line Impact
+                              </p>
+
+                              <div className="space-y-4">
+                                {[
+                                  "Less time spent searching",
+                                  "Increased workforce productivity",
+                                  "Reduced operating cost per interaction"
+                                ].map((item, i) => (
+                                  <div key={i} className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-emerald-500/10 transition-colors">
+                                    <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0 drop-shadow-sm" />
+                                    <span className="text-base md:text-xl font-bold text-slate-200">{item}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Progress & Controls */}
+                    <div className="relative z-10 flex items-center justify-between w-full p-4 glass-card rounded-xl border border-white/10 shrink-0 mt-2">
+                      <div className="flex items-center gap-2">
+                        {[0, 1, 2].map((i) => (
+                          <div
+                            key={i}
+                            className={`h-2 transition-all duration-300 ${
+                              i === slide3StepIdx 
+                                ? `w-12 ${
+                                    i === 0 ? 'bg-corpCyan shadow-[0_0_10px_rgba(0,240,255,0.6)]' :
+                                    i === 1 ? 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.6)]' :
+                                    'bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.6)]'
+                                  }` 
+                                : 'w-3 bg-white/20'
+                            }`}
+                            style={{ clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' }}
+                          />
+                        ))}
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setSlide3StepIdx(prev => Math.max(0, prev - 1))}
+                          disabled={slide3StepIdx === 0}
+                          className="group relative px-4 py-2 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                          style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}
+                        >
+                          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                          <span className="text-xs font-mono font-bold uppercase tracking-wider">Prev</span>
+                        </button>
+                        <button
+                          onClick={() => setSlide3StepIdx(prev => Math.min(2, prev + 1))}
+                          disabled={slide3StepIdx === 2}
+                          className="group relative px-4 py-2 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                          style={{ clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))' }}
+                        >
+                          <span className="text-xs font-mono font-bold uppercase tracking-wider">Next</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column (7 Cols): Animation */}
+                  <div className="lg:col-span-7 flex flex-col justify-center min-h-0">
+                    <BusinessROIAnimation stepIdx={slide3StepIdx} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 4: LIVE INTERACTIVE DIRECTORY SEARCH DEMO          */}
+            {/* ======================================================== */}
+            {currentSlide === 4 && (
+              <div className="flex flex-col h-full justify-between py-2">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                      Interactive Showcase
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-black text-white">
+                      Smart Directory <span className="text-gradient">in Action</span>
+                    </h2>
+                  </div>
+                  <p className="text-sm md:text-base text-slate-300 mb-6">
+                    See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 items-stretch">
+                  <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+                    <div className="glass-card p-6 rounded-2xl border border-white/10">
+                      <span className="text-xs uppercase font-extrabold text-corpCyan tracking-widest mb-4 block">
+                        Select a Conversational Query:
+                      </span>
+                      <div className="space-y-3">
+                        {sampleQueries.map((item, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              setDemoQuery(item.query);
+                              setActiveQueryIndex(idx);
+                            }}
+                            className={`w-full text-left p-4 rounded-xl border text-sm md:text-base transition-all cursor-pointer flex items-center justify-between ${
+                              activeQueryIndex === idx
+                                ? 'bg-corpCyan/20 border-corpCyan text-white shadow-[0_0_20px_rgba(0,229,255,0.25)]'
+                                : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white'
+                            }`}
+                          >
+                            <div>
+                              <span className="text-xs text-corpCyan font-extrabold uppercase block mb-1">
+                                {item.feature}
+                              </span>
+                              <span className="font-semibold">&ldquo;{item.query}&rdquo;</span>
+                            </div>
+                            <Play className="w-5 h-5 text-corpCyan shrink-0 ml-3" />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-sm text-slate-300 leading-relaxed">
+                      💡 <strong>Eliminates character-by-character search hassle:</strong> Instead of typing letters and re-filtering multiple times, users speak or type natural questions and receive single, verified contact cards in 0.8s.
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl border-2 border-corpCyan/50 bg-corpCyan/5 flex flex-col justify-between shadow-[0_0_40px_rgba(0,229,255,0.15)]">
+                    <div>
+                      <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+                        <span className="text-corpCyan font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                          <Sparkles className="w-5 h-5" /> Conversational Interface Output
+                        </span>
+                        <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono font-bold">
+                          Response Time: 0.8s
+                        </span>
+                      </div>
+
+                      <div className="bg-[#050D1A] p-4 rounded-xl border border-corpCyan/40 mb-6 flex items-center gap-3">
+                        <Search className="w-5 h-5 text-corpCyan shrink-0" />
+                        <span className="text-white text-base md:text-lg font-medium flex-1">
+                          {demoQuery}
+                        </span>
+                        <span className="w-2.5 h-5 bg-corpCyan animate-pulse shrink-0"></span>
+                      </div>
+
+                      <motion.div
+                        key={activeQueryIndex}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.35 }}
+                        className="p-6 rounded-2xl bg-gradient-to-br from-corpCyan/20 via-blue-900/40 to-teal-900/30 border border-corpCyan/60 shadow-2xl space-y-4"
+                      >
+                        <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="text-2xl font-bold text-white">{item.title}</h3>
-                            <p className="text-gray-400 mt-1">{item.desc}</p>
+                            <span className="text-xs font-black text-corpCyan uppercase tracking-widest bg-corpCyan/20 px-2.5 py-1 rounded">
+                              Smart Result Identification • 99% Match
+                            </span>
+                            <h4 className="text-2xl md:text-3xl font-black text-white mt-2">
+                              {sampleQueries[activeQueryIndex].match.name}
+                            </h4>
+                            <p className="text-sm md:text-base text-slate-200 mt-0.5">
+                              {sampleQueries[activeQueryIndex].match.role}
+                            </p>
+                            <p className="text-xs font-mono text-corpCyan mt-1">
+                              {sampleQueries[activeQueryIndex].match.dept}
+                            </p>
+                          </div>
+                          <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            {sampleQueries[activeQueryIndex].match.status}
+                          </span>
+                        </div>
+
+                        <div className="pt-4 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                          <div className="flex items-center gap-2.5 text-slate-100">
+                            <Phone className="w-4 h-4 text-corpCyan shrink-0" />
+                            <span className="font-mono font-bold text-base text-white">
+                              {sampleQueries[activeQueryIndex].match.phone}
+                            </span>
+                            <span className="text-slate-400">
+                              (Ext: {sampleQueries[activeQueryIndex].match.ext})
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-slate-100">
+                            <Building2 className="w-4 h-4 text-blue-400 shrink-0" />
+                            <span>{sampleQueries[activeQueryIndex].match.location}</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    <div className="mt-4 p-3.5 rounded-xl bg-corpCyan/10 border border-corpCyan/30 text-sm text-corpCyan font-bold flex items-center justify-between">
+                      <span>Unified Search Across People, Departments, Locations & Organizations</span>
+                      <Zap className="w-5 h-5 text-corpCyan" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* ======================================================== */}
+            {/* SLIDE 5: ARCHITECTURE & ROLLOUT ROADMAP                  */}
+            {/* ======================================================== */}
+            {currentSlide === 5 && (
+              <div className="flex flex-col h-full justify-between py-2">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
+                  {/* Left Column (5 Cols): Active Pillar Large */}
+                  <div className="lg:col-span-5 flex flex-col gap-4 min-h-0">
+                    
+                    <div className="flex-1 relative">
+                      <AnimatePresence mode="wait">
+                        {/* Step 1: Natural Language Engine */}
+                        {slide5StepIdx === 0 && (
+                          <motion.div
+                            key="0"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(59,130,246,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-400"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-blue-400"></div>
+                            
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-8 border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                                <Brain className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Natural Language Engine</h3>
+                              <p className="text-sm md:text-base text-blue-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span> Contextual AI
+                              </p>
+
+                              <div className="space-y-4">
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-blue-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Processes English, Sinhala & Singlish</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-blue-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Understands conversational intent</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-blue-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">No exact keywords required</span>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Step 2: Unified Directory Graph */}
+                        {slide5StepIdx === 1 && (
+                          <motion.div
+                            key="1"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(0,229,255,0.1) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(0,229,255,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-corpCyan"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-corpCyan"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-corpCyan/20 text-corpCyan flex items-center justify-center mb-8 border border-corpCyan/30 shadow-[0_0_30px_rgba(0,229,255,0.4)]">
+                                <Layers className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Unified Directory Graph</h3>
+                              <p className="text-sm md:text-base text-corpCyan font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-corpCyan rounded-full animate-pulse"></span> Single Source of Truth
+                              </p>
+
+                              <div className="space-y-4">
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-corpCyan/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-corpCyan shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Integrates Active Directory</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-corpCyan/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-corpCyan shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Connects HRIS & Regional Branches</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-corpCyan/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-corpCyan shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Real-time dynamic index</span>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Step 3: Agent Desktop Copilot */}
+                        {slide5StepIdx === 2 && (
+                          <motion.div
+                            key="2"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(168,85,247,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-purple-400"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-purple-400"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-8 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.4)]">
+                                <Cpu className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Agent Desktop Copilot</h3>
+                              <p className="text-sm md:text-base text-purple-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span> Seamless Workflow
+                              </p>
+
+                              <div className="space-y-4">
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-purple-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-purple-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Embedded in 1912 CRM</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-purple-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-purple-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Sub-second verified results</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-purple-500/10 transition-colors">
+                                  <CheckCircle2 className="w-6 h-6 text-purple-400 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Employee intranet widget</span>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Step 4: Roadmap */}
+                        {slide5StepIdx === 3 && (
+                          <motion.div
+                            key="3"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(16,185,129,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-emerald-400"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-emerald-400"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-8 border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+                                <Rocket className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Strategic Rollout Roadmap</h3>
+                              <p className="text-sm md:text-base text-emerald-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Phased Delivery
+                              </p>
+
+                              <div className="space-y-4">
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-emerald-500/10 transition-colors">
+                                  <div className="w-8 h-8 rounded-full bg-corpCyan text-black font-black flex items-center justify-center shrink-0">1</div>
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Phase 1: Contact Centre Pilot</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-emerald-500/10 transition-colors">
+                                  <div className="w-8 h-8 rounded-full bg-blue-400 text-white font-black flex items-center justify-center shrink-0">2</div>
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Phase 2: Enterprise Expansion</span>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Step 5: Ecosystem Expansion */}
+                        {slide5StepIdx === 4 && (
+                          <motion.div
+                            key="4"
+                            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                            exit={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 flex flex-col justify-between shadow-2xl backdrop-blur-md overflow-hidden p-6 md:p-10"
+                            style={{
+                              background: 'linear-gradient(135deg, rgba(244,63,94,0.15) 0%, rgba(5,13,26,0.9) 100%)',
+                              border: '1px solid rgba(244,63,94,0.4)',
+                              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
+                            }}
+                          >
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-rose-500"></div>
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-rose-500"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-center">
+                              <div className="w-20 h-20 rounded-2xl bg-rose-500/20 text-rose-500 flex items-center justify-center mb-8 border border-rose-500/30 shadow-[0_0_30px_rgba(244,63,94,0.4)]">
+                                <Search className="w-10 h-10 drop-shadow-md" />
+                              </div>
+                              <h3 className="text-3xl md:text-5xl font-black text-white mb-2 leading-tight">Phase 3: Full Ecosystem Search</h3>
+                              <p className="text-sm md:text-base text-rose-400 font-extrabold uppercase tracking-widest mb-10 flex items-center gap-3">
+                                <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span> Next Steps
+                              </p>
+
+                              <div className="space-y-4">
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-rose-500/10 transition-colors">
+                                  <AlertTriangle className="w-6 h-6 text-rose-500 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Fault Reporting Integration (Zero-touch CX)</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-rose-500/10 transition-colors">
+                                  <Brain className="w-6 h-6 text-rose-500 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Knowledge Hub Integration</span>
+                                </div>
+                                <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center gap-4 hover:bg-rose-500/10 transition-colors">
+                                  <Coins className="w-6 h-6 text-rose-500 shrink-0 drop-shadow-sm" />
+                                  <span className="text-base md:text-lg font-bold text-slate-200">Billing & Troubleshooting AI Agent</span>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Progress & Controls */}
+                    <div className="relative z-10 flex items-center justify-between w-full p-4 glass-card rounded-xl border border-white/10 shrink-0 mt-2">
+                      <div className="flex items-center gap-2">
+                        {[0, 1, 2, 3, 4].map((i) => (
+                          <div
+                            key={i}
+                            className={`h-2 transition-all duration-300 ${
+                              i === slide5StepIdx 
+                                ? `w-10 ${
+                                    i === 0 ? 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.6)]' :
+                                    i === 1 ? 'bg-corpCyan shadow-[0_0_10px_rgba(0,240,255,0.6)]' :
+                                    i === 2 ? 'bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.6)]' :
+                                    i === 3 ? 'bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.6)]' :
+                                    'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.6)]'
+                                  }` 
+                                : 'w-3 bg-white/20'
+                            }`}
+                            style={{ clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' }}
+                          />
+                        ))}
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setSlide5StepIdx(prev => Math.max(0, prev - 1))}
+                          disabled={slide5StepIdx === 0}
+                          className="group relative px-4 py-2 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                          style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}
+                        >
+                          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                          <span className="text-xs font-mono font-bold uppercase tracking-wider">Prev</span>
+                        </button>
+                        <button
+                          onClick={() => setSlide5StepIdx(prev => Math.min(4, prev + 1))}
+                          disabled={slide5StepIdx === 4}
+                          className="group relative px-4 py-2 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                          style={{ clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))' }}
+                        >
+                          <span className="text-xs font-mono font-bold uppercase tracking-wider">Next</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column (7 Cols): Animation */}
+                  <div className="lg:col-span-7 flex flex-col justify-center min-h-0">
+                    <ImplementationAnimation stepIdx={slide5StepIdx} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 6: MARKET / CUSTOMER POTENTIAL                     */}
+            {/* ======================================================== */}
+            {/* ======================================================== */}
+            {/* SLIDE 6: MARKET / CUSTOMER POTENTIAL                     */}
+            {/* ======================================================== */}
+            {currentSlide === 6 && (
+              <div className="flex flex-col h-full py-4">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex flex-col gap-2">
+                    <span className="inline-block w-fit px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
+                      Market & Impact
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-black text-white">
+                      Target Users & <span className="text-gradient">Potential Impact</span>
+                    </h2>
+                  </div>
+                  <div className="hidden lg:flex items-center gap-2 text-sm font-mono text-slate-400">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    Global Organization Reach
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
+                  {/* Target Users (7 Cols) */}
+                  <div className="lg:col-span-7 glass-card rounded-2xl p-6 md:p-8 border border-white/10 relative overflow-hidden group">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors duration-700 pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-4 mb-8 relative z-10">
+                      <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                        <Users className="w-6 h-6 text-amber-400" />
+                      </div>
+                      <h3 className="text-2xl font-black text-white tracking-wide">Target Audiences</h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
+                      {[
+                        { name: "Contact Centre Associates", icon: <Headphones className="w-5 h-5" />, color: "from-blue-500/20 to-blue-500/5", border: "border-blue-500/30", text: "text-blue-400" },
+                        { name: "Technical Support Teams", icon: <Cpu className="w-5 h-5" />, color: "from-corpCyan/20 to-corpCyan/5", border: "border-corpCyan/30", text: "text-corpCyan" },
+                        { name: "Field Operations Teams", icon: <Radio className="w-5 h-5" />, color: "from-emerald-500/20 to-emerald-500/5", border: "border-emerald-500/30", text: "text-emerald-400" },
+                        { name: "Regional Offices", icon: <Building2 className="w-5 h-5" />, color: "from-amber-500/20 to-amber-500/5", border: "border-amber-500/30", text: "text-amber-400" },
+                        { name: "Managers & Executives", icon: <Briefcase className="w-5 h-5" />, color: "from-purple-500/20 to-purple-500/5", border: "border-purple-500/30", text: "text-purple-400" },
+                        { name: "All SLT Employees", icon: <Users className="w-5 h-5" />, color: "from-rose-500/20 to-rose-500/5", border: "border-rose-500/30", text: "text-rose-400" }
+                      ].map((user, i) => (
+                        <motion.div 
+                          key={i}
+                          initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ delay: i * 0.1, type: "spring" }}
+                          className={`bg-gradient-to-br ${user.color} p-4 rounded-xl border ${user.border} flex items-center gap-4 hover:scale-105 transition-transform cursor-pointer backdrop-blur-sm`}
+                        >
+                          <div className={`w-10 h-10 rounded-full bg-black/40 flex items-center justify-center shrink-0 border border-white/5 ${user.text}`}>
+                            {user.icon}
+                          </div>
+                          <span className="text-slate-200 font-bold text-sm md:text-base leading-tight">{user.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Potential Impact (5 Cols) */}
+                  <div className="lg:col-span-5 glass-card rounded-2xl p-6 md:p-8 border border-white/10 relative overflow-hidden group flex flex-col">
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-colors duration-700 pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-4 mb-8 relative z-10">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <Activity className="w-6 h-6 text-emerald-400" />
+                      </div>
+                      <h3 className="text-2xl font-black text-white tracking-wide">Potential Impact</h3>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-center space-y-5 relative z-10">
+                      {[
+                        { title: "Organization-wide productivity improvement", highlight: "Productivity", icon: <Activity className="w-6 h-6" /> },
+                        { title: "Faster communication across departments", highlight: "Communication", icon: <MessageSquare className="w-6 h-6" /> },
+                        { title: "Scalable AI platform for future SLT initiatives", highlight: "Scalability", icon: <Brain className="w-6 h-6" /> }
+                      ].map((impact, i) => (
+                        <motion.div 
+                          key={i}
+                          initial={{ opacity: 0, x: 30 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.2 + 0.3, type: "spring" }}
+                          className="relative p-5 rounded-xl border border-emerald-500/20 bg-black/40 hover:bg-emerald-500/10 transition-colors overflow-hidden group/item"
+                        >
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500/50 group-hover/item:w-2 transition-all"></div>
+                          <div className="flex items-center gap-4 pl-2">
+                            <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30 group-hover/item:scale-110 transition-transform">
+                              {impact.icon}
+                            </div>
+                            <div>
+                              <div className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest mb-1">{impact.highlight}</div>
+                              <div className="text-sm md:text-base font-bold text-slate-200 leading-snug">{impact.title}</div>
+                            </div>
                           </div>
                         </motion.div>
                       ))}
                     </div>
-
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.5 }} className="flex-1 glass-card p-6 flex flex-col items-center justify-center relative overflow-hidden h-[400px]">
-                      <div className="w-full bg-[#050D1A] rounded-xl border border-gray-700 shadow-2xl overflow-hidden relative h-full flex flex-col">
-                        <div className="bg-gray-800/80 p-3 flex items-center gap-2 border-b border-gray-700 backdrop-blur-sm">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                          <span className="text-xs text-gray-400 ml-2 font-mono">SLT_Copilot_Live_Dashboard</span>
-                        </div>
-                        <div className="p-6 flex-1 flex flex-col justify-center space-y-6">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <p className="text-sm text-gray-300 font-mono w-full">Customer: <span className="text-white">"Mata Kandy hospital eke number eka one."</span></p>
-                          </div>
-                          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 1 }} className="bg-corpCyan/10 border border-corpCyan/40 p-5 rounded-xl shadow-[0_0_20px_rgba(0,229,255,0.1)]">
-                            <h4 className="text-corpCyan font-bold mb-3 flex items-center gap-2 text-sm uppercase tracking-wider"><Sparkles className="w-4 h-4" /> AI Suggestion Ready</h4>
-                            <p className="text-white text-xl font-bold">Kandy General Hospital</p>
-                            <p className="text-3xl font-mono text-white mt-2 font-bold tracking-wider">081 222 2222</p>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </motion.div>
                   </div>
-                  <NextButton />
                 </div>
-              )}
+              </div>
+            )}
 
-              {currentSlide === 3 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Post-Call <span className="text-gradient">Analytics & Wellness</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-8">AI continues to work even after the customer hangs up.</motion.p>
-                  
-                  <div className="flex flex-1 gap-6">
-                    {/* Quality Assurance Card */}
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="flex-1 glass-card p-8 flex flex-col relative overflow-hidden group">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -z-10 group-hover:bg-blue-500/20 transition-colors"></div>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="p-3 bg-blue-500/20 rounded-lg text-blue-400 text-2xl border border-blue-500/30">
-                          <ClipboardCheck className="w-8 h-8" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-white">Smart Quality Assurance</h3>
-                      </div>
-                      <ul className="space-y-4 flex-1">
-                        <li className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-green-400 mt-1 shrink-0" />
-                          <p className="text-gray-300"><strong>Instant Summary:</strong> Generates a brief text summary of the call immediately after termination.</p>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <AlertTriangle className="w-5 h-5 text-yellow-400 mt-1 shrink-0" />
-                          <p className="text-gray-300"><strong>Error Detection:</strong> Highlights if the agent provided incorrect info or missed mandatory greetings.</p>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <PieChart className="w-5 h-5 text-blue-400 mt-1 shrink-0" />
-                          <p className="text-gray-300"><strong>100% Coverage:</strong> Analyzes every single call instead of random manual sampling.</p>
-                        </li>
-                      </ul>
-                    </motion.div>
-
-                    {/* Fatigue Detection Card */}
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="flex-1 glass-card p-8 flex flex-col relative overflow-hidden group border-corpCyan/30">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-corpCyan/10 rounded-bl-full -z-10 group-hover:bg-corpCyan/20 transition-colors"></div>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="p-3 bg-corpCyan/20 rounded-lg text-corpCyan text-2xl border border-corpCyan/30">
-                          <HeartPulse className="w-8 h-8" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-white">Agent Fatigue Detection</h3>
-                      </div>
-                      <p className="text-gray-300 mb-6 leading-relaxed">
-                        Beyond technical metrics, the AI monitors the human element. By analyzing <strong>speech patterns, voice pitch, and response latency</strong> over a shift, it detects signs of cognitive fatigue.
-                      </p>
-                      <div className="bg-gray-800/50 p-4 rounded-xl border border-gray-700 mt-auto">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm font-bold text-gray-300">Agent Wellness Score</span>
-                          <span className="text-sm font-bold text-yellow-400">Needs Break</span>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2.5">
-                          <div className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 h-2.5 rounded-full" style={{ width: '75%' }}></div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-2 flex items-center gap-2"><Bell className="w-3 h-3 text-yellow-500" /> Alert triggered to Team Lead to arrange a rotation.</p>
-                      </div>
-                    </motion.div>
+            {/* ======================================================== */}
+            {/* SLIDE 7: SUPPORT REQUIRED & NEXT STEPS                   */}
+            {/* ======================================================== */}
+            {currentSlide === 7 && (
+              <div className="flex flex-col h-full py-4">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex flex-col gap-2">
+                    <span className="inline-block w-fit px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                      Requirements
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-black text-white">
+                      Support Required & <span className="text-gradient">Next Steps</span>
+                    </h2>
                   </div>
-                  <NextButton />
-                </div>
-              )}
-
-              {currentSlide === 4 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Business Value & <span className="text-gradient">Benefits</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-12">Quantifiable impact on operations and customer satisfaction.</motion.p>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 flex-1 items-center">
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.2 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                      <div className="text-5xl md:text-6xl font-extrabold text-corpCyan mb-4 group-hover:scale-110 transition-transform">-40%</div>
-                      <h3 className="text-xl font-bold text-white mb-2">AHT Reduction</h3>
-                      <p className="text-sm text-gray-400">Zero search time drops call lengths drastically, saving immense operational costs.</p>
-                    </motion.div>
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                      <div className="text-5xl md:text-6xl font-extrabold text-blue-400 mb-4 group-hover:scale-110 transition-transform">100%</div>
-                      <h3 className="text-xl font-bold text-white mb-2">Call Auditing</h3>
-                      <p className="text-sm text-gray-400">Instant AI summaries and QA checks after every call ensure zero missed errors.</p>
-                    </motion.div>
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                      <div className="text-5xl md:text-6xl font-extrabold text-purple-400 mb-4 group-hover:scale-110 transition-transform">CSAT ↑</div>
-                      <h3 className="text-xl font-bold text-white mb-2">Customer Exp</h3>
-                      <p className="text-sm text-gray-400">Faster answers, zero hold music, all while maintaining the vital human touch.</p>
-                    </motion.div>
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.5 }} className="text-center p-8 glass-card hover:bg-white/5 transition-colors group border-b-4 border-b-green-500">
-                      <div className="text-5xl md:text-6xl font-extrabold text-green-400 mb-4 group-hover:scale-110 transition-transform">ESAT ↑</div>
-                      <h3 className="text-xl font-bold text-white mb-2">Agent Wellbeing</h3>
-                      <p className="text-sm text-gray-400">Fatigue alerts and vastly reduced cognitive load keeps officers happier and sharper.</p>
-                    </motion.div>
+                  <div className="hidden md:flex items-center gap-2 text-sm font-mono text-slate-400">
+                    <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                    Resource Planning
                   </div>
-                  <NextButton />
                 </div>
-              )}
 
-              {currentSlide === 5 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Implementation <span className="text-gradient">Approach</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-10">Strategic rollout combining modern infrastructure and phased scaling.</motion.p>
-                  
-                  <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="grid grid-cols-3 gap-6 mb-10">
-                    <div className="glass-card p-5 text-center hover:bg-white/5">
-                      <Cloud className="w-10 h-10 text-gray-300 mb-3 mx-auto" />
-                      <h4 className="font-bold text-white text-lg">Cloud STT Engine</h4>
-                      <p className="text-sm text-gray-400 mt-1">Mixed Sinhala/English real-time streaming audio.</p>
-                    </div>
-                    <div className="glass-card p-5 text-center hover:bg-white/5">
-                      <Cpu className="w-10 h-10 text-gray-300 mb-3 mx-auto" />
-                      <h4 className="font-bold text-white text-lg">Local/Cloud LLM</h4>
-                      <p className="text-sm text-gray-400 mt-1">Secure intent extraction & call summarization logic.</p>
-                    </div>
-                    <div className="glass-card p-5 text-center hover:bg-white/5">
-                      <Atom className="w-10 h-10 text-corpCyan mb-3 mx-auto animate-pulse" />
-                      <h4 className="font-bold text-white text-lg">React Stack</h4>
-                      <p className="text-sm text-gray-400 mt-1">Low-latency backend and reactive agent dashboard UI.</p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="relative flex-1">
-                    {/* Timeline Line */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-corpCyan to-gray-600 -translate-x-1/2 rounded-full"></div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 items-stretch">
+                  {/* Technical Support */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, type: "spring" }}
+                    className="glass-card rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-colors flex flex-col relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-500/20 transition-colors duration-700 pointer-events-none"></div>
                     
-                    {/* Timeline Items */}
-                    <div className="relative z-10 flex flex-col justify-center h-full gap-10">
-                      <div className="flex flex-col md:flex-row items-center w-full group">
-                        <div className="w-full md:w-1/2 md:pr-12 text-left md:text-right transition-transform group-hover:-translate-x-2">
-                          <h3 className="text-2xl font-bold text-corpCyan">Phase 1: Directory Service</h3>
-                          <p className="text-gray-400 mt-1 text-lg">Implement on the 1912 hotline. Instant data retrieval for high-volume inquiries.</p>
-                        </div>
-                        <div className="absolute left-4 md:left-1/2 w-5 h-5 bg-corpCyan rounded-full shadow-[0_0_20px_#00E5FF] -translate-x-1/2 mt-1 md:mt-0 z-20 border-4 border-[#0A192F]"></div>
-                        <div className="w-full md:w-1/2 md:pl-12 hidden md:block"></div>
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 relative z-10">
+                      <div className="w-14 h-14 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                        <Cpu className="w-7 h-7" />
                       </div>
-                      
-                      <div className="flex flex-col md:flex-row items-center w-full mt-4 md:mt-0 group">
-                        <div className="w-full md:w-1/2 md:pr-12 hidden md:block"></div>
-                        <div className="absolute left-4 md:left-1/2 w-5 h-5 bg-gray-500 rounded-full border-4 border-[#0A192F] -translate-x-1/2 mt-1 md:mt-0 z-20"></div>
-                        <div className="w-full md:w-1/2 md:pl-12 text-left pl-12 md:pl-12 transition-transform group-hover:translate-x-2">
-                          <h3 className="text-2xl font-bold text-gray-300">Phase 2: Full Integration</h3>
-                          <p className="text-gray-400 mt-1 text-lg">Expand to Faults Reporting, Products, and Billing based on voice verification.</p>
-                        </div>
-                      </div>
+                      <h3 className="text-2xl font-black text-white">Technical Support</h3>
+                    </div>
+                    
+                    <div className="space-y-4 flex-1 relative z-10">
+                      {[
+                        "Access to the existing directory database",
+                        "IT and Digital Services collaboration",
+                        "AI development and integration support",
+                        "System testing and deployment assistance"
+                      ].map((item, i) => (
+                        <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.2 + (i * 0.1) }}
+                          className="flex items-start gap-3 bg-black/40 p-3 rounded-xl border border-white/5 hover:bg-blue-500/10 transition-colors"
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0 mt-0.5 drop-shadow-md" />
+                          <span className="text-sm md:text-base font-bold text-slate-200">{item}</span>
+                        </motion.div>
+                      ))}
                     </div>
                   </motion.div>
-                  <NextButton />
-                </div>
-              )}
 
-              {currentSlide === 6 && (
-                <div className="flex flex-col h-full">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-4xl md:text-5xl font-bold mb-4">Market <span className="text-gradient">Potential</span></motion.h2>
-                  <motion.p variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.1 }} className="text-xl text-gray-400 mb-10">Starting at SLT, adaptable to the global BPO industry.</motion.p>
-                  
-                  <div className="flex flex-1 gap-8">
-                    <div className="w-1/2 flex flex-col justify-center">
-                      <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="glass-card p-8 border-l-4 border-l-corpCyan mb-6 hover:translate-x-2 transition-transform">
-                        <h3 className="text-2xl font-bold text-white mb-2">Primary Target: SLT Contact Centers</h3>
-                        <p className="text-gray-400 text-lg">Immediate deployment capability for directory operations, reducing operational costs internally while proving the concept at scale.</p>
-                      </motion.div>
-                      <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.4 }} className="glass-card p-8 border-l-4 border-l-blue-500 hover:translate-x-2 transition-transform">
-                        <h3 className="text-2xl font-bold text-white mb-2">Expansion Target: BPO Ecosystem</h3>
-                        <p className="text-gray-400 text-lg">The architecture is system-agnostic. Can be licensed as a SaaS plugin for banks, hospitals, and generic call centers across Sri Lanka.</p>
-                      </motion.div>
-                    </div>
-                    <motion.div variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.5 }} className="w-1/2 flex items-center justify-center relative">
-                      {/* Decorative visual */}
-                      <div className="w-full h-full glass-card flex items-center justify-center p-8 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center bg-blend-overlay overflow-hidden group" style={{ backgroundColor: 'rgba(10, 25, 47, 0.9)' }}>
-                        <div className="absolute inset-0 bg-gradient-to-t from-corpBlue to-transparent opacity-80"></div>
-                        <div className="text-center relative z-10 transform group-hover:scale-105 transition-transform duration-500">
-                          <Globe className="w-20 h-20 text-corpCyan mx-auto mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]" />
-                          <h3 className="text-4xl font-bold text-white">Scalable AI<br/>Infrastructure</h3>
-                        </div>
+                  {/* Business Support */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, type: "spring" }}
+                    className="glass-card rounded-2xl p-6 border border-white/10 hover:border-emerald-500/50 transition-colors flex flex-col relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-colors duration-700 pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 relative z-10">
+                      <div className="w-14 h-14 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <HeartHandshake className="w-7 h-7" />
                       </div>
-                    </motion.div>
+                      <h3 className="text-2xl font-black text-white">Business Support</h3>
+                    </div>
+                    
+                    <div className="space-y-4 flex-1 relative z-10">
+                      {[
+                        "User feedback from Contact Centre and other departments",
+                        "Stakeholder sponsorship and approval",
+                        "Cross-functional participation during pilot testing"
+                      ].map((item, i) => (
+                        <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.3 + (i * 0.1) }}
+                          className="flex items-start gap-3 bg-black/40 p-3 rounded-xl border border-white/5 hover:bg-emerald-500/10 transition-colors"
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5 drop-shadow-md" />
+                          <span className="text-sm md:text-base font-bold text-slate-200">{item}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Resources Required */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, type: "spring" }}
+                    className="glass-card rounded-2xl p-6 border border-white/10 hover:border-corpCyan/50 transition-colors flex flex-col relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-corpCyan/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-corpCyan/20 transition-colors duration-700 pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 relative z-10">
+                      <div className="w-14 h-14 rounded-xl bg-corpCyan/20 flex items-center justify-center text-corpCyan border border-corpCyan/30 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+                        <Layers className="w-7 h-7" />
+                      </div>
+                      <h3 className="text-2xl font-black text-white">Resources Required</h3>
+                    </div>
+                    
+                    <div className="space-y-4 flex-1 relative z-10">
+                      {[
+                        "AI platform and development tools",
+                        "Directory data access and maintenance",
+                        "Project team for design, development, and testing"
+                      ].map((item, i) => (
+                        <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 + (i * 0.1) }}
+                          className="flex items-start gap-3 bg-black/40 p-3 rounded-xl border border-white/5 hover:bg-corpCyan/10 transition-colors"
+                        >
+                          <CheckCircle2 className="w-5 h-5 text-corpCyan shrink-0 mt-0.5 drop-shadow-md" />
+                          <span className="text-sm md:text-base font-bold text-slate-200">{item}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 8: CONCLUSION & SUMMARY                            */}
+            {/* ======================================================== */}
+            {currentSlide === 8 && (
+              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-4">
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Directory AI • Summary & Next Steps
+                </motion.div>
+
+                <motion.h2
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.1 }}
+                  className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
+                >
+                  Directory Transformation
+                </motion.h2>
+
+                <motion.p
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.2 }}
+                  className="text-xl md:text-2xl text-slate-300 font-light mb-10 max-w-3xl leading-relaxed"
+                >
+                  From character-by-character search hassle to an <br className="hidden md:inline" />
+                  <span className="text-corpCyan font-bold">Intelligent Conversational Search Assistant</span>
+                </motion.p>
+
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10 text-left"
+                >
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <span className="text-rose-400 font-mono text-xs font-bold uppercase">01 / The Problem</span>
+                    <h4 className="text-white font-extrabold text-base mt-1.5">Character-Matching Frustration</h4>
+                    <p className="text-sm text-slate-300 mt-1">Changing results, similar names, lost time, high AHT.</p>
                   </div>
-                  <NextButton />
-                </div>
-              )}
 
-              {currentSlide === 7 && (
-                <div className="flex flex-col h-full items-center justify-center text-center">
-                  <motion.h2 variants={staggerVariants} initial="initial" animate="animate" className="text-5xl md:text-6xl font-bold mb-6">Support & <span className="text-gradient">Next Steps</span></motion.h2>
-                  <motion.h3 variants={staggerVariants} initial="initial" animate="animate" transition={{ delay: 0.3 }} className="text-5xl font-extrabold text-white tracking-wider mt-16">Thank You.</motion.h3>
-                </div>
-              )}
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <span className="text-corpCyan font-mono text-xs font-bold uppercase">02 / The Innovation</span>
+                    <h4 className="text-white font-extrabold text-base mt-1.5">AI Search Assistant</h4>
+                    <p className="text-sm text-slate-300 mt-1">Natural language, smart prioritization, single search experience.</p>
+                  </div>
 
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
+                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <span className="text-emerald-400 font-mono text-xs font-bold uppercase">03 / The Value</span>
+                    <h4 className="text-white font-extrabold text-base mt-1.5">Measurable Business ROI</h4>
+                    <p className="text-sm text-slate-300 mt-1">Operational efficiency, customer satisfaction, cost reduction.</p>
+                  </div>
+                </motion.div>
 
-      {/* Navigation Controls */}
-      <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-6 glass-card px-6 py-3 z-50">
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.4 }}
+                  className="text-center"
+                >
+                  <h3 className="text-5xl md:text-6xl font-black text-white tracking-wide">
+                    Thank You.
+                  </h3>
+                  <p className="text-sm md:text-base text-slate-400 mt-2 font-mono">
+                    Contact Center Team • Reference: ISP/S/2026/40/179
+                  </p>
+                </motion.div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+
+      {/* BOTTOM CONTROLS DOCK: Edge-to-Edge Navigation */}
+      <footer className="relative z-30 w-full px-6 md:px-12 py-3 border-t border-white/10 bg-corpLightBlue/80 backdrop-blur-xl flex items-center justify-between shrink-0 shadow-2xl">
         <button
           onClick={prevSlide}
           disabled={currentSlide === 0}
-          className="text-gray-400 hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-slate-200 hover:text-white transition-all disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer text-xs md:text-sm font-semibold border border-white/10"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-4 h-4" />
+          <span>Previous</span>
         </button>
 
-        <div className="flex gap-3">
-          {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
+        <div className="flex items-center gap-2">
+          {SLIDES.map((slide, i) => (
             <button
-              key={i}
+              key={slide.id}
               onClick={() => goToSlide(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentSlide
-                ? 'bg-corpCyan scale-125 shadow-[0_0_8px_#00E5FF]'
-                : 'bg-gray-600 hover:bg-gray-400'
-                }`}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                i === currentSlide
+                  ? 'bg-corpCyan w-8 shadow-[0_0_12px_#00E5FF]'
+                  : 'bg-white/20 hover:bg-white/40 w-2.5'
+              }`}
+              title={`Go to slide ${i + 1}: ${slide.title}`}
             />
           ))}
         </div>
@@ -454,12 +2513,12 @@ const App = () => {
         <button
           onClick={nextSlide}
           disabled={currentSlide === TOTAL_SLIDES - 1}
-          className="text-corpCyan hover:text-white transition-colors p-2 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-5 py-2 rounded-xl bg-corpCyan text-corpBlue hover:bg-corpCyan/90 transition-all disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer text-xs md:text-sm font-extrabold shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:scale-105"
         >
-          <ChevronRight className="w-6 h-6" />
+          <span>Next Slide</span>
+          <ChevronRight className="w-4 h-4" />
         </button>
-      </div>
-
+      </footer>
     </div>
   );
 };

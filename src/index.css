@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Space+Grotesk:wght@400;600;700&display=swap');
+
 @theme {
-  --color-corpBlue: #0A192F;
-  --color-corpLightBlue: #112240;
-  --color-corpCyan: #00E5FF;
-  --color-corpCyanDim: rgba(0, 229, 255, 0.2);
-  --font-sans: 'Inter', sans-serif;
+  --color-corpBlue: #030712; /* Darker, deeper black/blue */
+  --color-corpLightBlue: #0B1221;
+  --color-corpCyan: #00F0FF;
+  --color-corpCyanDim: rgba(0, 240, 255, 0.15);
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
 }
 
 @layer base {
@@ -16,12 +19,40 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl transition-all duration-300;
+    @apply bg-[#0B1221]/60 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl transition-all duration-500 relative overflow-hidden;
+  }
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none;
   }
   .glass-card:hover {
-    @apply -translate-y-2 border-corpCyan/40 shadow-2xl shadow-corpCyan/20;
+    @apply -translate-y-1.5 border-corpCyan/30 shadow-[0_20px_50px_rgba(0,240,255,0.15)];
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-corpCyan to-blue-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-corpCyan via-blue-400 to-indigo-400;
   }
+  
+  .scanlines {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.1) 50%,
+      rgba(0,0,0,0.1)
+    );
+    background-size: 100% 4px;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.4;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(0,240,255,0.3)); }
+  50% { filter: drop-shadow(0 0 25px rgba(0,240,255,0.7)); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }
