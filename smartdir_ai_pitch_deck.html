@@ -61,29 +61,31 @@
             width: 100vw;
             height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: stretch;
+            padding: 0;
         }
         
         .slide-deck {
             position: relative;
-            width: 100%;
-            max-width: 1280px;
-            height: 100%;
-            max-height: 720px;
-            aspect-ratio: 16/9;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            background: rgba(17, 34, 64, 0.65);
+            border-radius: 0;
+            box-shadow: none;
+            background: rgba(10, 25, 47, 0.85);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: none;
         }
 
         .slide {
             position: absolute;
             inset: 0;
-            padding: 4rem;
+            padding: 2.5rem 4rem 5rem 4rem;
+            max-width: 1600px;
+            margin: 0 auto;
             opacity: 0;
             visibility: hidden;
             transform: translateX(50px) scale(0.98);
@@ -221,106 +223,186 @@
                 </div>
             </div>
 
-            <!-- Slide 1: Problem -->
+            <!-- Slide 1: Problem / Opportunity -->
             <div class="slide" id="slide-1">
                 <div class="flex flex-col h-full">
-                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">The <span class="text-gradient">Problem & Opportunity</span></h2>
-                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-10">Why modernizing the SLT contact center is crucial right now.</p>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="px-3 py-1 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase tracking-wider">
+                            Section 01
+                        </span>
+                        <h2 class="slide-element stagger-1 text-3xl md:text-5xl font-bold">Problem / <span class="text-gradient">Opportunity</span></h2>
+                    </div>
                     
-                    <div class="grid grid-cols-2 gap-6 flex-1">
-                        <div class="slide-element stagger-2 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
-                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-corpCyan/10 transition-colors"><i class="fa-solid fa-stopwatch"></i></div>
-                            <i class="fa-solid fa-stopwatch text-4xl text-corpCyan mb-4 pulse-icon"></i>
-                            <h3 class="text-2xl font-semibold text-white mb-2">High Average Handling Time</h3>
-                            <p class="text-gray-400">Agents spend valuable time manually typing and searching directories while the customer is kept waiting on hold.</p>
+                    <div class="slide-element stagger-2 p-3.5 mb-5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm md:text-base leading-relaxed flex items-center gap-3">
+                        <span class="text-xl">⚠️</span>
+                        <p><strong>The Core Challenge:</strong> "The information displayed changes based on the characters entered, which can sometimes make it a hassle to find the right result."</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch">
+                        <!-- Left: Problems Identified (5 items) -->
+                        <div class="lg:col-span-7 flex flex-col justify-between space-y-2">
+                            <span class="text-rose-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-circle-xmark"></i> Problems Identified
+                            </span>
+                            
+                            <div class="slide-element stagger-2 glass-card p-3 rounded-xl border-l-4 border-l-rose-500 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm">Search results continuously change while users type</h4>
+                                    <p class="text-xs text-gray-300">Shifting characters constantly alter filtered results, forcing backspacing.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-3 glass-card p-3 rounded-xl border-l-4 border-l-rose-500 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm">Similar names generate multiple results</h4>
+                                    <p class="text-xs text-gray-300">Dozens of identical or near-identical names without clear hierarchy.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-4 glass-card p-3 rounded-xl border-l-4 border-l-rose-500 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm">Difficult to identify the correct contact quickly</h4>
+                                    <p class="text-xs text-gray-300">Lacks intelligent contextual sorting or distinction by active designation.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-5 glass-card p-3 rounded-xl border-l-4 border-l-rose-500 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm">Time wasted searching for departments & responsible personnel</h4>
+                                    <p class="text-xs text-gray-300">Users spend vital minutes manually navigating complex organizational charts.</p>
+                                </div>
+                            </div>
+                            <div class="slide-element stagger-5 glass-card p-3 rounded-xl border-l-4 border-l-rose-500 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1"></i>
+                                <div>
+                                    <h4 class="text-white font-bold text-sm">Increased call handling time for Contact Centre staff</h4>
+                                    <p class="text-xs text-gray-300">Agents spend crucial on-call seconds searching while customers wait on hold.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="slide-element stagger-3 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
-                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-blue-500/10 transition-colors"><i class="fa-solid fa-headset"></i></div>
-                            <i class="fa-solid fa-headset text-4xl text-blue-400 mb-4"></i>
-                            <h3 class="text-2xl font-semibold text-white mb-2">Agent Burnout</h3>
-                            <p class="text-gray-400">Continuous manual data entry and searching leads to cognitive fatigue, impacting the quality of service provided.</p>
-                        </div>
-                        <div class="slide-element stagger-4 glass-card p-6 flex flex-col justify-center relative overflow-hidden group">
-                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-purple-500/10 transition-colors"><i class="fa-solid fa-chart-line"></i></div>
-                            <i class="fa-solid fa-chart-line text-4xl text-purple-400 mb-4"></i>
-                            <h3 class="text-2xl font-semibold text-white mb-2">Lack of Real-time QA</h3>
-                            <p class="text-gray-400">Call auditing happens days later. Missing information or incorrect advice isn't caught in real-time.</p>
-                        </div>
-                        <div class="slide-element stagger-5 glass-card p-6 flex flex-col justify-center relative overflow-hidden group border-corpCyan/30">
-                            <div class="absolute -right-4 -top-4 text-8xl text-white/5 group-hover:text-green-500/10 transition-colors"><i class="fa-solid fa-users"></i></div>
-                            <i class="fa-solid fa-users text-4xl text-green-400 mb-4"></i>
-                            <h3 class="text-2xl font-semibold text-white mb-2">The Human Touch</h3>
-                            <p class="text-gray-400">Sri Lankan customers prefer speaking to human agents. Standard IVR bots cause frustration and drop-offs.</p>
+
+                        <!-- Right: Why It Matters & Opportunity -->
+                        <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+                            <div class="slide-element stagger-3 glass-card p-4 rounded-xl border border-white/10 flex-1 flex flex-col justify-center">
+                                <h3 class="text-xs uppercase font-extrabold text-corpCyan tracking-wider mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-clock"></i> Why It Matters
+                                </h3>
+                                <div class="space-y-2 text-xs md:text-sm text-gray-200">
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span> Delays customer issue resolution</div>
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span> Reduces employee productivity</div>
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span> Increases Average Handling Time (AHT)</div>
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span> Causes frustration when urgent contacts are needed</div>
+                                </div>
+                            </div>
+
+                            <div class="slide-element stagger-4 p-4 rounded-xl bg-gradient-to-br from-corpCyan/20 via-blue-600/20 to-teal-500/20 border border-corpCyan/40 shadow-[0_0_20px_rgba(0,229,255,0.15)]">
+                                <span class="text-corpCyan font-extrabold text-xs uppercase tracking-wider mb-1 flex items-center gap-2">
+                                    <i class="fa-solid fa-sparkles"></i> The Opportunity
+                                </span>
+                                <p class="text-white text-base md:text-lg font-bold leading-snug">
+                                    Use AI to transform the traditional directory into an <span class="text-corpCyan underline">intelligent search assistant</span>.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 2: Proposed Solution -->
+            <!-- Slide 2: Proposed Solution / Innovation -->
             <div class="slide" id="slide-2">
                 <div class="flex flex-col h-full">
-                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Proposed <span class="text-gradient">Solution</span></h2>
-                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-8">The Agent Copilot: Empathy from humans, speed from AI.</p>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
+                            Section 02
+                        </span>
+                        <h2 class="slide-element stagger-1 text-3xl md:text-5xl font-bold">Proposed Solution / <span class="text-gradient">Innovation</span></h2>
+                    </div>
+                    <p class="slide-element stagger-2 text-sm md:text-base text-gray-400 mb-4">Transforming directory search into an intelligent, conversational discovery assistant.</p>
                     
-                    <div class="flex flex-1 gap-8 items-center">
-                        <div class="flex-1 space-y-6">
-                            <div class="slide-element stagger-2 flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-corpCyan/20 flex items-center justify-center shrink-0 border border-corpCyan/50 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-                                    <i class="fa-solid fa-ear-listen text-corpCyan text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Real-Time Listening</h3>
-                                    <p class="text-gray-400 mt-1">AI securely streams audio during the call, transcribing mixed Sinhala/English (Singlish) in milliseconds.</p>
-                                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 items-stretch">
+                        <div class="slide-element stagger-2 glass-card p-4 rounded-xl flex flex-col justify-between border border-corpCyan/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-comments text-2xl text-corpCyan"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">Natural Language</span>
                             </div>
-                            <div class="slide-element stagger-3 flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                                    <i class="fa-solid fa-brain text-blue-400 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Intent Extraction</h3>
-                                    <p class="text-gray-400 mt-1">An LLM extracts exact requirements (e.g., location, organization name) without manual input.</p>
-                                </div>
-                            </div>
-                            <div class="slide-element stagger-4 flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0 border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                                    <i class="fa-solid fa-bolt text-purple-400 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Zero-Click Lookup</h3>
-                                    <p class="text-gray-400 mt-1">Results instantly pop up on the agent's screen. The agent simply reads it to the customer naturally.</p>
-                                </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Natural Language Search
+                                </h3>
+                                <p class="text-xs text-gray-300">Search using simple everyday language. No exact spellings or rigid keywords required.</p>
                             </div>
                         </div>
-                        
-                        <div class="slide-element stagger-5 flex-1 glass-card p-6 flex flex-col items-center justify-center h-full relative overflow-hidden">
-                            <!-- Mock UI for visual -->
-                            <div class="w-full bg-[#050D1A] rounded-xl border border-gray-700 shadow-2xl overflow-hidden relative">
-                                <div class="absolute inset-0 bg-gradient-to-br from-corpCyan/5 to-transparent"></div>
-                                <div class="bg-gray-800/80 p-3 flex items-center gap-2 border-b border-gray-700 backdrop-blur-sm relative z-10">
-                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                    <span class="text-xs text-gray-400 ml-2 font-mono">SLT_Copilot_Live_Dashboard</span>
-                                </div>
-                                <div class="p-6 space-y-6 relative z-10">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-2 h-2 rounded-full bg-green-500 pulse-icon"></div>
-                                        <p class="text-sm text-gray-300 font-mono w-full">Customer: <span class="typing-effect text-white">"Mata Kandy hospital eke number eka one."</span></p>
-                                    </div>
-                                    <div class="bg-corpCyan/10 border border-corpCyan/40 p-5 rounded-xl shadow-[0_0_20px_rgba(0,229,255,0.1)] transform hover:scale-105 transition-transform">
-                                        <h4 class="text-corpCyan font-bold mb-3 flex items-center gap-2 text-sm uppercase tracking-wider"><i class="fa-solid fa-sparkles"></i> AI Suggestion Ready</h4>
-                                        <p class="text-white text-xl font-bold">Kandy General Hospital</p>
-                                        <p class="text-3xl font-mono text-white mt-2 font-bold tracking-wider">081 222 2222</p>
-                                    </div>
-                                </div>
+
+                        <div class="slide-element stagger-3 glass-card p-4 rounded-xl flex flex-col justify-between border border-emerald-400/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-bullseye text-2xl text-emerald-400"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">Prioritization</span>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Smart Result Identification
+                                </h3>
+                                <p class="text-xs text-gray-300">AI finds and prioritizes the most relevant contact based on context and role.</p>
+                            </div>
+                        </div>
+
+                        <div class="slide-element stagger-4 glass-card p-4 rounded-xl flex flex-col justify-between border border-blue-400/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-layer-group text-2xl text-blue-400"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">Unified Hub</span>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Single Search Experience
+                                </h3>
+                                <p class="text-xs text-gray-300">Search people, departments, locations, and organizations from one unified place.</p>
+                            </div>
+                        </div>
+
+                        <div class="slide-element stagger-4 glass-card p-4 rounded-xl flex flex-col justify-between border border-purple-400/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-brain text-2xl text-purple-400"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">Interactive</span>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Conversational Interface
+                                </h3>
+                                <p class="text-xs text-gray-300">Users ask questions instead of struggling with complex filters and dropdowns.</p>
+                            </div>
+                        </div>
+
+                        <div class="slide-element stagger-5 glass-card p-4 rounded-xl flex flex-col justify-between border border-amber-400/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-bolt text-2xl text-amber-400"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">High Speed</span>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Faster Contact Discovery
+                                </h3>
+                                <p class="text-xs text-gray-300">Reduces time spent searching and dramatically improves workforce productivity.</p>
+                            </div>
+                        </div>
+
+                        <div class="slide-element stagger-5 glass-card p-4 rounded-xl flex flex-col justify-between border border-teal-400/40 group">
+                            <div class="flex items-center justify-between mb-2">
+                                <i class="fa-solid fa-headset text-2xl text-teal-400"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-gray-300">Contact Centre</span>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Agent Copilot Integration
+                                </h3>
+                                <p class="text-xs text-gray-300">Seamless integration with 1912 hotline agent screens for zero-click contact popups.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 3: NEW SLIDE - Post-Call Analytics & Fatigue -->
+            <!-- Slide 3: Post-Call Analytics & Fatigue -->
             <div class="slide" id="slide-3">
                 <div class="flex flex-col h-full">
                     <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Post-Call <span class="text-gradient">Analytics & Wellness</span></h2>
@@ -379,32 +461,100 @@
                 </div>
             </div>
 
-            <!-- Slide 4: Business Value -->
+            <!-- Slide 4: Business Value & Benefits -->
             <div class="slide" id="slide-4">
                 <div class="flex flex-col h-full">
-                    <h2 class="slide-element stagger-1 text-4xl md:text-5xl font-bold mb-4">Business Value & <span class="text-gradient">Benefits</span></h2>
-                    <p class="slide-element stagger-2 text-xl text-gray-400 mb-12">Quantifiable impact on operations and customer satisfaction.</p>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
+                            Section 03
+                        </span>
+                        <h2 class="slide-element stagger-1 text-3xl md:text-5xl font-bold">Business Value & <span class="text-gradient">Benefits</span></h2>
+                    </div>
+                    <p class="slide-element stagger-2 text-sm md:text-base text-gray-400 mb-6">Quantifiable impact across operations, customer satisfaction, and organizational costs.</p>
                     
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 flex-1 items-center">
-                        <div class="slide-element stagger-2 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                            <div class="text-5xl md:text-6xl font-extrabold text-corpCyan mb-4 group-hover:scale-110 transition-transform">-40%</div>
-                            <h3 class="text-xl font-bold text-white mb-2">AHT Reduction</h3>
-                            <p class="text-sm text-gray-400">Zero search time drops call lengths drastically, saving immense operational costs.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 items-stretch">
+                        <!-- Operational Efficiency -->
+                        <div class="slide-element stagger-2 glass-card p-6 rounded-2xl border-t-4 border-t-corpCyan flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-corpCyan/20 text-corpCyan flex items-center justify-center mb-4 text-xl">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-1">Operational Efficiency</h3>
+                                <p class="text-xs text-corpCyan font-semibold uppercase tracking-wider mb-4">Productivity & Lookup</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-corpCyan mt-1"></i>
+                                        <div><strong>Faster contact lookup:</strong> Instant retrieval in &lt;1s.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-corpCyan mt-1"></i>
+                                        <div><strong>Reduced employee effort:</strong> No manual spreadsheet digging.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-corpCyan mt-1"></i>
+                                        <div><strong>Improved collaboration:</strong> Easy discovery across all branches.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-white/10 text-right text-corpCyan font-bold text-sm">
+                                &gt; 60% Faster Discovery
+                            </div>
                         </div>
-                        <div class="slide-element stagger-3 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                            <div class="text-5xl md:text-6xl font-extrabold text-blue-400 mb-4 group-hover:scale-110 transition-transform">100%</div>
-                            <h3 class="text-xl font-bold text-white mb-2">Call Auditing</h3>
-                            <p class="text-sm text-gray-400">Instant AI summaries and QA checks after every call ensure zero missed errors.</p>
+
+                        <!-- Customer Experience -->
+                        <div class="slide-element stagger-3 glass-card p-6 rounded-2xl border-t-4 border-t-blue-400 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4 text-xl">
+                                    <i class="fa-solid fa-handshake-angle"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-1">Customer Experience</h3>
+                                <p class="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-4">Satisfaction & FCR</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-blue-400 mt-1"></i>
+                                        <div><strong>Faster issue resolution:</strong> Zero hesitation on calls.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-blue-400 mt-1"></i>
+                                        <div><strong>Reduced customer waiting:</strong> Eliminates painful on-hold silence.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-blue-400 mt-1"></i>
+                                        <div><strong>Improved first-contact resolution:</strong> Direct to the right person.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-white/10 text-right text-blue-400 font-bold text-sm">
+                                +35% CSAT Score
+                            </div>
                         </div>
-                        <div class="slide-element stagger-4 text-center p-8 glass-card hover:bg-white/5 transition-colors group">
-                            <div class="text-5xl md:text-6xl font-extrabold text-purple-400 mb-4 group-hover:scale-110 transition-transform">CSAT ↑</div>
-                            <h3 class="text-xl font-bold text-white mb-2">Customer Exp</h3>
-                            <p class="text-sm text-gray-400">Faster answers, zero hold music, all while maintaining the vital human touch.</p>
-                        </div>
-                        <div class="slide-element stagger-5 text-center p-8 glass-card hover:bg-white/5 transition-colors group border-b-4 border-b-green-500">
-                            <div class="text-5xl md:text-6xl font-extrabold text-green-400 mb-4 group-hover:scale-110 transition-transform">ESAT ↑</div>
-                            <h3 class="text-xl font-bold text-white mb-2">Agent Wellbeing</h3>
-                            <p class="text-sm text-gray-400">Fatigue alerts and vastly reduced cognitive load keeps officers happier and sharper.</p>
+
+                        <!-- Cost Savings -->
+                        <div class="slide-element stagger-4 glass-card p-6 rounded-2xl border-t-4 border-t-emerald-400 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4 text-xl">
+                                    <i class="fa-solid fa-coins"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-1">Cost Savings</h3>
+                                <p class="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-4">Bottom-Line Impact</p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                        <div><strong>Less time spent searching:</strong> Reclaims thousands of hours.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                        <div><strong>Increased productivity:</strong> Higher handling capacity.</div>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-sm text-gray-200">
+                                        <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                        <div><strong>Reduced operating cost:</strong> Lower AHT overhead per interaction.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-white/10 text-right text-emerald-400 font-bold text-sm">
+                                -40% AHT Overhead
+                            </div>
                         </div>
                     </div>
                 </div>
