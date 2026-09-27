@@ -1111,21 +1111,35 @@ export const App = () => {
           </div>
         </div>
 
-        {/* Center: Slide Switcher Tabs */}
-        <nav className="hidden md:flex items-center gap-1.5 bg-black/30 p-1 rounded-xl border border-white/10">
-          {SLIDES.map((slide, i) => (
-            <button
-              key={slide.id}
-              onClick={() => goToSlide(i)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                currentSlide === i
-                  ? 'bg-corpCyan text-corpBlue shadow-[0_0_15px_#00E5FF] scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <span>{slide.title}</span>
-            </button>
-          ))}
+        {/* Center: Creative Slide Switcher Tabs */}
+        <nav className="hidden md:flex items-center gap-1.5 lg:gap-2 bg-[#050B14]/80 p-1.5 rounded-full border border-corpCyan/20 backdrop-blur-xl shadow-[0_0_30px_rgba(0,229,255,0.1)] relative z-50">
+          {SLIDES.map((slide, i) => {
+            const isActive = currentSlide === i;
+            return (
+              <div key={slide.id} className="relative group">
+                <button
+                  onClick={() => goToSlide(i)}
+                  className={`relative flex items-center justify-center h-8 transition-all duration-300 ease-out cursor-pointer rounded-full ${
+                    isActive
+                      ? 'px-4 lg:px-5 bg-gradient-to-r from-corpCyan to-blue-500 text-white shadow-[0_0_15px_rgba(0,229,255,0.4)]'
+                      : 'w-8 lg:w-10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white border border-white/5'
+                  }`}
+                >
+                  <span className={`text-[10px] lg:text-xs whitespace-nowrap ${isActive ? 'font-black tracking-wide' : 'font-bold'}`}>
+                    {isActive ? slide.title : slide.tag}
+                  </span>
+                </button>
+                
+                {/* Tooltip for inactive slides */}
+                {!isActive && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-3 py-1.5 bg-[#0A0F1C] border border-corpCyan/30 text-corpCyan text-[11px] font-bold whitespace-nowrap rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none shadow-[0_4px_20px_rgba(0,229,255,0.2)] translate-y-2 group-hover:translate-y-0 z-50">
+                    {slide.title}
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0A0F1C] border-t border-l border-corpCyan/30 rotate-45"></div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
         {/* Right: Fullscreen & Progress */}
@@ -1152,7 +1166,7 @@ export const App = () => {
       </header>
 
       {/* MAIN VIEWPORT */}
-      <main className="relative z-20 flex-1 min-h-0 w-full max-w-[1700px] mx-auto px-6 md:px-10 lg:px-16 py-3 flex flex-col overflow-hidden">
+      <main className="relative z-20 flex-1 min-h-0 w-full max-w-[1700px] mx-auto px-6 md:px-10 lg:px-16 py-6 flex flex-col overflow-y-auto overflow-x-hidden scroll-smooth">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -1160,7 +1174,7 @@ export const App = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="w-full flex-1 min-h-0 flex flex-col"
+            className="w-full min-h-full flex flex-col"
           >
             {/* ======================================================== */}
             {/* SLIDE 0: TITLE / HERO COVER                              */}
@@ -1238,7 +1252,7 @@ export const App = () => {
             {/* SLIDE 1: 01) PROBLEM / OPPORTUNITY                       */}
             {/* ======================================================== */}
             {currentSlide === 1 && (
-              <div className="flex flex-col flex-1 min-h-0 gap-2 py-1">
+              <div className="flex flex-col min-h-full gap-6 py-2">
 
                 {/* ── TOP: Title + Quote ── */}
                 <div className="flex items-center gap-3 shrink-0">
@@ -1263,10 +1277,10 @@ export const App = () => {
                 </motion.div>
 
                 {/* ── MAIN GRID: fills remaining height ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
 
                   {/* LEFT: Problems + Why It Matters */}
-                  <div className="lg:col-span-5 flex flex-col gap-2 min-h-0">
+                  <div className="lg:col-span-5 flex flex-col gap-6">
 
                     <span className="text-rose-400 font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5 shrink-0">
                       <XCircle className="w-3.5 h-3.5 text-rose-400" /> Problems Identified
@@ -1430,7 +1444,7 @@ export const App = () => {
             {/* (WITH EMBEDDED SOFTPHONE AGENT ANIMATION)                */}
             {/* ======================================================== */}
             {currentSlide === 2 && (
-              <div className="flex flex-col h-full justify-between py-2">
+              <div className="flex flex-col min-h-full gap-6 py-2">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
@@ -1446,9 +1460,9 @@ export const App = () => {
                 </div>
 
                 {/* 2-Column Split: Key Innovations (Left) vs Embedded Softphone Agent Animation (Right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
                   {/* Left Column (5 Cols): The 5 Key Innovations from Directory.txt */}
-                  <div className="lg:col-span-5 flex flex-col gap-3 md:gap-4 min-h-0 justify-center">
+                  <div className="lg:col-span-5 flex flex-col gap-4 justify-center">
                     {[
                       {
                         title: "Natural Language Search",
@@ -1548,7 +1562,7 @@ export const App = () => {
             {/* SLIDE 3: 03) BUSINESS VALUE & BENEFITS                   */}
             {/* ======================================================== */}
             {currentSlide === 3 && (
-              <div className="flex flex-col h-full justify-between py-2">
+              <div className="flex flex-col min-h-full gap-6 py-2">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
@@ -1563,9 +1577,9 @@ export const App = () => {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
                   {/* Left Column (5 Cols): The Active Pillar Large */}
-                  <div className="lg:col-span-5 flex flex-col gap-4 min-h-0">
+                  <div className="lg:col-span-5 flex flex-col gap-6">
                     
                     <div className="flex-1 relative">
                       <AnimatePresence mode="wait">
