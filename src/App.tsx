@@ -487,7 +487,7 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
 };
 
 // Section 2: Human Agent with Embedded Softphone Animation Component
-const EmbeddedSoftphoneAgent = () => {
+export const EmbeddedSoftphoneAgent = () => {
   const [stageIdx, setStageIdx] = useState(0);
   const [autoCycle, setAutoCycle] = useState(true);
 
