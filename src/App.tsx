@@ -1608,9 +1608,27 @@ export const App = () => {
                     </div>
                   </div>
 
-                  {/* Right Column (7 Cols): Embedded Softphone Inside Human Body Visualization */}
-                  <div className="lg:col-span-7 min-h-0 flex flex-col justify-center">
-                    <EmbeddedSoftphoneAgent />
+                  {/* Right Column (7 Cols): Innovation Visualizations */}
+                  <div className="lg:col-span-7 min-h-0 flex flex-col justify-center relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#050D1A]">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={slide2StepIdx}
+                        initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                        exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute inset-0 w-full h-full"
+                      >
+                        {/* Main uncropped image */}
+                        <img 
+                          src={`/innovations/${slide2StepIdx + 1}.jpg`} 
+                          alt={`Innovation ${slide2StepIdx + 1}`} 
+                          className="absolute inset-0 w-full h-full object-cover" 
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                    {/* Dark gradient overlay to blend seamlessly */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-[#050D1A]/10 to-[#050D1A] pointer-events-none opacity-90 z-20 w-[40%]"></div>
                   </div>
                 </div>
               </div>
