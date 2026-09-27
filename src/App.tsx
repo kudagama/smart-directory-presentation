@@ -1020,6 +1020,19 @@ const BusinessROIAnimation = ({ stepIdx }: { stepIdx: number }) => {
 
 export const App = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showSplash, setShowSplash] = useState(true);
+  const [titleCentered, setTitleCentered] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    setTitleCentered(true);
+    const timer = setTimeout(() => setTitleCentered(false), 1200);
+    return () => clearTimeout(timer);
+  }, [currentSlide]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Sync state for Slide 1 Problem & Animation
@@ -1143,6 +1156,51 @@ export const App = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-corpBlue flex flex-col justify-between select-none font-sans text-slate-100" style={{ perspective: '1200px' }}>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div 
+            className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-corpBlue"
+            exit={{ opacity: 0, transition: { duration: 0.8 } }}
+          >
+            <div className="scanlines" />
+            <Particles />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col items-center z-10"
+            >
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="w-16 h-16 rounded-2xl bg-corpCyan/20 border border-corpCyan/40 flex items-center justify-center text-corpCyan mb-6 shadow-[0_0_30px_rgba(0,229,255,0.4)]"
+              >
+                <Sparkles className="w-8 h-8 animate-pulse" />
+              </motion.div>
+              <motion.h1 
+                layoutId="app-title" 
+                className="text-5xl md:text-7xl font-black tracking-widest uppercase text-white flex flex-col md:flex-row items-center gap-3 md:gap-4 mb-4 drop-shadow-2xl text-center"
+              >
+                Smart <span className="text-gradient">Directory</span>
+              </motion.h1>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="h-1 w-48 bg-white/10 rounded-full overflow-hidden mt-4"
+              >
+                <motion.div 
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="h-full w-1/2 bg-gradient-to-r from-transparent via-corpCyan to-transparent"
+                />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="scanlines" />
       {/* Background Animated Gradient Mesh and Particles */}
       <Particles />
@@ -1175,9 +1233,12 @@ export const App = () => {
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h1 className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
-              Directory <span className="text-gradient">AI</span>
-            </h1>
+            {!showSplash && (
+              <motion.h1 layoutId="app-title" className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
+                Smart <span className="text-gradient">Directory</span>
+              </motion.h1>
+            )}
+            {showSplash && <div className="h-6 md:h-7" />}
             <span className="text-[10px] text-corpCyan/80 font-mono tracking-widest uppercase block -mt-0.5">
               SLT Innovation Pitch 2026
             </span>
@@ -1268,9 +1329,10 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.1 }}
-                  className="text-7xl md:text-9xl lg:text-[10rem] font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl"
+                  className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
                 >
-                  Directory
+                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Project</span>
+                  Smart Directory
                 </motion.h1>
 
                 <motion.p
@@ -1278,13 +1340,29 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.2 }}
-                  className="text-2xl md:text-3xl lg:text-4xl text-slate-200 font-light mb-10 max-w-4xl leading-relaxed"
+                  className="text-xl md:text-2xl lg:text-3xl text-slate-200 font-light mb-8 max-w-4xl leading-relaxed"
                 >
                   Use AI to transform the traditional directory into an <br className="hidden md:inline" />
                   <span className="text-corpCyan font-bold underline decoration-corpCyan/50 decoration-4 underline-offset-8">
                     intelligent search assistant
                   </span>.
                 </motion.p>
+
+                {/* Team Members List */}
+                <motion.div
+                  variants={staggerVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.25 }}
+                  className="flex flex-wrap justify-center gap-3 mb-10"
+                >
+                  {["Team Member 01", "Team Member 02", "Team Member 03"].map((name, idx) => (
+                    <div key={idx} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-slate-300 text-sm font-semibold flex items-center gap-2 shadow-lg backdrop-blur-md">
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-corpCyan to-blue-500 flex items-center justify-center text-[10px] text-white font-black">{idx + 1}</div>
+                      {name}
+                    </div>
+                  ))}
+                </motion.div>
 
                 <motion.div
                   variants={staggerVariants}
@@ -1327,19 +1405,45 @@ export const App = () => {
               <div className="flex flex-col flex-1 min-h-0 gap-2 py-1">
 
                 {/* ── TOP: Title + Quote ── */}
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="px-3 py-1 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase tracking-wider shrink-0">
-                    Section 01
-                  </span>
-                  <h2 className="text-2xl md:text-4xl font-black text-white leading-tight">
-                    Problem / <span className="text-gradient">Opportunity</span>
-                  </h2>
+                <div className="min-h-[4rem] mb-2 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide1-title" className="flex items-center gap-4 scale-150 origin-center bg-black/40 p-4 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <span className="px-3 py-1 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase tracking-wider shrink-0">
+                            Section 01
+                          </span>
+                          <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
+                            Problem / <span className="text-gradient">Opportunity</span>
+                          </h2>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide1-title"
+                        className="flex items-center gap-3 shrink-0 origin-left"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <span className="px-3 py-1 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase tracking-wider shrink-0">
+                          Section 01
+                        </span>
+                        <h2 className="text-2xl md:text-4xl font-black text-white leading-tight">
+                          Problem / <span className="text-gradient">Opportunity</span>
+                        </h2>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
 
 
                 {/* ── MAIN GRID: fills remaining height ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
 
                   {/* LEFT: Problems + Why It Matters */}
                   <div className="lg:col-span-5 flex flex-col gap-2 min-h-0">
@@ -1485,7 +1589,7 @@ export const App = () => {
                   <div className="lg:col-span-7 min-h-0 flex flex-col">
                     <AgentBrainOverload stepIdx={slide1StepIdx} setStepIdx={setSlide1StepIdx} auto={slide1Auto} setAuto={setSlide1Auto} />
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -1495,22 +1599,53 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 2 && (
               <div className="flex flex-col h-full justify-between py-2">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
-                      Section 02
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-black text-white">
-                      Proposed Solution / <span className="text-gradient">Innovation</span>
-                    </h2>
-                  </div>
-                  <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider mb-4 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
-                  </div>
+                <div className="min-h-[4rem] mb-2 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide2-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <div className="flex items-center justify-center gap-3 mb-2">
+                            <span className="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
+                              Section 02
+                            </span>
+                            <h2 className="text-3xl md:text-5xl font-black text-white text-center">
+                              Proposed Solution / <span className="text-gradient">Innovation</span>
+                            </h2>
+                          </div>
+                          <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider flex items-center justify-center gap-2">
+                            <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide2-title"
+                        className="flex flex-col shrink-0 origin-left"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="px-3 py-1 rounded-md bg-corpCyan/20 text-corpCyan border border-corpCyan/30 text-xs font-bold uppercase tracking-wider">
+                            Section 02
+                          </span>
+                          <h2 className="text-3xl md:text-5xl font-black text-white">
+                            Proposed Solution / <span className="text-gradient">Innovation</span>
+                          </h2>
+                        </div>
+                        <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider mb-4 flex items-center gap-2">
+                          <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* 2-Column Split: Key Innovations (Left) vs Embedded Softphone Agent Animation (Right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
                   {/* Left Column (5 Cols): The 5 Key Innovations from Directory.txt */}
                   <div className="lg:col-span-5 flex flex-col min-h-0">
                     <div className="flex-1 flex flex-col justify-center relative min-h-[300px]">
@@ -1679,7 +1814,7 @@ export const App = () => {
                     {/* Dark gradient overlay to blend seamlessly */}
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#050D1A] pointer-events-none opacity-30 z-20"></div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -1688,21 +1823,52 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 3 && (
               <div className="flex flex-col h-full justify-between py-2">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
-                      Section 03
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-black text-white">
-                      Business Value & <span className="text-gradient">Benefits</span>
-                    </h2>
-                  </div>
-                  <p className="text-sm md:text-base text-slate-300 mb-6">
-                    Delivering measurable ROI across organizational productivity, customer experience, and operational costs.
-                  </p>
+                <div className="min-h-[4rem] mb-2 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide3-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <div className="flex items-center justify-center gap-3 mb-2">
+                            <span className="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
+                              Section 03
+                            </span>
+                            <h2 className="text-4xl md:text-5xl font-black text-white text-center">
+                              Business Value & <span className="text-gradient">Benefits</span>
+                            </h2>
+                          </div>
+                          <p className="text-sm md:text-base text-slate-300 text-center">
+                            Delivering measurable ROI across organizational productivity, customer experience, and operational costs.
+                          </p>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide3-title"
+                        className="flex flex-col shrink-0 origin-left"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="px-3 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider">
+                            Section 03
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white">
+                            Business Value & <span className="text-gradient">Benefits</span>
+                          </h2>
+                        </div>
+                        <p className="text-sm md:text-base text-slate-300 mb-6">
+                          Delivering measurable ROI across organizational productivity, customer experience, and operational costs.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
                   {/* Left Column (5 Cols): The Active Pillar Large */}
                   <div className="lg:col-span-5 flex flex-col gap-4 min-h-0">
 
@@ -1851,7 +2017,7 @@ export const App = () => {
                   <div className="lg:col-span-7 flex flex-col justify-center min-h-0">
                     <BusinessROIAnimation stepIdx={slide3StepIdx} />
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -1860,21 +2026,52 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 4 && (
               <div className="flex flex-col h-full justify-between py-2">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
-                      Interactive Showcase
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-black text-white">
-                      Smart Directory <span className="text-gradient">in Action</span>
-                    </h2>
-                  </div>
-                  <p className="text-sm md:text-base text-slate-300 mb-6">
-                    See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
-                  </p>
+                <div className="min-h-[4rem] mb-2 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide4-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <div className="flex items-center justify-center gap-3 mb-2">
+                            <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                              Interactive Showcase
+                            </span>
+                            <h2 className="text-4xl md:text-5xl font-black text-white text-center">
+                              Smart Directory <span className="text-gradient">in Action</span>
+                            </h2>
+                          </div>
+                          <p className="text-sm md:text-base text-slate-300 text-center">
+                            See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
+                          </p>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide4-title"
+                        className="flex flex-col shrink-0 origin-left"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                            Interactive Showcase
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white">
+                            Smart Directory <span className="text-gradient">in Action</span>
+                          </h2>
+                        </div>
+                        <p className="text-sm md:text-base text-slate-300 mb-6">
+                          See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 items-stretch">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 items-stretch">
                   <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
                     <div className="glass-card p-6 rounded-2xl border border-white/10">
                       <span className="text-xs uppercase font-extrabold text-corpCyan tracking-widest mb-4 block">
@@ -1980,7 +2177,7 @@ export const App = () => {
                       <Zap className="w-5 h-5 text-corpCyan" />
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
             {/* ======================================================== */}
@@ -1988,7 +2185,42 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 5 && (
               <div className="flex flex-col h-full justify-between py-2">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
+                <div className="min-h-[4rem] mb-8 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide5-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <span className="inline-block w-fit px-3 py-1 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase tracking-wider">
+                            Section 04
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white text-center">
+                            Architecture & <span className="text-gradient">Rollout Roadmap</span>
+                          </h2>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide5-title"
+                        className="flex flex-col gap-2 shrink-0 origin-left"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <span className="inline-block w-fit px-3 py-1 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase tracking-wider">
+                          Section 04
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-black text-white">
+                          Architecture & <span className="text-gradient">Rollout Roadmap</span>
+                        </h2>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 items-stretch min-h-0">
                   {/* Left Column (5 Cols): Active Pillar Large */}
                   <div className="lg:col-span-5 flex flex-col gap-4 min-h-0">
 
@@ -2172,7 +2404,7 @@ export const App = () => {
                   <div className="lg:col-span-7 flex flex-col justify-center min-h-0">
                     <ImplementationAnimation stepIdx={slide5StepIdx} />
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -2184,22 +2416,52 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 6 && (
               <div className="flex flex-col h-full py-4">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex flex-col gap-2">
-                    <span className="inline-block w-fit px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
-                      Market & Impact
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-black text-white">
-                      Target Users & <span className="text-gradient">Potential Impact</span>
-                    </h2>
-                  </div>
-                  <div className="hidden lg:flex items-center gap-2 text-sm font-mono text-slate-400">
-                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                    Global Organization Reach
-                  </div>
+                <div className="min-h-[4rem] mb-8 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide6-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <span className="inline-block w-fit px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
+                            Market & Impact
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white text-center">
+                            Target Users & <span className="text-gradient">Potential Impact</span>
+                          </h2>
+                          <div className="flex items-center justify-center gap-2 text-sm font-mono text-slate-400 mt-2">
+                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            Global Organization Reach
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide6-title"
+                        className="flex items-center justify-between shrink-0 origin-left w-full"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <div className="flex flex-col gap-2">
+                          <span className="inline-block w-fit px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
+                            Market & Impact
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white">
+                            Target Users & <span className="text-gradient">Potential Impact</span>
+                          </h2>
+                        </div>
+                        <div className="hidden lg:flex items-center gap-2 text-sm font-mono text-slate-400">
+                          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                          Global Organization Reach
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
                   {/* Target Users (7 Cols) */}
                   <div className="lg:col-span-7 glass-card rounded-2xl p-6 md:p-8 border border-white/10 relative overflow-hidden group">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors duration-700 pointer-events-none"></div>
@@ -2274,7 +2536,7 @@ export const App = () => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -2283,22 +2545,52 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 7 && (
               <div className="flex flex-col h-full py-4">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex flex-col gap-2">
-                    <span className="inline-block w-fit px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
-                      Requirements
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-black text-white">
-                      Support Required & <span className="text-gradient">Next Steps</span>
-                    </h2>
-                  </div>
-                  <div className="hidden md:flex items-center gap-2 text-sm font-mono text-slate-400">
-                    <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
-                    Resource Planning
-                  </div>
+                <div className="min-h-[4rem] mb-8 relative z-50">
+                  <AnimatePresence>
+                    {titleCentered ? (
+                      <motion.div
+                        key="center"
+                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
+                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                      >
+                        <motion.div layoutId="slide7-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
+                          <span className="inline-block w-fit px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                            Requirements
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white text-center">
+                            Support Required & <span className="text-gradient">Next Steps</span>
+                          </h2>
+                          <div className="flex items-center justify-center gap-2 text-sm font-mono text-slate-400 mt-2">
+                            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                            Resource Planning
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="top"
+                        layoutId="slide7-title"
+                        className="flex items-center justify-between shrink-0 origin-left w-full"
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+                      >
+                        <div className="flex flex-col gap-2">
+                          <span className="inline-block w-fit px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
+                            Requirements
+                          </span>
+                          <h2 className="text-4xl md:text-5xl font-black text-white">
+                            Support Required & <span className="text-gradient">Next Steps</span>
+                          </h2>
+                        </div>
+                        <div className="hidden md:flex items-center gap-2 text-sm font-mono text-slate-400">
+                          <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                          Resource Planning
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 flex-1 items-stretch">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 flex-1 items-stretch">
                   {/* Technical Support */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -2443,7 +2735,7 @@ export const App = () => {
                       ))}
                     </div>
                   </motion.div>
-                </div>
+                </motion.div>
               </div>
             )}
 
@@ -2459,7 +2751,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Directory AI • Summary & Next Steps
+                  Smart Directory • Summary & Next Steps
                 </motion.div>
 
                 <motion.h2
@@ -2469,7 +2761,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
                 >
-                  Directory Transformation
+                  Smart Directory <br /><span className="text-gradient">Transformation</span>
                 </motion.h2>
 
                 <motion.p
