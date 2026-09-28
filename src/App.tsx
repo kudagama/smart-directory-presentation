@@ -119,10 +119,10 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 0,
     title: "1. Voice Inbound",
     tag: "Headset Audio Stream",
-    callerVoice: "Customer: 'Mata Kandy hospital eke number eka one...'",
+    callerVoice: "Customer: 'I want the number for the Bank of Ceylon, Kandy branch.'",
     softphoneStatus: "Active Call • Inbound 1912",
     pulseRate: "pulse-fast",
-    aiState: "Listening to Sinhala / Singlish stream...",
+    aiState: "Listening to Audio stream...",
     highlight: "audio",
     contactReady: false
   },
@@ -141,7 +141,7 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 2,
     title: "3. Intent Extracted",
     tag: "Bio-Digital Intelligence",
-    callerVoice: "Intent: [Healthcare] [Kandy General Hospital] [Emergency/Direct]",
+    callerVoice: "Intent: [Bank of Ceylon] [Kandy branch] [Directory]",
     softphoneStatus: "Internal AI Copilot • 99% Confidence",
     pulseRate: "pulse-cyan",
     aiState: "Zero manual typing required • Query synthesized",
@@ -152,7 +152,7 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 3,
     title: "4. Zero-Click HUD",
     tag: "Instant Resolution",
-    callerVoice: "Agent: 'General Hospital Kandy number eka 081 222 2222'",
+    callerVoice: "Agent: 'The number is 081 222 2222'",
     softphoneStatus: "Resolved in 00:09s • AHT Reduced",
     pulseRate: "pulse-success",
     aiState: "Contact delivered right to agent's visual field!",
@@ -686,10 +686,10 @@ export const EmbeddedSoftphoneAgent = () => {
                         &gt;&gt; INTENT_LOCKED
                       </span>
                       <span className="text-sm font-sans font-black text-white tracking-wide block">
-                        Kandy General Hospital
+                        Bank of Ceylon Kandy
                       </span>
                       <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
-                        [Emergency] [Direct Inquiries]
+                        [Banking] [Direct Inquiries]
                       </span>
                     </div>
                     <div className="text-right flex flex-col items-end">
@@ -1067,42 +1067,42 @@ export const App = () => {
 
   const sampleQueries = [
     {
-      query: "Need contact for fiber maintenance in Kandy",
+      query: "I want the number for the Bank of Ceylon, Kandy branch",
       feature: "Natural Language Search",
       match: {
-        name: "Kasun S. Perera",
-        role: "Lead Engineer • Optical Fiber Network Maintenance",
-        dept: "Network Operations Division",
-        location: "Kandy Regional HQ, 2nd Floor",
-        phone: "081 228 4911",
-        ext: "3911",
-        status: "Available Now"
+        name: "Bank of Ceylon",
+        role: "Primary Contact",
+        dept: "Kandy Branch",
+        location: "Kandy",
+        phone: "081 222 2222",
+        ext: "boc.kandy@boc.lk",
+        status: "Directory Result"
       }
     },
     {
-      query: "Customer Billing Escalations Colombo Manager",
+      query: "What are the prices for the unlimited data packages?",
       feature: "Smart Result Identification",
       match: {
-        name: "Dilini Senanayake",
-        role: "Senior Manager • Billing Dispute Resolution",
-        dept: "Finance & Revenue Assurance",
-        location: "Colombo Head Office, Tower B",
-        phone: "011 202 3344",
-        ext: "1240",
-        status: "Available Now"
+        name: "Fibre Unlimited Packages",
+        role: "Unlimited 10: Rs. 4,490 | Unlimited 25: Rs. 6,490",
+        dept: "Product Match",
+        location: "Islandwide Coverage",
+        phone: "-",
+        ext: "-",
+        status: "Available"
       }
     },
     {
-      query: "IT Helpdesk & Active Directory Support",
-      feature: "Single Search: People, Dept & Org",
+      query: "Can you tell me more about the unlimited Home packages?",
+      feature: "Single Search: Products, Dept & Org",
       match: {
-        name: "Enterprise IT Support Desk",
-        role: "Internal Service Desk Hotline",
-        dept: "Enterprise Information Systems",
-        location: "Central Operations Centre",
-        phone: "011 244 8000",
-        ext: "5555",
-        status: "24/7 Active"
+        name: "Unlimited Home Packages",
+        role: "Home: Rs. 5,900 (100Mbps) | Home Plus: Rs. 9,900",
+        dept: "SLT Fibre",
+        location: "Nugegoda Area",
+        phone: "-",
+        ext: "-",
+        status: "Coverage Available"
       }
     }
   ];
@@ -1182,7 +1182,7 @@ export const App = () => {
                 layoutId="app-title" 
                 className="text-5xl md:text-7xl font-black tracking-widest uppercase text-white flex flex-col md:flex-row items-center gap-3 md:gap-4 mb-4 drop-shadow-2xl text-center"
               >
-                Smart <span className="text-gradient">Directory</span>
+                Smart <span className="text-gradient">PEARL</span>
               </motion.h1>
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -1235,7 +1235,7 @@ export const App = () => {
           <div>
             {!showSplash && (
               <motion.h1 layoutId="app-title" className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
-                Smart <span className="text-gradient">Directory</span>
+                Smart <span className="text-gradient">PEARL</span>
               </motion.h1>
             )}
             {showSplash && <div className="h-6 md:h-7" />}
@@ -1321,7 +1321,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  SLT Innovation Pitch 2026 • Enterprise Directory
+                  SLT Innovation Pitch 2026 • Enterprise Copilot
                 </motion.div>
 
                 <motion.h1
@@ -1331,8 +1331,8 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
                 >
-                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Project</span>
-                  Smart Directory
+                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Enterprise Copilot</span>
+                  Smart PEARL
                 </motion.h1>
 
                 <motion.p
@@ -2040,7 +2040,7 @@ export const App = () => {
                               Interactive Showcase
                             </span>
                             <h2 className="text-4xl md:text-5xl font-black text-white text-center">
-                              Smart Directory <span className="text-gradient">in Action</span>
+                              Smart PEARL <span className="text-gradient">in Action</span>
                             </h2>
                           </div>
                           <p className="text-sm md:text-base text-slate-300 text-center">
@@ -2060,7 +2060,7 @@ export const App = () => {
                             Interactive Showcase
                           </span>
                           <h2 className="text-4xl md:text-5xl font-black text-white">
-                            Smart Directory <span className="text-gradient">in Action</span>
+                            Smart PEARL <span className="text-gradient">in Action</span>
                           </h2>
                         </div>
                         <p className="text-sm md:text-base text-slate-300 mb-6">
@@ -2751,7 +2751,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Smart Directory • Summary & Next Steps
+                  Smart PEARL • Summary & Next Steps
                 </motion.div>
 
                 <motion.h2
@@ -2761,7 +2761,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
                 >
-                  Smart Directory <br /><span className="text-gradient">Transformation</span>
+                  Smart PEARL <br /><span className="text-gradient">Transformation</span>
                 </motion.h2>
 
                 <motion.p
