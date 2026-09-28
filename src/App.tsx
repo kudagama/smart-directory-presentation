@@ -18,7 +18,7 @@ const SLIDES = [
   { id: 5, title: "04) How We Will Build It", tag: "04" },
   { id: 6, title: "05) Market Potential", tag: "05" },
   { id: 7, title: "06) What We Need", tag: "06" },
-  { id: 8, title: "Conclusion", tag: "Summary" }
+  { id: 8, title: "Thank You", tag: "Thank You" }
 ];
 
 const TOTAL_SLIDES = SLIDES.length;
@@ -2598,7 +2598,7 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 8: CONCLUSION & SUMMARY                            */}
+            {/* SLIDE 8: THANK YOU                            */}
             {/* ======================================================== */}
             {currentSlide === 8 && (
               <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-4">
@@ -2609,7 +2609,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Smart PEARL • Summary & Next Steps
+                  Smart PEARL • Thank You
                 </motion.div>
 
                 <motion.h2
@@ -2619,7 +2619,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
                 >
-                  Smart PEARL <br /><span className="text-gradient">Transformation</span>
+                  Thank <span className="text-gradient">You!</span>
                 </motion.h2>
 
                 <motion.p
