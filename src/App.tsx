@@ -11,19 +11,19 @@ import {
 
 const SLIDES = [
   { id: 0, title: "Overview", tag: "Cover" },
-  { id: 1, title: "01) Problem / Opportunity", tag: "01" },
+  { id: 1, title: "01) The Problem", tag: "01" },
   { id: 2, title: "02) Proposed Solution", tag: "02" },
-  { id: 3, title: "03) Business Value & Benefits", tag: "03" },
+  { id: 3, title: "03) Key Benefits", tag: "03" },
   { id: 4, title: "Live Search Demo", tag: "Demo" },
-  { id: 5, title: "04) Implementation Approach", tag: "04" },
-  { id: 6, title: "05) Market / Customer Potential", tag: "05" },
-  { id: 7, title: "06) Support Required & Next Steps", tag: "06" },
+  { id: 5, title: "04) How We Will Build It", tag: "04" },
+  { id: 6, title: "05) Market Potential", tag: "05" },
+  { id: 7, title: "06) What We Need", tag: "06" },
   { id: 8, title: "Conclusion", tag: "Summary" }
 ];
 
 const TOTAL_SLIDES = SLIDES.length;
 
-// Section 1: Traditional Search Jitter Simulation Steps
+// Section 1: Old Search System Problems
 const CHARACTER_SIMULATION_STEPS = [
   {
     step: 1,
@@ -31,9 +31,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "1,420 matches",
     elapsed: "00:07s",
     shiftsCount: 1,
-    alertText: "UI Shift #1: Entire table updates. Massive unfiltered list.",
+    alertText: "Screen updates too fast. Too many results.",
     badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    problemTitle: "Search results continuously change while users type",
+    problemTitle: "Results change while typing, causing confusion",
     problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Packaging & Supplies HQ", dept: "Logistics Dept", ext: "1102", status: "Not a person" },
@@ -48,9 +48,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "680 matches",
     elapsed: "00:15s",
     shiftsCount: 2,
-    alertText: "UI Shift #2: Screen jolts! Previous names disappear, new ones flood in.",
+    alertText: "Screen jumps! Hard to read the names.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Similar names generate multiple results, flooding the view",
+    problemTitle: "Too many similar names make it hard to choose",
     problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Personnel Division", dept: "Corporate HR HQ", ext: "9001", status: "General line only" },
@@ -65,9 +65,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "310 matches",
     elapsed: "00:24s",
     shiftsCount: 3,
-    alertText: "UI Shift #3: List jumps again! Agent loses previously spotted row.",
+    alertText: "Screen jumps again! Agent loses track.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Difficult to identify the correct contact quickly due to UI jitter",
+    problemTitle: "Hard to find the right person quickly",
     problemIcon: <Eye className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Perera, D.S.", dept: "Branch Billing", ext: "4811", status: "Wrong person" },
@@ -82,9 +82,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "48 Identical Names",
     elapsed: "00:42s",
     shiftsCount: 4,
-    alertText: "CRITICAL OVERLOAD: 48 similar names! Zero context on responsible personnel.",
+    alertText: "Too many similar names! Hard to find the correct person.",
     badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
-    problemTitle: "Time wasted searching for personnel, increasing overall AHT",
+    problemTitle: "Searching takes too much time, making customers wait",
     problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
     rows: [
       { name: "Perera, K.A.D.", dept: "General Pool (Dept: ???)", ext: "4120", status: "Ambiguous" },
@@ -99,7 +99,7 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "Business Impact",
     elapsed: "01:20s",
     shiftsCount: 5,
-    alertText: "SYSTEM INEFFICIENCY: Manual search delays impact core business metrics.",
+    alertText: "Manual searching wastes time and hurts business.",
     badgeClass: "bg-corpCyan/20 text-corpCyan border-corpCyan/40 animate-pulse",
     problemTitle: "Why It Matters",
     problemIcon: <Clock className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
@@ -113,24 +113,24 @@ const CHARACTER_SIMULATION_STEPS = [
   }
 ];
 
-// Section 2: Human Agent with Embedded Softphone Animation Stages
+// Section 2: Human Agent with System Processing Animation Stages
 const EMBEDDED_SOFTPHONE_STAGES = [
   {
     id: 0,
-    title: "1. Voice Inbound",
-    tag: "Headset Audio Stream",
-    callerVoice: "Customer: 'Mata Kandy hospital eke number eka one...'",
+    title: "1. Incoming Call",
+    tag: "Listening to Customer",
+    callerVoice: "Customer: 'What are the prices for the SLT Fibre unlimited packages?'",
     softphoneStatus: "Active Call • Inbound 1912",
     pulseRate: "pulse-fast",
-    aiState: "Listening to Sinhala / Singlish stream...",
+    aiState: "Listening to Audio stream...",
     highlight: "audio",
     contactReady: false
   },
   {
     id: 1,
-    title: "2. Embedded Softphone",
-    tag: "Core Telephony Processing",
-    callerVoice: "Voice decoded inside agent's system...",
+    title: "2. System Processing",
+    tag: "Audio Processing",
+    callerVoice: "System hears the voice...",
     softphoneStatus: "Audio Channel 01 • Live VoIP Stream",
     pulseRate: "pulse-normal",
     aiState: "Softphone audio routed directly to Neural AI Core",
@@ -139,23 +139,23 @@ const EMBEDDED_SOFTPHONE_STAGES = [
   },
   {
     id: 2,
-    title: "3. Intent Extracted",
-    tag: "Bio-Digital Intelligence",
-    callerVoice: "Intent: [Healthcare] [Kandy General Hospital] [Emergency/Direct]",
+    title: "3. Understanding Customer",
+    tag: "AI Processing",
+    callerVoice: "Intent: [SLT Fibre] [Unlimited Packages] [Product]",
     softphoneStatus: "Internal AI Copilot • 99% Confidence",
     pulseRate: "pulse-cyan",
-    aiState: "Zero manual typing required • Query synthesized",
+    aiState: "No typing needed • AI gets the data",
     highlight: "ai",
     contactReady: true
   },
   {
     id: 3,
-    title: "4. Zero-Click HUD",
-    tag: "Instant Resolution",
-    callerVoice: "Agent: 'General Hospital Kandy number eka 081 222 2222'",
+    title: "4. Instant Answer",
+    tag: "Problem Solved",
+    callerVoice: "Agent: 'The Unlimited 10 package is Rs. 4,490...'",
     softphoneStatus: "Resolved in 00:09s • AHT Reduced",
     pulseRate: "pulse-success",
-    aiState: "Contact delivered right to agent's visual field!",
+    aiState: "Answer is shown directly on screen!",
     highlight: "hud",
     contactReady: true
   }
@@ -238,7 +238,7 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
           </span>
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
             <Headphones className="w-3.5 h-3.5 text-rose-400" />
-            Agent Cognitive Overload — Brain Under Siege
+            Agent is confused and stressed
           </span>
         </div>
         <button
@@ -486,7 +486,7 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
   );
 };
 
-// Section 2: Human Agent with Embedded Softphone Animation Component
+// Section 2: Human Agent with System Processing Animation Component
 export const EmbeddedSoftphoneAgent = () => {
   const [stageIdx, setStageIdx] = useState(0);
   const [autoCycle, setAutoCycle] = useState(true);
@@ -686,15 +686,15 @@ export const EmbeddedSoftphoneAgent = () => {
                         &gt;&gt; INTENT_LOCKED
                       </span>
                       <span className="text-sm font-sans font-black text-white tracking-wide block">
-                        Kandy General Hospital
+                        Fibre Unlimited Packages
                       </span>
                       <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
-                        [Emergency] [Direct Inquiries]
+                        [SLT Fibre] [Product]
                       </span>
                     </div>
                     <div className="text-right flex flex-col items-end">
                       <span className="text-sm font-mono font-black text-corpCyan bg-black/50 px-2.5 py-1 border border-corpCyan/30 mb-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-                        081 222 2222
+                        Rs. 4,490
                       </span>
                       <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest flex items-center gap-1">
                         <Zap className="w-3 h-3" /> Auto-Generated
@@ -1067,42 +1067,42 @@ export const App = () => {
 
   const sampleQueries = [
     {
-      query: "Need contact for fiber maintenance in Kandy",
+      query: "I want the number for the Bank of Ceylon, Kandy branch",
       feature: "Natural Language Search",
       match: {
-        name: "Kasun S. Perera",
-        role: "Lead Engineer • Optical Fiber Network Maintenance",
-        dept: "Network Operations Division",
-        location: "Kandy Regional HQ, 2nd Floor",
-        phone: "081 228 4911",
-        ext: "3911",
-        status: "Available Now"
+        name: "Bank of Ceylon",
+        role: "Primary Contact",
+        dept: "Kandy Branch",
+        location: "Kandy",
+        phone: "Rs. 4,490",
+        ext: "boc.kandy@boc.lk",
+        status: "Directory Result"
       }
     },
     {
-      query: "Customer Billing Escalations Colombo Manager",
+      query: "What are the prices for the unlimited data packages?",
       feature: "Smart Result Identification",
       match: {
-        name: "Dilini Senanayake",
-        role: "Senior Manager • Billing Dispute Resolution",
-        dept: "Finance & Revenue Assurance",
-        location: "Colombo Head Office, Tower B",
-        phone: "011 202 3344",
-        ext: "1240",
-        status: "Available Now"
+        name: "Fibre Unlimited Packages",
+        role: "Unlimited 10: Rs. 4,490 | Unlimited 25: Rs. 6,490",
+        dept: "Product Match",
+        location: "Islandwide Coverage",
+        phone: "-",
+        ext: "-",
+        status: "Available"
       }
     },
     {
-      query: "IT Helpdesk & Active Directory Support",
-      feature: "Single Search: People, Dept & Org",
+      query: "Can you tell me more about the unlimited Home packages?",
+      feature: "Single Search: Products, Dept & Org",
       match: {
-        name: "Enterprise IT Support Desk",
-        role: "Internal Service Desk Hotline",
-        dept: "Enterprise Information Systems",
-        location: "Central Operations Centre",
-        phone: "011 244 8000",
-        ext: "5555",
-        status: "24/7 Active"
+        name: "Unlimited Home Packages",
+        role: "Home: Rs. 5,900 (100Mbps) | Home Plus: Rs. 9,900",
+        dept: "SLT Fibre",
+        location: "Nugegoda Area",
+        phone: "-",
+        ext: "-",
+        status: "Coverage Available"
       }
     }
   ];
@@ -1182,7 +1182,7 @@ export const App = () => {
                 layoutId="app-title" 
                 className="text-5xl md:text-7xl font-black tracking-widest uppercase text-white flex flex-col md:flex-row items-center gap-3 md:gap-4 mb-4 drop-shadow-2xl text-center"
               >
-                Smart <span className="text-gradient">Directory</span>
+                Smart <span className="text-gradient">PEARL</span>
               </motion.h1>
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -1235,7 +1235,7 @@ export const App = () => {
           <div>
             {!showSplash && (
               <motion.h1 layoutId="app-title" className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
-                Smart <span className="text-gradient">Directory</span>
+                Smart <span className="text-gradient">PEARL</span>
               </motion.h1>
             )}
             {showSplash && <div className="h-6 md:h-7" />}
@@ -1252,7 +1252,13 @@ export const App = () => {
             return (
               <div key={slide.id} className="relative group">
                 <button
-                  onClick={() => goToSlide(i)}
+                  onClick={() => {
+                    if (slide.id === 4) {
+                      window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank');
+                    } else {
+                      goToSlide(i);
+                    }
+                  }}
                   className={`relative flex items-center justify-center h-8 transition-all duration-300 ease-out cursor-pointer rounded-full ${isActive
                     ? 'px-4 lg:px-5 bg-gradient-to-r from-corpCyan to-blue-500 text-white shadow-[0_0_15px_rgba(0,229,255,0.4)]'
                     : 'w-8 lg:w-10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white border border-white/5'
@@ -1321,7 +1327,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  SLT Innovation Pitch 2026 • Enterprise Directory
+                  SLT Innovation Pitch 2026 • Smart AI Assistant
                 </motion.div>
 
                 <motion.h1
@@ -1331,8 +1337,8 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
                 >
-                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Project</span>
-                  Smart Directory
+                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Smart AI Assistant</span>
+                  Smart PEARL
                 </motion.h1>
 
                 <motion.p
@@ -1617,7 +1623,7 @@ export const App = () => {
                             </h2>
                           </div>
                           <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider flex items-center justify-center gap-2">
-                            <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                            <Sparkles className="w-4 h-4" /> Key Innovations & System Processing Architecture
                           </div>
                         </motion.div>
                       </motion.div>
@@ -1637,14 +1643,14 @@ export const App = () => {
                           </h2>
                         </div>
                         <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider mb-4 flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                          <Sparkles className="w-4 h-4" /> Key Innovations & System Processing Architecture
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* 2-Column Split: Key Innovations (Left) vs Embedded Softphone Agent Animation (Right) */}
+                {/* 2-Column Split: Key Innovations (Left) vs System Processing Agent Animation (Right) */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
                   {/* Left Column (5 Cols): The 5 Key Innovations from Directory.txt */}
                   <div className="lg:col-span-5 flex flex-col min-h-0">
@@ -2025,159 +2031,11 @@ export const App = () => {
             {/* SLIDE 4: LIVE INTERACTIVE DIRECTORY SEARCH DEMO          */}
             {/* ======================================================== */}
             {currentSlide === 4 && (
-              <div className="flex flex-col h-full justify-between py-2">
-                <div className="min-h-[4rem] mb-2 relative z-50">
-                  <AnimatePresence>
-                    {titleCentered ? (
-                      <motion.div
-                        key="center"
-                        className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
-                        exit={{ opacity: 0, transition: { duration: 0.8 } }}
-                      >
-                        <motion.div layoutId="slide4-title" className="flex flex-col items-center gap-2 scale-150 origin-center bg-black/40 p-5 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl">
-                          <div className="flex items-center justify-center gap-3 mb-2">
-                            <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
-                              Interactive Showcase
-                            </span>
-                            <h2 className="text-4xl md:text-5xl font-black text-white text-center">
-                              Smart Directory <span className="text-gradient">in Action</span>
-                            </h2>
-                          </div>
-                          <p className="text-sm md:text-base text-slate-300 text-center">
-                            See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
-                          </p>
-                        </motion.div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="top"
-                        layoutId="slide4-title"
-                        className="flex flex-col shrink-0 origin-left"
-                        transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
-                      >
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase tracking-wider">
-                            Interactive Showcase
-                          </span>
-                          <h2 className="text-4xl md:text-5xl font-black text-white">
-                            Smart Directory <span className="text-gradient">in Action</span>
-                          </h2>
-                        </div>
-                        <p className="text-sm md:text-base text-slate-300 mb-6">
-                          See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 items-stretch">
-                  <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-                    <div className="glass-card p-6 rounded-2xl border border-white/10">
-                      <span className="text-xs uppercase font-extrabold text-corpCyan tracking-widest mb-4 block">
-                        Select a Conversational Query:
-                      </span>
-                      <div className="space-y-3">
-                        {sampleQueries.map((item, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => {
-                              setDemoQuery(item.query);
-                              setActiveQueryIndex(idx);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl border text-sm md:text-base transition-all cursor-pointer flex items-center justify-between ${activeQueryIndex === idx
-                              ? 'bg-corpCyan/20 border-corpCyan text-white shadow-[0_0_20px_rgba(0,229,255,0.25)]'
-                              : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white'
-                              }`}
-                          >
-                            <div>
-                              <span className="text-xs text-corpCyan font-extrabold uppercase block mb-1">
-                                {item.feature}
-                              </span>
-                              <span className="font-semibold">&ldquo;{item.query}&rdquo;</span>
-                            </div>
-                            <Play className="w-5 h-5 text-corpCyan shrink-0 ml-3" />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-sm text-slate-300 leading-relaxed">
-                      💡 <strong>Eliminates character-by-character search hassle:</strong> Instead of typing letters and re-filtering multiple times, users speak or type natural questions and receive single, verified contact cards in 0.8s.
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl border-2 border-corpCyan/50 bg-corpCyan/5 flex flex-col justify-between shadow-[0_0_40px_rgba(0,229,255,0.15)]">
-                    <div>
-                      <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
-                        <span className="text-corpCyan font-black text-sm uppercase tracking-wider flex items-center gap-2">
-                          <Sparkles className="w-5 h-5" /> Conversational Interface Output
-                        </span>
-                        <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono font-bold">
-                          Response Time: 0.8s
-                        </span>
-                      </div>
-
-                      <div className="bg-[#050D1A] p-4 rounded-xl border border-corpCyan/40 mb-6 flex items-center gap-3">
-                        <Search className="w-5 h-5 text-corpCyan shrink-0" />
-                        <span className="text-white text-base md:text-lg font-medium flex-1">
-                          {demoQuery}
-                        </span>
-                        <span className="w-2.5 h-5 bg-corpCyan animate-pulse shrink-0"></span>
-                      </div>
-
-                      <motion.div
-                        key={activeQueryIndex}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.35 }}
-                        className="p-6 rounded-2xl bg-gradient-to-br from-corpCyan/20 via-blue-900/40 to-teal-900/30 border border-corpCyan/60 shadow-2xl space-y-4"
-                      >
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <span className="text-xs font-black text-corpCyan uppercase tracking-widest bg-corpCyan/20 px-2.5 py-1 rounded">
-                              Smart Result Identification • 99% Match
-                            </span>
-                            <h4 className="text-2xl md:text-3xl font-black text-white mt-2">
-                              {sampleQueries[activeQueryIndex].match.name}
-                            </h4>
-                            <p className="text-sm md:text-base text-slate-200 mt-0.5">
-                              {sampleQueries[activeQueryIndex].match.role}
-                            </p>
-                            <p className="text-xs font-mono text-corpCyan mt-1">
-                              {sampleQueries[activeQueryIndex].match.dept}
-                            </p>
-                          </div>
-                          <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                            {sampleQueries[activeQueryIndex].match.status}
-                          </span>
-                        </div>
-
-                        <div className="pt-4 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                          <div className="flex items-center gap-2.5 text-slate-100">
-                            <Phone className="w-4 h-4 text-corpCyan shrink-0" />
-                            <span className="font-mono font-bold text-base text-white">
-                              {sampleQueries[activeQueryIndex].match.phone}
-                            </span>
-                            <span className="text-slate-400">
-                              (Ext: {sampleQueries[activeQueryIndex].match.ext})
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-slate-100">
-                            <Building2 className="w-4 h-4 text-blue-400 shrink-0" />
-                            <span>{sampleQueries[activeQueryIndex].match.location}</span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-
-                    <div className="mt-4 p-3.5 rounded-xl bg-corpCyan/10 border border-corpCyan/30 text-sm text-corpCyan font-bold flex items-center justify-between">
-                      <span>Unified Search Across People, Departments, Locations & Organizations</span>
-                      <Zap className="w-5 h-5 text-corpCyan" />
-                    </div>
-                  </div>
-                </motion.div>
+              <div className="w-full h-full rounded-2xl overflow-hidden border border-corpCyan/40 shadow-[0_0_30px_rgba(0,229,255,0.2)] bg-black/50 p-1 relative">
+                <button onClick={() => window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank')} className="absolute top-4 right-4 z-50 bg-corpCyan text-black px-4 py-2 font-bold rounded-lg shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                  <span className="text-xl">🚀</span> Open Full Screen
+                </button>
+                <iframe src="https://slt-smart-directory-assistant-beta.vercel.app/dashboard" className="w-full h-full rounded-xl border-none" title="Smart PEARL Demo" />
               </div>
             )}
             {/* ======================================================== */}
@@ -2751,7 +2609,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Smart Directory • Summary & Next Steps
+                  Smart PEARL • Summary & Next Steps
                 </motion.div>
 
                 <motion.h2
@@ -2761,7 +2619,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
                 >
-                  Smart Directory <br /><span className="text-gradient">Transformation</span>
+                  Smart PEARL <br /><span className="text-gradient">Transformation</span>
                 </motion.h2>
 
                 <motion.p
