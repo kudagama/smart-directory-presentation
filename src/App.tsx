@@ -119,7 +119,7 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 0,
     title: "1. Voice Inbound",
     tag: "Headset Audio Stream",
-    callerVoice: "Customer: 'I want the number for the Bank of Ceylon, Kandy branch.'",
+    callerVoice: "Customer: 'What are the prices for the SLT Fibre unlimited packages?'",
     softphoneStatus: "Active Call • Inbound 1912",
     pulseRate: "pulse-fast",
     aiState: "Listening to Audio stream...",
@@ -141,10 +141,10 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 2,
     title: "3. Intent Extracted",
     tag: "Bio-Digital Intelligence",
-    callerVoice: "Intent: [Bank of Ceylon] [Kandy branch] [Directory]",
+    callerVoice: "Intent: [SLT Fibre] [Unlimited Packages] [Product]",
     softphoneStatus: "Internal AI Copilot • 99% Confidence",
     pulseRate: "pulse-cyan",
-    aiState: "Zero manual typing required • Query synthesized",
+    aiState: "Zero manual typing required • Product data fetched",
     highlight: "ai",
     contactReady: true
   },
@@ -152,10 +152,10 @@ const EMBEDDED_SOFTPHONE_STAGES = [
     id: 3,
     title: "4. Zero-Click HUD",
     tag: "Instant Resolution",
-    callerVoice: "Agent: 'The number is 081 222 2222'",
+    callerVoice: "Agent: 'The Unlimited 10 package is Rs. 4,490...'",
     softphoneStatus: "Resolved in 00:09s • AHT Reduced",
     pulseRate: "pulse-success",
-    aiState: "Contact delivered right to agent's visual field!",
+    aiState: "Product pricing delivered right to agent's visual field!",
     highlight: "hud",
     contactReady: true
   }
@@ -686,15 +686,15 @@ export const EmbeddedSoftphoneAgent = () => {
                         &gt;&gt; INTENT_LOCKED
                       </span>
                       <span className="text-sm font-sans font-black text-white tracking-wide block">
-                        Bank of Ceylon Kandy
+                        Fibre Unlimited Packages
                       </span>
                       <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
-                        [Banking] [Direct Inquiries]
+                        [SLT Fibre] [Product]
                       </span>
                     </div>
                     <div className="text-right flex flex-col items-end">
                       <span className="text-sm font-mono font-black text-corpCyan bg-black/50 px-2.5 py-1 border border-corpCyan/30 mb-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-                        081 222 2222
+                        Rs. 4,490
                       </span>
                       <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-widest flex items-center gap-1">
                         <Zap className="w-3 h-3" /> Auto-Generated
@@ -1074,7 +1074,7 @@ export const App = () => {
         role: "Primary Contact",
         dept: "Kandy Branch",
         location: "Kandy",
-        phone: "081 222 2222",
+        phone: "Rs. 4,490",
         ext: "boc.kandy@boc.lk",
         status: "Directory Result"
       }
@@ -1252,7 +1252,13 @@ export const App = () => {
             return (
               <div key={slide.id} className="relative group">
                 <button
-                  onClick={() => goToSlide(i)}
+                  onClick={() => {
+                    if (slide.id === 4) {
+                      window.open('http://localhost:3000', '_blank');
+                    } else {
+                      goToSlide(i);
+                    }
+                  }}
                   className={`relative flex items-center justify-center h-8 transition-all duration-300 ease-out cursor-pointer rounded-full ${isActive
                     ? 'px-4 lg:px-5 bg-gradient-to-r from-corpCyan to-blue-500 text-white shadow-[0_0_15px_rgba(0,229,255,0.4)]'
                     : 'w-8 lg:w-10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white border border-white/5'
@@ -1321,7 +1327,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  SLT Innovation Pitch 2026 • Enterprise Copilot
+                  SLT Innovation Pitch 2026 • Directory & Product Copilot
                 </motion.div>
 
                 <motion.h1
@@ -1331,7 +1337,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
                 >
-                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Enterprise Copilot</span>
+                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Directory & Product Copilot</span>
                   Smart PEARL
                 </motion.h1>
 
@@ -2066,6 +2072,9 @@ export const App = () => {
                         <p className="text-sm md:text-base text-slate-300 mb-6">
                           See how Natural Language Search, Single Search Experience, and Smart Result Prioritization function live.
                         </p>
+                        <button onClick={() => window.open('http://localhost:3000', '_blank')} className="px-6 py-3 bg-gradient-to-r from-corpCyan to-blue-500 text-white font-black rounded-lg shadow-[0_0_25px_rgba(0,229,255,0.5)] hover:scale-105 transition-transform self-start mb-6 uppercase tracking-wider text-sm">
+                          🚀 Launch Smart PEARL
+                        </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
