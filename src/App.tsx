@@ -11,19 +11,19 @@ import {
 
 const SLIDES = [
   { id: 0, title: "Overview", tag: "Cover" },
-  { id: 1, title: "01) Problem / Opportunity", tag: "01" },
+  { id: 1, title: "01) The Problem", tag: "01" },
   { id: 2, title: "02) Proposed Solution", tag: "02" },
-  { id: 3, title: "03) Business Value & Benefits", tag: "03" },
+  { id: 3, title: "03) Key Benefits", tag: "03" },
   { id: 4, title: "Live Search Demo", tag: "Demo" },
-  { id: 5, title: "04) Implementation Approach", tag: "04" },
-  { id: 6, title: "05) Market / Customer Potential", tag: "05" },
-  { id: 7, title: "06) Support Required & Next Steps", tag: "06" },
+  { id: 5, title: "04) How We Will Build It", tag: "04" },
+  { id: 6, title: "05) Market Potential", tag: "05" },
+  { id: 7, title: "06) What We Need", tag: "06" },
   { id: 8, title: "Conclusion", tag: "Summary" }
 ];
 
 const TOTAL_SLIDES = SLIDES.length;
 
-// Section 1: Traditional Search Jitter Simulation Steps
+// Section 1: Old Search System Problems
 const CHARACTER_SIMULATION_STEPS = [
   {
     step: 1,
@@ -31,9 +31,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "1,420 matches",
     elapsed: "00:07s",
     shiftsCount: 1,
-    alertText: "UI Shift #1: Entire table updates. Massive unfiltered list.",
+    alertText: "Screen updates too fast. Too many results.",
     badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    problemTitle: "Search results continuously change while users type",
+    problemTitle: "Results change while typing, causing confusion",
     problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Packaging & Supplies HQ", dept: "Logistics Dept", ext: "1102", status: "Not a person" },
@@ -48,9 +48,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "680 matches",
     elapsed: "00:15s",
     shiftsCount: 2,
-    alertText: "UI Shift #2: Screen jolts! Previous names disappear, new ones flood in.",
+    alertText: "Screen jumps! Hard to read the names.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Similar names generate multiple results, flooding the view",
+    problemTitle: "Too many similar names make it hard to choose",
     problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Personnel Division", dept: "Corporate HR HQ", ext: "9001", status: "General line only" },
@@ -65,9 +65,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "310 matches",
     elapsed: "00:24s",
     shiftsCount: 3,
-    alertText: "UI Shift #3: List jumps again! Agent loses previously spotted row.",
+    alertText: "Screen jumps again! Agent loses track.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Difficult to identify the correct contact quickly due to UI jitter",
+    problemTitle: "Hard to find the right person quickly",
     problemIcon: <Eye className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Perera, D.S.", dept: "Branch Billing", ext: "4811", status: "Wrong person" },
@@ -82,9 +82,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "48 Identical Names",
     elapsed: "00:42s",
     shiftsCount: 4,
-    alertText: "CRITICAL OVERLOAD: 48 similar names! Zero context on responsible personnel.",
+    alertText: "Too many similar names! Hard to find the correct person.",
     badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
-    problemTitle: "Time wasted searching for personnel, increasing overall AHT",
+    problemTitle: "Searching takes too much time, making customers wait",
     problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
     rows: [
       { name: "Perera, K.A.D.", dept: "General Pool (Dept: ???)", ext: "4120", status: "Ambiguous" },
@@ -99,7 +99,7 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "Business Impact",
     elapsed: "01:20s",
     shiftsCount: 5,
-    alertText: "SYSTEM INEFFICIENCY: Manual search delays impact core business metrics.",
+    alertText: "Manual searching wastes time and hurts business.",
     badgeClass: "bg-corpCyan/20 text-corpCyan border-corpCyan/40 animate-pulse",
     problemTitle: "Why It Matters",
     problemIcon: <Clock className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
@@ -113,12 +113,12 @@ const CHARACTER_SIMULATION_STEPS = [
   }
 ];
 
-// Section 2: Human Agent with Embedded Softphone Animation Stages
+// Section 2: Human Agent with System Processing Animation Stages
 const EMBEDDED_SOFTPHONE_STAGES = [
   {
     id: 0,
-    title: "1. Voice Inbound",
-    tag: "Headset Audio Stream",
+    title: "1. Incoming Call",
+    tag: "Listening to Customer",
     callerVoice: "Customer: 'What are the prices for the SLT Fibre unlimited packages?'",
     softphoneStatus: "Active Call • Inbound 1912",
     pulseRate: "pulse-fast",
@@ -128,9 +128,9 @@ const EMBEDDED_SOFTPHONE_STAGES = [
   },
   {
     id: 1,
-    title: "2. Embedded Softphone",
-    tag: "Core Telephony Processing",
-    callerVoice: "Voice decoded inside agent's system...",
+    title: "2. System Processing",
+    tag: "Audio Processing",
+    callerVoice: "System hears the voice...",
     softphoneStatus: "Audio Channel 01 • Live VoIP Stream",
     pulseRate: "pulse-normal",
     aiState: "Softphone audio routed directly to Neural AI Core",
@@ -139,23 +139,23 @@ const EMBEDDED_SOFTPHONE_STAGES = [
   },
   {
     id: 2,
-    title: "3. Intent Extracted",
-    tag: "Bio-Digital Intelligence",
+    title: "3. Understanding Customer",
+    tag: "AI Processing",
     callerVoice: "Intent: [SLT Fibre] [Unlimited Packages] [Product]",
     softphoneStatus: "Internal AI Copilot • 99% Confidence",
     pulseRate: "pulse-cyan",
-    aiState: "Zero manual typing required • Product data fetched",
+    aiState: "No typing needed • AI gets the data",
     highlight: "ai",
     contactReady: true
   },
   {
     id: 3,
-    title: "4. Zero-Click HUD",
-    tag: "Instant Resolution",
+    title: "4. Instant Answer",
+    tag: "Problem Solved",
     callerVoice: "Agent: 'The Unlimited 10 package is Rs. 4,490...'",
     softphoneStatus: "Resolved in 00:09s • AHT Reduced",
     pulseRate: "pulse-success",
-    aiState: "Product pricing delivered right to agent's visual field!",
+    aiState: "Answer is shown directly on screen!",
     highlight: "hud",
     contactReady: true
   }
@@ -238,7 +238,7 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
           </span>
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
             <Headphones className="w-3.5 h-3.5 text-rose-400" />
-            Agent Cognitive Overload — Brain Under Siege
+            Agent is confused and stressed
           </span>
         </div>
         <button
@@ -486,7 +486,7 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
   );
 };
 
-// Section 2: Human Agent with Embedded Softphone Animation Component
+// Section 2: Human Agent with System Processing Animation Component
 export const EmbeddedSoftphoneAgent = () => {
   const [stageIdx, setStageIdx] = useState(0);
   const [autoCycle, setAutoCycle] = useState(true);
@@ -1327,7 +1327,7 @@ export const App = () => {
                   className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
                 >
                   <Sparkles className="w-4 h-4" />
-                  SLT Innovation Pitch 2026 • Directory & Product Copilot
+                  SLT Innovation Pitch 2026 • Smart AI Assistant
                 </motion.div>
 
                 <motion.h1
@@ -1337,7 +1337,7 @@ export const App = () => {
                   transition={{ delay: 0.1 }}
                   className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
                 >
-                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Directory & Product Copilot</span>
+                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block -mb-2 tracking-widest font-extrabold uppercase drop-shadow-none">Smart AI Assistant</span>
                   Smart PEARL
                 </motion.h1>
 
@@ -1623,7 +1623,7 @@ export const App = () => {
                             </h2>
                           </div>
                           <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider flex items-center justify-center gap-2">
-                            <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                            <Sparkles className="w-4 h-4" /> Key Innovations & System Processing Architecture
                           </div>
                         </motion.div>
                       </motion.div>
@@ -1643,14 +1643,14 @@ export const App = () => {
                           </h2>
                         </div>
                         <div className="text-sm uppercase font-extrabold text-corpCyan tracking-wider mb-4 flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" /> Key Innovations & Embedded Softphone Architecture
+                          <Sparkles className="w-4 h-4" /> Key Innovations & System Processing Architecture
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* 2-Column Split: Key Innovations (Left) vs Embedded Softphone Agent Animation (Right) */}
+                {/* 2-Column Split: Key Innovations (Left) vs System Processing Agent Animation (Right) */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
                   {/* Left Column (5 Cols): The 5 Key Innovations from Directory.txt */}
                   <div className="lg:col-span-5 flex flex-col min-h-0">
