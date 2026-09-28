@@ -1254,7 +1254,7 @@ export const App = () => {
                 <button
                   onClick={() => {
                     if (slide.id === 4) {
-                      window.open('http://localhost:3000', '_blank');
+                      window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank');
                     } else {
                       goToSlide(i);
                     }
@@ -2032,10 +2032,10 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 4 && (
               <div className="w-full h-full rounded-2xl overflow-hidden border border-corpCyan/40 shadow-[0_0_30px_rgba(0,229,255,0.2)] bg-black/50 p-1 relative">
-                <button onClick={() => window.open('http://localhost:3000', '_blank')} className="absolute top-4 right-4 z-50 bg-corpCyan text-black px-4 py-2 font-bold rounded-lg shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                <button onClick={() => window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank')} className="absolute top-4 right-4 z-50 bg-corpCyan text-black px-4 py-2 font-bold rounded-lg shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
                   <span className="text-xl">🚀</span> Open Full Screen
                 </button>
-                <iframe src="http://localhost:3000" className="w-full h-full rounded-xl border-none" title="Smart PEARL Demo" />
+                <iframe src="https://slt-smart-directory-assistant-beta.vercel.app/dashboard" className="w-full h-full rounded-xl border-none" title="Smart PEARL Demo" />
               </div>
             )}
             {/* ======================================================== */}
