@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Clock, Brain, Zap, Sparkles,
   XCircle, CheckCircle2, Search, Target, Layers, MessageSquare,
-  Briefcase, HeartHandshake, Coins, Building2, Phone,
-  Cpu, Play, Maximize, Minimize,
+  Briefcase, HeartHandshake, Coins, Building2, 
+  Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
   Radio, Activity, Users, Eye, Timer, Rocket
 } from 'lucide-react';
@@ -1062,10 +1062,10 @@ export const App = () => {
   }, [currentSlide, slide2Auto]);
 
   // Demo state for interactive slide 4
-  const [demoQuery, setDemoQuery] = useState("Need contact for fiber maintenance in Kandy");
-  const [activeQueryIndex, setActiveQueryIndex] = useState(0);
+  // const [demoQuery, setDemoQuery] = useState("Need contact for fiber maintenance in Kandy");
+  // const [activeQueryIndex, setActiveQueryIndex] = useState(0);
 
-  const sampleQueries = [
+  /* const sampleQueries = [
     {
       query: "I want the number for the Bank of Ceylon, Kandy branch",
       feature: "Natural Language Search",
@@ -1105,7 +1105,7 @@ export const App = () => {
         status: "Coverage Available"
       }
     }
-  ];
+  ]; */
 
   // Fullscreen Listener
   useEffect(() => {
