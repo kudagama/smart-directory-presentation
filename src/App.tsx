@@ -114,51 +114,18 @@ const CHARACTER_SIMULATION_STEPS = [
 ];
 
 // Section 2: Human Agent with System Processing Animation Stages
-const EMBEDDED_SOFTPHONE_STAGES = [
-  {
-    id: 0,
-    title: "1. Incoming Call",
-    tag: "Listening to Customer",
-    callerVoice: "Customer: 'What are the prices for the SLT Fibre unlimited packages?'",
-    softphoneStatus: "Active Call • Inbound 1912",
-    pulseRate: "pulse-fast",
-    aiState: "Listening to Audio stream...",
-    highlight: "audio",
-    contactReady: false
-  },
-  {
-    id: 1,
-    title: "2. System Processing",
-    tag: "Audio Processing",
-    callerVoice: "System hears the voice...",
-    softphoneStatus: "Audio Channel 01 • Live VoIP Stream",
-    pulseRate: "pulse-normal",
-    aiState: "Softphone audio routed directly to Neural AI Core",
-    highlight: "softphone",
-    contactReady: false
-  },
-  {
-    id: 2,
-    title: "3. Understanding Customer",
-    tag: "AI Processing",
-    callerVoice: "Intent: [SLT Fibre] [Unlimited Packages] [Product]",
-    softphoneStatus: "Internal AI Copilot • 99% Confidence",
-    pulseRate: "pulse-cyan",
-    aiState: "No typing needed • AI gets the data",
-    highlight: "ai",
-    contactReady: true
-  },
-  {
-    id: 3,
-    title: "4. Instant Answer",
-    tag: "Problem Solved",
-    callerVoice: "Agent: 'The Unlimited 10 package is Rs. 4,490...'",
-    softphoneStatus: "Resolved in 00:09s • AHT Reduced",
-    pulseRate: "pulse-success",
-    aiState: "Answer is shown directly on screen!",
-    highlight: "hud",
-    contactReady: true
-  }
+const CALL_1_STAGES = [
+  { id: 0, title: "1. Greeting", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'ආයුබෝවන්! මම හිමාලි, මට පුළුවනි ඔබට සහය වන්න'", softphoneStatus: "Active Call", pulseRate: "pulse-fast", aiState: "Standard Greeting Detected", highlight: "audio", contactReady: false },
+  { id: 1, title: "2. Holding", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'කරුණාකර ඇමතුමේ රැඳී ඉන්න සර්/ මැඩම්'", softphoneStatus: "On Hold (Max 45s)", pulseRate: "pulse-normal", aiState: "Hold Timer Started...", highlight: "softphone", contactReady: false },
+  { id: 2, title: "3. Pre-close", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'වෙනත් යමක් දැනගැනීමට අවශ්‍යද?'", softphoneStatus: "Active Call", pulseRate: "pulse-cyan", aiState: "Pre-close Detected", highlight: "ai", contactReady: true },
+  { id: 3, title: "4. Ending", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'මා ලබාදුන් සේවය ඇගයීම සඳහා රැඳී සිටින්න. SLT Mobitel ඇමතුවාට ස්තුතියි. සුභ දවසක්!'", softphoneStatus: "Transfer to IVR C-Sat", pulseRate: "pulse-success", aiState: "Call Ended Correctly", highlight: "hud", contactReady: true }
+];
+
+const CALL_2_STAGES = [
+  { id: 0, title: "1. Greeting", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'ආයුබෝවන්! මම කසුන්, මට පුළුවනි ඔබට සහය වන්න'", softphoneStatus: "Active Call", pulseRate: "pulse-fast", aiState: "Standard Greeting Detected", highlight: "audio", contactReady: false },
+  { id: 1, title: "2. Retrieval", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'රැඳීසිටියාට ස්තුතියි සර්/ මැඩම්'", softphoneStatus: "Call Retrieved", pulseRate: "pulse-normal", aiState: "Hold Retrieve Detected", highlight: "softphone", contactReady: false },
+  { id: 2, title: "3. Apologize", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'සමාවන්න සර් ප්‍රමාදයට...'", softphoneStatus: "Active Call", pulseRate: "pulse-cyan", aiState: "Apology Detected (Empathy)", highlight: "ai", contactReady: true },
+  { id: 3, title: "4. Ending", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'මා ලබාදුන් සේවය ඇගයීම සඳහා රැඳී සිටින්න. SLT Mobitel ඇමතුවාට ස්තුතියි. සුභ දවසක්!'", softphoneStatus: "Transfer to IVR C-Sat", pulseRate: "pulse-success", aiState: "Call Ended Correctly", highlight: "hud", contactReady: true }
 ];
 
 const Particles = () => {
@@ -488,18 +455,21 @@ const AgentBrainOverload = ({ stepIdx, setStepIdx, setAuto }: any) => {
 
 // Section 2: Human Agent with System Processing Animation Component
 export const EmbeddedSoftphoneAgent = () => {
+  const [activeCall, setActiveCall] = useState(0);
   const [stageIdx, setStageIdx] = useState(0);
   const [autoCycle, setAutoCycle] = useState(true);
+
+  const currentStages = activeCall === 0 ? CALL_1_STAGES : CALL_2_STAGES;
 
   useEffect(() => {
     if (!autoCycle) return;
     const interval = setInterval(() => {
-      setStageIdx((prev) => (prev + 1) % EMBEDDED_SOFTPHONE_STAGES.length);
-    }, 3200);
+      setStageIdx((prev) => (prev + 1) % currentStages.length);
+    }, 4500);
     return () => clearInterval(interval);
-  }, [autoCycle]);
+  }, [autoCycle, currentStages.length, activeCall]);
 
-  const current = EMBEDDED_SOFTPHONE_STAGES[stageIdx];
+  const current = currentStages[stageIdx];
 
   return (
     <div className="glass-card p-0 rounded-2xl border-0 bg-transparent flex flex-col justify-between relative overflow-hidden h-full shadow-none">
@@ -525,16 +495,15 @@ export const EmbeddedSoftphoneAgent = () => {
               CYBERNETIC SOFTPHONE SYNC
             </span>
           </div>
-          <div className="hidden sm:flex items-center gap-2">
-            <span className="text-xs font-mono px-3 py-1 rounded bg-corpCyan/10 border border-corpCyan/30 text-corpCyan font-bold uppercase tracking-widest">
-              SYS_ID: BIONIC_001
-            </span>
+          <div className="flex items-center gap-2 relative z-50">
+            <button onClick={() => { setActiveCall(0); setStageIdx(0); setAutoCycle(true); }} className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase transition-all shadow-md cursor-pointer pointer-events-auto ${activeCall === 0 ? 'bg-corpCyan text-slate-900 border border-corpCyan' : 'bg-corpCyan/10 text-corpCyan border border-corpCyan/30 hover:bg-corpCyan/20'}`}>Call 1</button>
+            <button onClick={() => { setActiveCall(1); setStageIdx(0); setAutoCycle(true); }} className={`px-3 py-1.5 rounded text-[10px] font-bold uppercase transition-all shadow-md cursor-pointer pointer-events-auto ${activeCall === 1 ? 'bg-corpCyan text-slate-900 border border-corpCyan' : 'bg-corpCyan/10 text-corpCyan border border-corpCyan/30 hover:bg-corpCyan/20'}`}>Call 2</button>
           </div>
         </div>
 
         {/* Stage Switcher */}
         <div className="grid grid-cols-4 gap-2 mb-6 relative z-30">
-          {EMBEDDED_SOFTPHONE_STAGES.map((s, idx) => (
+          {currentStages.map((s, idx) => (
             <button
               key={s.id}
               onClick={() => { setStageIdx(idx); setAutoCycle(false); }}
