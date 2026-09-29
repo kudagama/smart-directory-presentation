@@ -2208,12 +2208,10 @@ export const App = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
                       {[
-                        { name: "Contact Centre Associates", icon: <Headphones className="w-5 h-5" />, color: "from-blue-500/20 to-blue-500/5", border: "border-blue-500/30", text: "text-blue-400" },
-                        { name: "Technical Support Teams", icon: <Cpu className="w-5 h-5" />, color: "from-corpCyan/20 to-corpCyan/5", border: "border-corpCyan/30", text: "text-corpCyan" },
-                        { name: "Field Operations Teams", icon: <Radio className="w-5 h-5" />, color: "from-emerald-500/20 to-emerald-500/5", border: "border-emerald-500/30", text: "text-emerald-400" },
-                        { name: "Regional Offices", icon: <Building2 className="w-5 h-5" />, color: "from-amber-500/20 to-amber-500/5", border: "border-amber-500/30", text: "text-amber-400" },
-                        { name: "Managers & Executives", icon: <Briefcase className="w-5 h-5" />, color: "from-purple-500/20 to-purple-500/5", border: "border-purple-500/30", text: "text-purple-400" },
-                        { name: "All SLT Employees", icon: <Users className="w-5 h-5" />, color: "from-rose-500/20 to-rose-500/5", border: "border-rose-500/30", text: "text-rose-400" }
+                        { name: "SLT Customer Care Officers", icon: <Headphones className="w-5 h-5 md:w-8 md:h-8" />, color: "from-corpCyan/20 to-corpCyan/5", border: "border-corpCyan/30", text: "text-corpCyan", badge: "Immediate Target" },
+                        { name: "SLT Internal Departments", icon: <Users className="w-5 h-5 md:w-8 md:h-8" />, color: "from-blue-500/20 to-blue-500/5", border: "border-blue-500/30", text: "text-blue-400", badge: "Internal Expansion" },
+                        { name: "B2B Enterprise Clients", icon: <Building2 className="w-5 h-5 md:w-8 md:h-8" />, color: "from-amber-500/20 to-amber-500/5", border: "border-amber-500/30", text: "text-amber-400", badge: "Productization" },
+                        { name: "Any Global Organization", icon: <Rocket className="w-5 h-5 md:w-8 md:h-8" />, color: "from-purple-500/20 to-purple-500/5", border: "border-purple-500/30", text: "text-purple-400", badge: "Future SaaS Model" }
                       ].map((user, i) => (
                         <motion.div
                           key={i}
@@ -2222,10 +2220,13 @@ export const App = () => {
                           transition={{ delay: i * 0.1, type: "spring" }}
                           className={`bg-gradient-to-br ${user.color} p-4 rounded-xl border ${user.border} flex items-center gap-4 hover:scale-105 transition-transform cursor-pointer backdrop-blur-sm`}
                         >
-                          <div className={`w-10 h-10 rounded-full bg-black/40 flex items-center justify-center shrink-0 border border-white/5 ${user.text}`}>
+                          <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/40 flex items-center justify-center shrink-0 border border-white/5 ${user.text}`}>
                             {user.icon}
                           </div>
-                          <span className="text-slate-200 font-bold text-sm md:text-base leading-tight">{user.name}</span>
+                          <div className="flex flex-col">
+                            <span className={`text-[10px] font-mono uppercase tracking-widest ${user.text} mb-1 opacity-80`}>{user.badge}</span>
+                            <span className="text-white font-black text-base md:text-xl leading-tight">{user.name}</span>
+                          </div>
                         </motion.div>
                       ))}
                     </div>
@@ -2419,53 +2420,62 @@ export const App = () => {
                               <div className={`flex-1 w-full grid gap-4 mt-2 ${slide7StepIdx === 3 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
                                 {(
                                   slide7StepIdx === 0 ? [
-                                    "Access to the existing enterprise database",
-                                    "IT and Digital Services collaboration",
-                                    "AI development and integration support",
-                                    "System testing and deployment assistance"
+                                    { title: "Database Access", desc: "Secure access to enterprise data sources.", icon: Layers },
+                                    { title: "IT Collaboration", desc: "Collaboration with Digital Services team.", icon: Users },
+                                    { title: "AI Integration", desc: "API and AI model integration support.", icon: Cpu },
+                                    { title: "System Testing", desc: "Assistance for deployment and UAT.", icon: CheckCircle2 }
                                   ] : slide7StepIdx === 1 ? [
-                                    "User feedback from Contact Centre and other departments",
-                                    "Stakeholder sponsorship and approval",
-                                    "Cross-functional participation during pilot testing"
+                                    { title: "User Feedback", desc: "Direct input from Contact Centre agents.", icon: MessageSquare },
+                                    { title: "Sponsorship", desc: "Management sponsorship and pilot approval.", icon: HeartHandshake },
+                                    { title: "Cross-Functional", desc: "Participation from multiple departments.", icon: Building2 }
                                   ] : slide7StepIdx === 2 ? [
-                                    "AI platform and development tools",
-                                    "Enterprise data access and maintenance",
-                                    "Project team for design, development, and testing"
+                                    { title: "AI Infrastructure", desc: "Cloud platform and development tools.", icon: Brain },
+                                    { title: "Data Maintenance", desc: "Enterprise data access and cleanup.", icon: Layers },
+                                    { title: "Project Team", desc: "Dedicated team for design and testing.", icon: Briefcase }
                                   ] : [
-                                    "Deploy AI Bot for every call handled by Contact Center Officers"
+                                    { title: "Pilot Deployment", desc: "Deploy AI Bot for initial call sampling.", icon: Rocket },
+                                    { title: "Evaluate & Scale", desc: "Scale to all Contact Center Officers.", icon: Maximize }
                                   ]
-                                ).map((item, i, arr) => (
+                                ).map((item, i, arr) => {
+                                  const Icon = item.icon;
+                                  return (
                                   <motion.div
                                     key={i}
                                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     transition={{ delay: 0.3 + (i * 0.1), type: "spring" }}
-                                    className={`group/item relative flex flex-col justify-center gap-3 bg-black/40 p-5 rounded-2xl border border-white/5 hover:border-white/30 transition-all cursor-default overflow-hidden ${arr.length === 3 && i === 2 ? 'md:col-span-2 md:w-[calc(50%-0.5rem)] md:mx-auto' : ''}`}
+                                    className={`group/item relative flex flex-row items-center gap-4 bg-black/40 p-5 rounded-2xl border border-white/10 hover:border-white/40 transition-all cursor-default overflow-hidden hover:-translate-y-1 ${arr.length === 3 && i === 2 ? 'md:col-span-2 md:w-[calc(50%-0.5rem)] md:mx-auto' : ''}`}
                                     style={{
                                       boxShadow: `0 8px 30px ${slide7StepIdx === 0 ? 'rgba(59,130,246,0.05)' : slide7StepIdx === 1 ? 'rgba(16,185,129,0.05)' : slide7StepIdx === 2 ? 'rgba(0,229,255,0.05)' : 'rgba(244,63,94,0.05)'}`
                                     }}
                                   >
                                     {/* Animated Background Gradient on Hover */}
                                     <div className="absolute inset-0 opacity-0 group-hover/item:opacity-20 transition-opacity duration-500"
-                                         style={{ background: `radial-gradient(circle at center, ${slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e'} 0%, transparent 70%)` }}></div>
+                                         style={{ background: `radial-gradient(circle at left, ${slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e'} 0%, transparent 60%)` }}></div>
                                          
                                     {/* Corner Brackets */}
                                     <div className="absolute top-2 left-2 w-3 h-3 border-t border-l opacity-30 group-hover/item:opacity-100 transition-opacity" style={{ borderColor: slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e' }}></div>
                                     <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r opacity-30 group-hover/item:opacity-100 transition-opacity" style={{ borderColor: slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e' }}></div>
                                     
-                                    <div className="flex items-center gap-3 relative z-10">
-                                      <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg border backdrop-blur-sm"
-                                           style={{ 
-                                             backgroundColor: slide7StepIdx === 0 ? 'rgba(59,130,246,0.15)' : slide7StepIdx === 1 ? 'rgba(16,185,129,0.15)' : slide7StepIdx === 2 ? 'rgba(0,229,255,0.15)' : 'rgba(244,63,94,0.15)',
-                                             borderColor: slide7StepIdx === 0 ? 'rgba(59,130,246,0.3)' : slide7StepIdx === 1 ? 'rgba(16,185,129,0.3)' : slide7StepIdx === 2 ? 'rgba(0,229,255,0.3)' : 'rgba(244,63,94,0.3)',
-                                             color: slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e'
-                                           }}>
-                                        <span className="text-sm font-black font-mono">0{i+1}</span>
-                                      </div>
+                                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg border backdrop-blur-md relative z-10 group-hover/item:scale-110 transition-transform duration-500"
+                                         style={{ 
+                                           backgroundColor: slide7StepIdx === 0 ? 'rgba(59,130,246,0.15)' : slide7StepIdx === 1 ? 'rgba(16,185,129,0.15)' : slide7StepIdx === 2 ? 'rgba(0,229,255,0.15)' : 'rgba(244,63,94,0.15)',
+                                           borderColor: slide7StepIdx === 0 ? 'rgba(59,130,246,0.3)' : slide7StepIdx === 1 ? 'rgba(16,185,129,0.3)' : slide7StepIdx === 2 ? 'rgba(0,229,255,0.3)' : 'rgba(244,63,94,0.3)',
+                                           color: slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e'
+                                         }}>
+                                      <Icon className="w-6 h-6 md:w-7 md:h-7" />
                                     </div>
-                                    <span className="text-sm md:text-base font-bold text-slate-300 group-hover/item:text-white transition-colors relative z-10">{item}</span>
+                                    
+                                    <div className="flex flex-col relative z-10 flex-1">
+                                      <span className="text-[10px] md:text-xs font-mono tracking-widest uppercase mb-1 opacity-80"
+                                            style={{ color: slide7StepIdx === 0 ? '#3b82f6' : slide7StepIdx === 1 ? '#10b981' : slide7StepIdx === 2 ? '#00e5ff' : '#f43f5e' }}>
+                                        Step 0{i+1}
+                                      </span>
+                                      <span className="text-base md:text-lg font-black text-white leading-tight mb-1">{item.title}</span>
+                                      <span className="text-xs md:text-sm font-medium text-slate-400 group-hover/item:text-slate-200 transition-colors">{item.desc}</span>
+                                    </div>
                                   </motion.div>
-                                ))}
+                                )})}
                               </div>
                             </div>
                           </div>
@@ -2482,15 +2492,18 @@ export const App = () => {
             {/* SLIDE 8: THANK YOU                            */}
             {/* ======================================================== */}
             {currentSlide === 8 && (
-              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-4">
+              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-12 relative">
+                {/* Background ambient glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-corpCyan/10 rounded-full blur-[120px] pointer-events-none"></div>
+                
                 <motion.div
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
-                  className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
+                  className="mb-8 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)] relative z-10"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Smart PEARL • Thank You
+                  SLT Smart Directory Assistant
                 </motion.div>
 
                 <motion.h2
@@ -2498,9 +2511,9 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.1 }}
-                  className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
+                  className="text-6xl md:text-8xl lg:text-[10rem] font-black mb-6 tracking-tighter text-white leading-none relative z-10"
                 >
-                  Thank <span className="text-gradient">You!</span>
+                  Thank <span className="text-gradient">You.</span>
                 </motion.h2>
 
                 <motion.p
@@ -2508,50 +2521,24 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.2 }}
-                  className="text-xl md:text-2xl text-slate-300 font-light mb-10 max-w-3xl leading-relaxed"
+                  className="text-xl md:text-3xl text-slate-300 font-light mb-16 max-w-3xl leading-relaxed relative z-10"
                 >
-                  From character-by-character search hassle to an <br className="hidden md:inline" />
-                  <span className="text-corpCyan font-bold">Intelligent Autonomous AI Bot</span>
+                  Empowering <span className="text-white font-bold">SLT Contact Center</span> with <br className="hidden md:inline" />
+                  Live AI Assistance.
                 </motion.p>
-
-                <motion.div
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
-                  transition={{ delay: 0.3 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10 text-left"
-                >
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-rose-400 font-mono text-xs font-bold uppercase">01 / The Problem</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Character-Matching Frustration</h4>
-                    <p className="text-sm text-slate-300 mt-1">Changing results, similar names, lost time, high AHT.</p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-corpCyan font-mono text-xs font-bold uppercase">02 / The Innovation</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Autonomous AI Bot</h4>
-                    <p className="text-sm text-slate-300 mt-1">Natural language, smart prioritization, single bot experience.</p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-emerald-400 font-mono text-xs font-bold uppercase">03 / The Value</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Measurable Business ROI</h4>
-                    <p className="text-sm text-slate-300 mt-1">Operational efficiency, customer satisfaction, cost reduction.</p>
-                  </div>
-                </motion.div>
-
+                
                 <motion.div
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.4 }}
-                  className="text-center"
+                  className="mt-12 flex flex-col items-center gap-3 relative z-10"
                 >
-                  <h3 className="text-5xl md:text-6xl font-black text-white tracking-wide">
-                    Thank You.
-                  </h3>
-                  <p className="text-sm md:text-base text-slate-400 mt-2 font-mono">
-                    Contact Center Team • Reference: ISP/S/2026/40/179
+                  <p className="text-sm md:text-base text-corpCyan font-mono tracking-widest uppercase bg-corpCyan/10 px-4 py-1.5 rounded-md border border-corpCyan/20">
+                    Any Questions?
+                  </p>
+                  <p className="text-xs md:text-sm text-slate-600 font-mono">
+                    Reference: ISP/S/2026/40/179
                   </p>
                 </motion.div>
               </div>
