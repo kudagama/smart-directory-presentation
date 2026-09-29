@@ -6,7 +6,7 @@ import {
   Briefcase, HeartHandshake, Coins, Building2, 
   Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
-  Radio, Activity, Users, Eye, Timer, Rocket
+  Activity, Users, Eye, Timer, Rocket
 } from 'lucide-react';
 
 const SLIDES = [
@@ -150,19 +150,9 @@ const CHARACTER_SIMULATION_STEPS = [
 ];
 
 // Section 2: Human Agent with System Processing Animation Stages
-const CALL_1_STAGES = [
-  { id: 0, title: "1. Greeting", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'ආයුබෝවන්! මම හිමාලි, මට පුළුවනි ඔබට සහය වන්න'", softphoneStatus: "Active Call", pulseRate: "pulse-fast", aiState: "Standard Greeting Detected", highlight: "audio", contactReady: false },
-  { id: 1, title: "2. Holding", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'කරුණාකර ඇමතුමේ රැඳී ඉන්න සර්/ මැඩම්'", softphoneStatus: "On Hold (Max 45s)", pulseRate: "pulse-normal", aiState: "Hold Timer Started...", highlight: "softphone", contactReady: false },
-  { id: 2, title: "3. Pre-close", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'වෙනත් යමක් දැනගැනීමට අවශ්‍යද?'", softphoneStatus: "Active Call", pulseRate: "pulse-cyan", aiState: "Pre-close Detected", highlight: "ai", contactReady: true },
-  { id: 3, title: "4. Ending", tag: "Quality Std: Sinhala", callerVoice: "Agent: 'මා ලබාදුන් සේවය ඇගයීම සඳහා රැඳී සිටින්න. SLT Mobitel ඇමතුවාට ස්තුතියි. සුභ දවසක්!'", softphoneStatus: "Transfer to IVR C-Sat", pulseRate: "pulse-success", aiState: "Call Ended Correctly", highlight: "hud", contactReady: true }
-];
 
-const CALL_2_STAGES = [
-  { id: 0, title: "1. Greeting", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'ආයුබෝවන්! මම කසුන්, මට පුළුවනි ඔබට සහය වන්න'", softphoneStatus: "Active Call", pulseRate: "pulse-fast", aiState: "Standard Greeting Detected", highlight: "audio", contactReady: false },
-  { id: 1, title: "2. Retrieval", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'රැඳීසිටියාට ස්තුතියි සර්/ මැඩම්'", softphoneStatus: "Call Retrieved", pulseRate: "pulse-normal", aiState: "Hold Retrieve Detected", highlight: "softphone", contactReady: false },
-  { id: 2, title: "3. Apologize", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'සමාවන්න සර් ප්‍රමාදයට...'", softphoneStatus: "Active Call", pulseRate: "pulse-cyan", aiState: "Apology Detected (Empathy)", highlight: "ai", contactReady: true },
-  { id: 3, title: "4. Ending", tag: "Quality Std: Sinhala 2", callerVoice: "Agent: 'මා ලබාදුන් සේවය ඇගයීම සඳහා රැඳී සිටින්න. SLT Mobitel ඇමතුවාට ස්තුතියි. සුභ දවසක්!'", softphoneStatus: "Transfer to IVR C-Sat", pulseRate: "pulse-success", aiState: "Call Ended Correctly", highlight: "hud", contactReady: true }
-];
+
+
 
 const Particles = () => {
   const particles = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
