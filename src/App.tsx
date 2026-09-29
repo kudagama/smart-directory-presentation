@@ -287,12 +287,11 @@ const TrainingAnimation = ({ s, setStepIdx, setAuto }: any) => {
                    z: Math.sin(angle) * 80
                  }}
                  transition={{ type: "spring", bounce: 0.4, delay: i * 0.15, x: { duration: 4, repeat: Infinity, ease: "easeInOut" }, y: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
-                 className="absolute p-3 rounded-xl border border-purple-500/40 bg-purple-950/70 backdrop-blur-xl flex flex-col items-center gap-1 w-32 md:w-36 shadow-2xl"
-               >
-                  <div className="text-[9px] uppercase tracking-widest font-bold text-purple-400 text-center">
+                 className="absolute p-3 rounded-xl border border-purple-500/40 bg-purple-950/70 backdrop-blur-xl flex flex-col items-center gap-1 w-44 md:w-52 shadow-2xl p-4">
+                  <div className="text-xs md:text-sm uppercase tracking-widest font-bold text-purple-400 text-center mb-1">
                     {row.name}
                   </div>
-                  <div className="text-[10px] md:text-xs font-black text-white leading-tight">
+                  <div className="text-sm md:text-base font-black text-white leading-tight text-center">
                     {row.ext}
                   </div>
                </motion.div>
@@ -350,20 +349,19 @@ const ErrorChainAnimation = ({ s, setStepIdx, setAuto }: any) => {
              initial={{ y: -50, opacity: 0, rotateX: 30 }}
              animate={{ y: 0, opacity: 1, rotateX: 0 }}
              transition={{ type: "spring", bounce: 0.5 }}
-             className="w-56 p-4 bg-red-950/80 border-2 border-red-500 rounded-xl text-center shadow-[0_20px_50px_rgba(244,63,94,0.5)] backdrop-blur-xl relative z-30"
-           >
-             <div className="absolute -top-3 -right-3 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                <XCircle className="w-4 h-4 text-white" />
+             className="w-64 md:w-80 p-5 bg-red-950/80 border-2 border-red-500 rounded-xl text-center shadow-[0_20px_50px_rgba(244,63,94,0.5)] backdrop-blur-xl relative z-30">
+             <div className="absolute -top-3 -right-3 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                <XCircle className="w-5 h-5 text-white" />
              </div>
-             <div className="text-[10px] text-red-300 uppercase tracking-widest font-bold mb-1">Trigger Event</div>
-             <div className="text-lg font-black text-white">Incorrect Fault Logged</div>
+             <div className="text-xs md:text-sm text-red-300 uppercase tracking-widest font-bold mb-2">Trigger Event</div>
+             <div className="text-xl md:text-2xl font-black text-white">Incorrect Fault Logged</div>
            </motion.div>
 
            {/* 3D Cascading Arrows and Impacts */}
            <div className="relative mt-12 flex justify-center w-full max-w-lg perspective-[800px]">
              {s.rows.slice(1).map((row: any, i: number) => {
                // Spread them widely! i is 0, 1, 2
-               const spread = 150;
+               const spread = 200;
                return (
                <motion.div
                  key={i}
@@ -378,9 +376,9 @@ const ErrorChainAnimation = ({ s, setStepIdx, setAuto }: any) => {
                  <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.2 }}>
                    <ArrowDown className="text-red-500 w-8 h-8 mb-3 drop-shadow-[0_0_10px_rgba(244,63,94,1)]" />
                  </motion.div>
-                 <div className="w-32 h-24 p-3 bg-black/70 border border-red-500/50 rounded-lg text-center flex flex-col justify-center items-center backdrop-blur-md shadow-[0_10px_30px_rgba(244,63,94,0.4)]">
-                   <div className="text-[9px] text-slate-400 uppercase tracking-wider">{row.dept}</div>
-                   <div className="text-xs md:text-sm text-red-200 font-black mt-2 leading-tight">{row.ext}</div>
+                 <div className="w-44 md:w-52 h-28 md:h-32 p-4 bg-black/70 border border-red-500/50 rounded-lg text-center flex flex-col justify-center items-center backdrop-blur-md shadow-[0_10px_30px_rgba(244,63,94,0.4)]">
+                   <div className="text-xs md:text-sm text-slate-400 uppercase tracking-wider">{row.dept}</div>
+                   <div className="text-sm md:text-base text-red-200 font-black mt-2 leading-tight">{row.ext}</div>
                  </div>
                </motion.div>
              )})}
@@ -440,10 +438,9 @@ const ImpactDashboard = ({ s, setStepIdx, setAuto }: any) => {
                  initial={{ opacity: 0, rotateY: 30, x: i % 2 === 0 ? -50 : 50, z: -100 }}
                  animate={{ opacity: 1, rotateY: 0, x: 0, z: 0 }}
                  transition={{ delay: i * 0.15, type: "spring", bounce: 0.4 }}
-                 className="w-full h-24 md:h-28 bg-black/60 border border-corpCyan/40 p-3 rounded-xl flex flex-col justify-center items-center text-center shadow-[0_15px_30px_rgba(0,229,255,0.25)] backdrop-blur-xl hover:border-corpCyan hover:bg-cyan-950/60 transition-all cursor-default"
-               >
-                 <span className="text-[10px] text-cyan-400 uppercase font-mono tracking-widest mb-1 opacity-80">{row.dept}</span>
-                 <span className="text-xs md:text-sm font-black text-white leading-snug">{row.name}</span>
+                 className="w-full h-32 md:h-40 bg-black/60 border border-corpCyan/40 p-4 rounded-xl flex flex-col justify-center items-center text-center shadow-[0_15px_30px_rgba(0,229,255,0.25)] backdrop-blur-xl hover:border-corpCyan hover:bg-cyan-950/60 transition-all cursor-default">
+                 <span className="text-xs md:text-sm text-cyan-400 uppercase font-mono tracking-widest mb-2 opacity-80">{row.dept}</span>
+                 <span className="text-sm md:text-lg font-black text-white leading-snug">{row.name}</span>
                </motion.div>
              )
            })}
@@ -523,8 +520,8 @@ const SystemOverloadNetwork = ({ stepIdx, setStepIdx, setAuto }: any) => {
            {s.rows && s.rows.map((row: any, i: number) => {
              // WIDE SPREAD for Overload items
              const angle = (i / s.rows.length) * Math.PI * 2;
-             const baseRadiusX = 200; 
-             const baseRadiusY = 130;
+             const baseRadiusX = 240; 
+             const baseRadiusY = 160;
              return (
              <motion.div
                key={`${stepIdx}-${i}`}
@@ -538,17 +535,16 @@ const SystemOverloadNetwork = ({ stepIdx, setStepIdx, setAuto }: any) => {
                  rotateZ: (chaos > 0.5 ? Math.random() * 15 - 7 : 0)
                }}
                transition={{ type: "spring", bounce: 0.5, delay: i * 0.15 }}
-               className={`absolute p-3 rounded-xl border backdrop-blur-xl flex flex-col gap-1 w-32 md:w-36 shadow-2xl ${
+               className={`absolute p-3 rounded-xl border backdrop-blur-xl flex flex-col gap-1 w-44 md:w-56 shadow-2xl p-4 ${
                  isDanger ? 'bg-red-950/80 border-red-500/60' : 'bg-cyan-950/70 border-corpCyan/50'
-               }`}
-             >
-                <div className={`text-[9px] uppercase tracking-widest font-bold text-center ${isDanger ? 'text-red-400' : 'text-cyan-400'}`}>
+               }`}>
+                <div className={`text-xs md:text-sm uppercase tracking-widest font-bold text-center mb-1 ${isDanger ? 'text-red-400' : 'text-cyan-400'}`}>
                   {row.dept}
                 </div>
-                <div className="text-[10px] md:text-xs font-black text-white leading-tight text-center">
+                <div className="text-sm md:text-base font-black text-white leading-tight text-center mb-2">
                   {row.name}
                 </div>
-                <div className={`mt-1.5 text-[9px] font-mono py-1 px-1.5 rounded text-center bg-black/50 border ${isDanger ? 'border-red-500/40 text-red-300' : 'border-corpCyan/40 text-cyan-300'}`}>
+                <div className={`text-xs md:text-sm font-mono py-1.5 px-2 rounded text-center bg-black/50 border ${isDanger ? 'border-red-500/40 text-red-300' : 'border-corpCyan/40 text-cyan-300'}`}>
                   {row.status}
                 </div>
              </motion.div>
