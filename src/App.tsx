@@ -1537,49 +1537,49 @@ export const App = () => {
                       <AnimatePresence mode="wait">
                         {[
                           {
-                            title: "Conversational AI Bot",
-                            desc: "Interact using simple everyday language.",
-                            icon: MessageSquare,
+                            title: "Live Call Listening",
+                            desc: "AI actively listens to the ongoing call and transcribes the conversation in real-time.",
+                            icon: Mic,
                             color: "text-corpCyan",
-                            badge: "Everyday Language",
+                            badge: "Real-Time Audio",
                             border: "border-corpCyan/40",
                             bg: "rgba(0,229,255,0.05)"
                           },
                           {
-                            title: "Smart Result Identification",
-                            desc: "AI finds and prioritizes the most relevant contact.",
-                            icon: Target,
-                            color: "text-emerald-400",
-                            badge: "Semantic Priority",
-                            border: "border-emerald-400/40",
-                            bg: "rgba(16,185,129,0.05)"
+                            title: "Proactive Data Retrieval",
+                            desc: "Automatically fetches relevant contact details and prices without the agent typing anything.",
+                            icon: Zap,
+                            color: "text-amber-400",
+                            badge: "Zero-Touch Search",
+                            border: "border-amber-400/40",
+                            bg: "rgba(245,158,11,0.05)"
                           },
                           {
-                            title: "Single Autonomous Bot",
-                            desc: "Query people, departments, locations, and organizations from one place.",
-                            icon: Layers,
-                            color: "text-blue-400",
-                            badge: "Unified Discovery",
-                            border: "border-blue-400/40",
-                            bg: "rgba(59,130,246,0.05)"
-                          },
-                          {
-                            title: "Conversational Interface",
-                            desc: "Users ask questions instead of using complex filters.",
+                            title: "Smart Context Understanding",
+                            desc: "Understands the customer's exact issue and filters data intelligently.",
                             icon: Brain,
                             color: "text-purple-400",
-                            badge: "Zero Query Complexity",
+                            badge: "Semantic AI",
                             border: "border-purple-400/40",
                             bg: "rgba(168,85,247,0.05)"
                           },
                           {
-                            title: "Faster Contact Discovery",
-                            desc: "Reduces time spent on lookup and improves productivity.",
-                            icon: Zap,
-                            color: "text-amber-400",
-                            badge: "Sub-Second Results",
-                            border: "border-amber-400/40",
-                            bg: "rgba(245,158,11,0.05)"
+                            title: "Unified Knowledgebase",
+                            desc: "Instantly pulls information from all departments, portals, and PDFs into one screen.",
+                            icon: Layers,
+                            color: "text-blue-400",
+                            badge: "Centralized Data",
+                            border: "border-blue-400/40",
+                            bg: "rgba(59,130,246,0.05)"
+                          },
+                          {
+                            title: "Live Agent HUD",
+                            desc: "Presents the exact answer directly to the agent's screen instantly, eliminating hold times.",
+                            icon: Eye,
+                            color: "text-emerald-400",
+                            badge: "Instant Assist",
+                            border: "border-emerald-400/40",
+                            bg: "rgba(16,185,129,0.05)"
                           }
                         ]
                           .filter((_, idx) => idx === slide2StepIdx)
