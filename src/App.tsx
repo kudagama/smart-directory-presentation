@@ -31,9 +31,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "Onboarding",
     elapsed: "00:00s",
     shiftsCount: 1,
-    alertText: "New officers require extensive time to learn scattered systems.",
+    alertText: "New staff take too long to learn the complex systems.",
     badgeClass: "bg-purple-500/30 text-purple-300 border-purple-500/60",
-    problemTitle: "Lengthy training periods for new officers",
+    problemTitle: "Long Training Time",
     problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-purple-400 drop-shadow-md" />,
     rows: [
       { name: "Learning Curve", dept: "Complexity", ext: "Steep", status: "Hard to master" },
@@ -48,9 +48,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "2,150 matches",
     elapsed: "00:08s",
     shiftsCount: 2,
-    alertText: "System fetches all records starting with F.",
+    alertText: "Searching gives too many irrelevant results.",
     badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    problemTitle: "Broad queries return too much unstructured data",
+    problemTitle: "Too Much Useless Data",
     problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Finance Division", dept: "Corporate", ext: "1102", status: "Not relevant" },
@@ -65,9 +65,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "430 matches",
     elapsed: "00:18s",
     shiftsCount: 3,
-    alertText: "Still too many categories. Agent must filter manually.",
+    alertText: "Agents waste time filtering through categories.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Agent struggles to locate exact product details",
+    problemTitle: "Hard to Find Exact Details",
     problemIcon: <Layers className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Fibre New Connections", dept: "Sales", ext: "9001", status: "General line" },
@@ -82,9 +82,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "12 Documents",
     elapsed: "00:29s",
     shiftsCount: 4,
-    alertText: "Agent opens multiple documents to find the price.",
+    alertText: "Agents must read multiple PDFs to find one price.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    problemTitle: "Scattered data requires reading through documents",
+    problemTitle: "Data is Scattered Everywhere",
     problemIcon: <Eye className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Unlimited_10_Specs.pdf", dept: "Knowledge Base", ext: "View", status: "Reading..." },
@@ -99,9 +99,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "Manual Extraction",
     elapsed: "00:48s",
     shiftsCount: 5,
-    alertText: "Customer has been waiting on hold for almost a minute.",
+    alertText: "Customers wait on hold while agents search manually.",
     badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
-    problemTitle: "Manual data retrieval causes severe delays",
+    problemTitle: "Manual Searching Causes Delays",
     problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
     rows: [
       { name: "Package: Unlimited 10", dept: "Details", ext: "Rs.4490", status: "Finally found" },
@@ -116,9 +116,9 @@ const CHARACTER_SIMULATION_STEPS = [
     matchesCount: "Costly Mistakes",
     elapsed: "01:15s",
     shiftsCount: 6,
-    alertText: "Incorrect fault entries create chain reactions of operational costs.",
+    alertText: "Wrong entries lead to wasted money and extra work.",
     badgeClass: "bg-red-600/30 text-red-200 border-red-500/60 animate-pulse",
-    problemTitle: "Incorrect fault reporting wastes time and budget",
+    problemTitle: "Costly Mistakes (Wrong Fault Entries)",
     problemIcon: <AlertTriangle className="w-10 h-10 md:w-12 md:h-12 text-red-500 drop-shadow-md" />,
     rows: [
       { name: "Fault Entry", dept: "Accuracy", ext: "Incorrect", status: "Due to rushed call" },
@@ -1395,12 +1395,12 @@ export const App = () => {
                             {CHARACTER_SIMULATION_STEPS[slide1StepIdx].isWhyItMatters && (
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                                 {[
-                                  "Lengthy training periods for new officers",
-                                  "Delays customer issue resolution",
-                                  "Reduces employee productivity",
-                                  "Increases Average Handling Time (AHT)",
-                                  "Frustration during urgent contact lookup",
-                                  "Costly delays due to incorrect fault reporting"
+                                  "Long training time for new agents",
+                                  "Delays in solving customer issues",
+                                  "Low employee productivity",
+                                  "High Average Handling Time (AHT)",
+                                  "Agent and customer frustration",
+                                  "Wasted budget on wrong fault entries"
                                 ].map((t, i) => (
                                   <motion.div
                                     key={i}
