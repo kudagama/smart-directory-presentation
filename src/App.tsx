@@ -50,7 +50,7 @@ const CHARACTER_SIMULATION_STEPS = [
     shiftsCount: 2,
     alertText: "Searching gives too many irrelevant results.",
     badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    problemTitle: "Too Much Useless Data",
+    problemTitle: "Too Many Search Results",
     problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
       { name: "Finance Division", dept: "Corporate", ext: "1102", status: "Not relevant" },
