@@ -2492,15 +2492,18 @@ export const App = () => {
             {/* SLIDE 8: THANK YOU                            */}
             {/* ======================================================== */}
             {currentSlide === 8 && (
-              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-4">
+              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-12 relative">
+                {/* Background ambient glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-corpCyan/10 rounded-full blur-[120px] pointer-events-none"></div>
+                
                 <motion.div
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
-                  className="mb-6 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)]"
+                  className="mb-8 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)] relative z-10"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Smart PEARL • Thank You
+                  SLT Smart Directory Assistant
                 </motion.div>
 
                 <motion.h2
@@ -2508,9 +2511,9 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.1 }}
-                  className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white leading-tight"
+                  className="text-6xl md:text-8xl lg:text-[10rem] font-black mb-6 tracking-tighter text-white leading-none relative z-10"
                 >
-                  Thank <span className="text-gradient">You!</span>
+                  Thank <span className="text-gradient">You.</span>
                 </motion.h2>
 
                 <motion.p
@@ -2518,50 +2521,24 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.2 }}
-                  className="text-xl md:text-2xl text-slate-300 font-light mb-10 max-w-3xl leading-relaxed"
+                  className="text-xl md:text-3xl text-slate-300 font-light mb-16 max-w-3xl leading-relaxed relative z-10"
                 >
-                  From character-by-character search hassle to an <br className="hidden md:inline" />
-                  <span className="text-corpCyan font-bold">Intelligent Autonomous AI Bot</span>
+                  Empowering <span className="text-white font-bold">SLT Contact Center</span> with <br className="hidden md:inline" />
+                  Live AI Assistance.
                 </motion.p>
-
-                <motion.div
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
-                  transition={{ delay: 0.3 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10 text-left"
-                >
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-rose-400 font-mono text-xs font-bold uppercase">01 / The Problem</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Character-Matching Frustration</h4>
-                    <p className="text-sm text-slate-300 mt-1">Changing results, similar names, lost time, high AHT.</p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-corpCyan font-mono text-xs font-bold uppercase">02 / The Innovation</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Autonomous AI Bot</h4>
-                    <p className="text-sm text-slate-300 mt-1">Natural language, smart prioritization, single bot experience.</p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-emerald-400 font-mono text-xs font-bold uppercase">03 / The Value</span>
-                    <h4 className="text-white font-extrabold text-base mt-1.5">Measurable Business ROI</h4>
-                    <p className="text-sm text-slate-300 mt-1">Operational efficiency, customer satisfaction, cost reduction.</p>
-                  </div>
-                </motion.div>
-
+                
                 <motion.div
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.4 }}
-                  className="text-center"
+                  className="mt-12 flex flex-col items-center gap-3 relative z-10"
                 >
-                  <h3 className="text-5xl md:text-6xl font-black text-white tracking-wide">
-                    Thank You.
-                  </h3>
-                  <p className="text-sm md:text-base text-slate-400 mt-2 font-mono">
-                    Contact Center Team • Reference: ISP/S/2026/40/179
+                  <p className="text-sm md:text-base text-corpCyan font-mono tracking-widest uppercase bg-corpCyan/10 px-4 py-1.5 rounded-md border border-corpCyan/20">
+                    Any Questions?
+                  </p>
+                  <p className="text-xs md:text-sm text-slate-600 font-mono">
+                    Reference: ISP/S/2026/40/179
                   </p>
                 </motion.div>
               </div>
