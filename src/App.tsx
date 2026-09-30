@@ -6,19 +6,20 @@ import {
   Briefcase, HeartHandshake, Coins, Building2, 
   Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
-  Activity, Users, Eye, Timer, Rocket
+  Activity, Users, Eye, Timer, Rocket, Bot
 } from 'lucide-react';
 
 const SLIDES = [
   { id: 0, title: "Overview", tag: "Cover" },
   { id: 1, title: "01) The Problem", tag: "01" },
-  { id: 2, title: "02) Proposed Solution", tag: "02" },
-  { id: 3, title: "03) Key Benefits", tag: "03" },
-  { id: 4, title: "Live Bot Demo", tag: "Demo" },
-  { id: 5, title: "04) How We Will Build It", tag: "04" },
-  { id: 6, title: "05) Market Potential", tag: "05" },
-  { id: 7, title: "06) What We Need", tag: "06" },
-  { id: 8, title: "Thank You", tag: "Thank You" }
+  { id: 2, title: "Meet Smart PEARL", tag: "The Bot" },
+  { id: 3, title: "02) Proposed Solution", tag: "02" },
+  { id: 4, title: "03) Key Benefits", tag: "03" },
+  { id: 5, title: "Live Bot Demo", tag: "Demo" },
+  { id: 6, title: "04) How We Will Build It", tag: "04" },
+  { id: 7, title: "05) Market Potential", tag: "05" },
+  { id: 8, title: "06) What We Need", tag: "06" },
+  { id: 9, title: "Thank You", tag: "Thank You" }
 ];
 
 const TOTAL_SLIDES = SLIDES.length;
@@ -27,19 +28,19 @@ const TOTAL_SLIDES = SLIDES.length;
 const CHARACTER_SIMULATION_STEPS = [
   {
     step: 1,
-    char: "TRAINING",
-    matchesCount: "Onboarding",
+    char: "Searching...",
+    matchesCount: "Manual Extraction",
     elapsed: "00:00s",
     shiftsCount: 1,
-    alertText: "New staff take too long to learn the complex systems.",
-    badgeClass: "bg-purple-500/30 text-purple-300 border-purple-500/60",
-    problemTitle: "Long Training Time",
-    problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-purple-400 drop-shadow-md" />,
+    alertText: "Customers wait on hold while agents search manually.",
+    badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
+    problemTitle: "Manual Searching Causes Delays",
+    problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
     rows: [
-      { name: "Learning Curve", dept: "Complexity", ext: "Steep", status: "Hard to master" },
-      { name: "Time to Floor", dept: "HR Metric", ext: "Delayed", status: "Slow deployment" },
-      { name: "System Knowledge", dept: "Requirement", ext: "High", status: "Too many portals" },
-      { name: "Training Cost", dept: "Finance", ext: "Increased", status: "Resource heavy" }
+      { name: "Package: Unlimited 10", dept: "Details", ext: "Rs.4490", status: "Finally found" },
+      { name: "Customer Mood", dept: "Call Status", ext: "Frustrated", status: "Negative" },
+      { name: "Agent Stress", dept: "Metrics", ext: "High", status: "Cognitive load" },
+      { name: "AHT Target", dept: "Metrics", ext: "Breached", status: "KPI failed" }
     ]
   },
   {
@@ -67,7 +68,7 @@ const CHARACTER_SIMULATION_STEPS = [
     step: 3,
     char: "Fibre",
     matchesCount: "430 matches",
-    elapsed: "00:18s",
+    elapsed: "00:15s",
     shiftsCount: 3,
     alertText: "Agents waste time filtering through categories.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
@@ -84,7 +85,7 @@ const CHARACTER_SIMULATION_STEPS = [
     step: 4,
     char: "Fibre Unl...",
     matchesCount: "12 Documents",
-    elapsed: "00:29s",
+    elapsed: "00:25s",
     shiftsCount: 4,
     alertText: "Agents must read multiple PDFs to find one price.",
     badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
@@ -99,19 +100,19 @@ const CHARACTER_SIMULATION_STEPS = [
   },
   {
     step: 5,
-    char: "Found Price",
-    matchesCount: "Manual Extraction",
-    elapsed: "00:48s",
+    char: "TRAINING",
+    matchesCount: "Onboarding",
+    elapsed: "00:35s",
     shiftsCount: 5,
-    alertText: "Customers wait on hold while agents search manually.",
-    badgeClass: "bg-red-500/30 text-red-300 border-red-500/60 animate-pulse",
-    problemTitle: "Manual Searching Causes Delays",
-    problemIcon: <Timer className="w-10 h-10 md:w-12 md:h-12 text-rose-500 drop-shadow-md" />,
+    alertText: "New staff take too long to learn the complex systems.",
+    badgeClass: "bg-purple-500/30 text-purple-300 border-purple-500/60",
+    problemTitle: "Long Training Time",
+    problemIcon: <Users className="w-10 h-10 md:w-12 md:h-12 text-purple-400 drop-shadow-md" />,
     rows: [
-      { name: "Package: Unlimited 10", dept: "Details", ext: "Rs.4490", status: "Finally found" },
-      { name: "Customer Mood", dept: "Call Status", ext: "Frustrated", status: "Negative" },
-      { name: "Agent Stress", dept: "Metrics", ext: "High", status: "Cognitive load" },
-      { name: "AHT Target", dept: "Metrics", ext: "Breached", status: "KPI failed" }
+      { name: "Learning Curve", dept: "Complexity", ext: "Steep", status: "Hard to master" },
+      { name: "Time to Floor", dept: "HR Metric", ext: "Delayed", status: "Slow deployment" },
+      { name: "System Knowledge", dept: "Requirement", ext: "High", status: "Too many portals" },
+      { name: "Training Cost", dept: "Finance", ext: "Increased", status: "Resource heavy" }
     ]
   },
   {
@@ -937,7 +938,7 @@ export const App = () => {
   }, [currentSlide, slide1Auto]);
 
   useEffect(() => {
-    if (currentSlide !== 2 || !slide2Auto) return;
+    if (currentSlide !== 3 || !slide2Auto) return;
     const t = setInterval(() => setSlide2StepIdx(p => (p + 1) % 5), 3000);
     return () => clearInterval(t);
   }, [currentSlide, slide2Auto]);
@@ -1061,9 +1062,10 @@ export const App = () => {
               </motion.div>
               <motion.h1 
                 layoutId="app-title" 
-                className="text-5xl md:text-7xl font-black tracking-widest uppercase text-white flex flex-col md:flex-row items-center gap-3 md:gap-4 mb-4 drop-shadow-2xl text-center"
+                className="flex flex-col items-center justify-center gap-1 mb-4 text-center"
               >
-                Smart <span className="text-gradient">PEARL</span>
+                <span className="text-xl md:text-3xl font-bold tracking-[0.2em] uppercase text-slate-300 drop-shadow-lg">The Director</span>
+                <span className="text-5xl md:text-7xl lg:text-[6rem] font-black tracking-widest uppercase text-gradient mt-2 leading-none">Smart PEARL</span>
               </motion.h1>
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -1115,8 +1117,9 @@ export const App = () => {
           </div>
           <div>
             {!showSplash && (
-              <motion.h1 layoutId="app-title" className="font-black text-base md:text-lg tracking-wider uppercase text-white flex items-center gap-2">
-                Smart <span className="text-gradient">PEARL</span>
+              <motion.h1 layoutId="app-title" className="flex items-baseline gap-2">
+                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-slate-300">The Director</span>
+                <span className="font-black text-base md:text-lg tracking-wider uppercase text-gradient">Smart PEARL</span>
               </motion.h1>
             )}
             {showSplash && <div className="h-6 md:h-7" />}
@@ -1134,7 +1137,7 @@ export const App = () => {
               <div key={slide.id} className="relative group">
                 <button
                   onClick={() => {
-                    if (slide.id === 4) {
+                    if (slide.id === 5) {
                       window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank');
                     } else {
                       goToSlide(i);
@@ -1205,7 +1208,7 @@ export const App = () => {
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
-                  className="relative group mb-10 inline-flex items-center justify-center rounded-full overflow-hidden shadow-[0_0_40px_rgba(0,229,255,0.25)] hover:shadow-[0_0_60px_rgba(0,229,255,0.4)] transition-all duration-500 hover:scale-[1.02]"
+                  className="relative group mb-4 inline-flex items-center justify-center rounded-full overflow-hidden shadow-[0_0_40px_rgba(0,229,255,0.25)] hover:shadow-[0_0_60px_rgba(0,229,255,0.4)] transition-all duration-500 hover:scale-[1.02]"
                 >
                   <div className="absolute inset-[-1000%] animate-spin bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_0%,#00E5FF_50%,#00000000_100%)]" style={{ animationDuration: '4s' }} />
                   <div className="relative flex items-center gap-3 px-8 py-3 rounded-full bg-[#050A15]/90 m-[2px] backdrop-blur-2xl border border-white/5">
@@ -1224,10 +1227,11 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.1 }}
-                  className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tight text-white leading-none drop-shadow-2xl flex flex-col gap-2"
+                  className="mb-4 drop-shadow-2xl flex flex-col items-center text-center w-full"
                 >
-                  Smart PEARL
-                  <span className="text-corpCyan text-3xl md:text-4xl lg:text-5xl block mt-2 tracking-widest font-extrabold drop-shadow-none">A Catalyst for Digital Innovation</span>
+                  <span className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-[0.25em] uppercase text-slate-300">The Director</span>
+                  <span className="text-6xl md:text-7xl lg:text-[7.5rem] font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-corpCyan to-blue-400 mt-2 leading-none drop-shadow-lg">Smart PEARL</span>
+                  <span className="text-corpCyan/80 text-lg md:text-xl lg:text-2xl block mt-4 tracking-widest font-semibold drop-shadow-none">A Catalyst for Digital Innovation</span>
                 </motion.h1>
 
 
@@ -1238,7 +1242,7 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.25 }}
-                  className="flex flex-wrap justify-center gap-4 mt-6 mb-12 max-w-5xl"
+                  className="flex flex-wrap justify-center gap-3 mt-4 mb-4 max-w-5xl"
                 >
                   {[
                     "Gehan Jayawardana",
@@ -1251,7 +1255,7 @@ export const App = () => {
                     <motion.div 
                       key={idx} 
                       whileHover={{ scale: 1.05, y: -2 }}
-                      className="group relative px-5 py-2.5 rounded-xl bg-[#08101E]/80 border border-corpCyan/20 text-slate-200 text-sm md:text-base font-bold flex items-center gap-3 backdrop-blur-xl hover:border-corpCyan/60 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden cursor-default"
+                      className="group relative px-4 py-2 rounded-xl bg-[#08101E]/80 border border-corpCyan/20 text-slate-200 text-xs md:text-sm font-bold flex items-center gap-2 backdrop-blur-xl hover:border-corpCyan/60 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden cursor-default"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-corpCyan/0 via-corpCyan/10 to-corpCyan/0 -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none" />
                       
@@ -1271,7 +1275,7 @@ export const App = () => {
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.4 }}
-                  className="mt-8 mb-4 relative z-10"
+                  className="mt-2 mb-2 relative z-10"
                 >
                   <p className="text-xs md:text-sm text-slate-500 font-mono tracking-widest uppercase bg-white/5 px-4 py-1.5 rounded-md border border-white/10 shadow-sm backdrop-blur-sm inline-block">
                     Ref: ISP/S/2026/40/179
@@ -1480,11 +1484,127 @@ export const App = () => {
               </div>
             )}
 
+            
             {/* ======================================================== */}
-            {/* SLIDE 2: 02) PROPOSED SOLUTION / INNOVATION              */}
-            {/* (WITH EMBEDDED SOFTPHONE AGENT ANIMATION)                */}
+            {/* SLIDE 2: MEET SMART PEARL (THE BOT)                      */}
             {/* ======================================================== */}
             {currentSlide === 2 && (
+              <div className="flex flex-col h-full justify-center items-center py-4 relative overflow-hidden">
+                {/* Immersive Background glow */}
+                <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(0,229,255,0.15)_0%,rgba(0,0,0,0)_70%)]" />
+                <motion.div 
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-corpCyan/10 blur-[120px] rounded-full z-0 pointer-events-none"
+                />
+
+                <div className="flex-1 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 px-8">
+                  
+                  {/* LEFT: Stunning Typography & Floating Feature Pills */}
+                  <div className="lg:col-span-7 flex flex-col justify-center gap-8">
+                    <motion.div
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                    >
+                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-corpCyan/10 border border-corpCyan/30 text-corpCyan text-sm font-bold tracking-widest uppercase mb-6 shadow-[0_0_30px_rgba(0,229,255,0.2)]">
+                        <Sparkles className="w-4 h-4 animate-pulse" />
+                        Meet The Bot
+                      </span>
+                      <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl">
+                        Say Hello to <br/>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-corpCyan via-blue-400 to-purple-400 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]">Smart PEARL</span>
+                      </h2>
+                      <p className="text-slate-300 text-lg md:text-xl mt-6 font-light leading-relaxed max-w-2xl">
+                        Not just a search engine, but a <strong className="text-white font-bold">proactive AI colleague</strong>. 
+                        It listens, understands context, and fetches exact answers instantly.
+                      </p>
+                    </motion.div>
+
+                    {/* Floating Feature Pills */}
+                    <motion.div 
+                      variants={staggerVariants}
+                      initial="initial"
+                      animate="animate"
+                      className="flex flex-col gap-4 mt-4"
+                    >
+                      {[
+                        { icon: Mic, title: "Zero-Touch Searching", desc: "Listens and searches automatically", color: "text-corpCyan" },
+                        { icon: Brain, title: "Conversational Context", desc: "Understands intent, not just keywords", color: "text-purple-400" },
+                        { icon: Zap, title: "Sub-Second Retrieval", desc: "Answers appear instantly on screen", color: "text-amber-400" }
+                      ].map((feature, i) => (
+                        <motion.div 
+                          key={i}
+                          variants={staggerVariants}
+                          whileHover={{ scale: 1.02, x: 10 }}
+                          className="group flex items-center gap-5 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-corpCyan/50 hover:bg-corpCyan/5 backdrop-blur-md transition-all cursor-default shadow-lg max-w-xl"
+                        >
+                          <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border border-white/10 shadow-inner overflow-hidden relative">
+                             <div className="absolute inset-0 bg-white/5 group-hover:bg-corpCyan/20 transition-colors"></div>
+                             <feature.icon className={`w-6 h-6 ${feature.color} relative z-10 group-hover:scale-110 transition-transform`} />
+                          </div>
+                          <div>
+                            <h4 className="text-white font-bold text-lg">{feature.title}</h4>
+                            <p className="text-slate-400 text-sm">{feature.desc}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </div>
+
+                  {/* RIGHT: Massive 3D-like Glowing AI Core */}
+                  <div className="lg:col-span-5 flex justify-center items-center relative h-[500px]">
+                    <motion.div 
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 1.5, type: "spring", bounce: 0.5 }}
+                      className="relative w-full h-full flex items-center justify-center"
+                    >
+                      {/* Ambient Core Glow */}
+                      <motion.div 
+                        animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute inset-0 bg-gradient-to-tr from-corpCyan/30 via-blue-600/20 to-purple-600/30 rounded-full blur-[60px]"
+                      />
+
+                      {/* Rotating Orbital Rings */}
+                      <div className="absolute inset-4 rounded-full border border-corpCyan/50 border-dashed animate-[spin_20s_linear_infinite]" />
+                      <div className="absolute inset-12 rounded-full border-2 border-blue-400/40 border-dotted animate-[spin_15s_linear_infinite_reverse]" />
+                      <div className="absolute inset-20 rounded-full border border-purple-500/30 animate-[spin_25s_linear_infinite]" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
+                      {/* Full Robot SVG Container */}
+                      <motion.div 
+                        animate={{ y: [-10, 10, -10] }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        className="relative w-full max-w-[400px] aspect-square flex flex-col items-center justify-center z-10 drop-shadow-[0_0_30px_rgba(0,229,255,0.4)]"
+                      >
+                        <img src="/robot.png" alt="Smart PEARL Robot" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
+                      </motion.div>
+                      
+                      {/* Floating Particles Around Core */}
+                      {[...Array(6)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{ 
+                            y: [0, Math.random() * -100 - 50], 
+                            x: [(Math.random() - 0.5) * 100, (Math.random() - 0.5) * 200],
+                            opacity: [0, 1, 0],
+                            scale: [0, 1, 0]
+                          }}
+                          transition={{ duration: Math.random() * 2 + 2, repeat: Infinity, delay: Math.random() * 2 }}
+                          className="absolute w-2 h-2 rounded-full bg-corpCyan shadow-[0_0_10px_rgba(0,229,255,1)]"
+                        />
+                      ))}
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 3: 02) PROPOSED SOLUTION / INNOVATION              */}
+            {/* (WITH EMBEDDED SOFTPHONE AGENT ANIMATION)                */}
+            {/* ======================================================== */}
+            {currentSlide === 3 && (
               <div className="flex flex-col h-full justify-between py-2">
                 <div className="min-h-[4rem] mb-2 relative z-50">
                   <AnimatePresence>
@@ -1706,9 +1826,9 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 3: 03) BUSINESS VALUE & BENEFITS                   */}
+            {/* SLIDE 4: 03) BUSINESS VALUE & BENEFITS                   */}
             {/* ======================================================== */}
-            {currentSlide === 3 && (
+            {currentSlide === 4 && (
               <div className="flex flex-col h-full justify-between py-2">
                 <div className="min-h-[4rem] mb-2 relative z-50">
                   <AnimatePresence>
@@ -1909,9 +2029,9 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 4: LIVE INTERACTIVE AI BOT DEMO          */}
+            {/* SLIDE 5: LIVE INTERACTIVE AI BOT DEMO          */}
             {/* ======================================================== */}
-            {currentSlide === 4 && (
+            {currentSlide === 5 && (
               <div className="w-full h-full rounded-2xl overflow-hidden border border-corpCyan/40 shadow-[0_0_30px_rgba(0,229,255,0.2)] bg-black/50 p-1 relative">
                 <button onClick={() => window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank')} className="absolute top-4 right-4 z-50 bg-corpCyan text-black px-4 py-2 font-bold rounded-lg shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
                   <span className="text-xl">🚀</span> Open Full Screen
@@ -1920,9 +2040,9 @@ export const App = () => {
               </div>
             )}
             {/* ======================================================== */}
-            {/* SLIDE 5: ARCHITECTURE & ROLLOUT ROADMAP                  */}
+            {/* SLIDE 6: ARCHITECTURE & ROLLOUT ROADMAP                  */}
             {/* ======================================================== */}
-            {currentSlide === 5 && (
+            {currentSlide === 6 && (
               <div className="flex flex-col h-full justify-between py-2">
                 <div className="min-h-[4rem] mb-8 relative z-50">
                   <AnimatePresence>
@@ -2148,12 +2268,12 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 6: MARKET / CUSTOMER POTENTIAL                     */}
+            {/* SLIDE 7: MARKET / CUSTOMER POTENTIAL                     */}
             {/* ======================================================== */}
             {/* ======================================================== */}
-            {/* SLIDE 6: MARKET / CUSTOMER POTENTIAL                     */}
+            {/* SLIDE 7: MARKET / CUSTOMER POTENTIAL                     */}
             {/* ======================================================== */}
-            {currentSlide === 6 && (
+            {currentSlide === 7 && (
               <div className="flex flex-col h-full py-4">
                 <div className="min-h-[4rem] mb-8 relative z-50">
                   <AnimatePresence>
@@ -2281,9 +2401,9 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 7: SUPPORT REQUIRED & NEXT STEPS                   */}
+            {/* SLIDE 8: SUPPORT REQUIRED & NEXT STEPS                   */}
             {/* ======================================================== */}
-            {currentSlide === 7 && (
+            {currentSlide === 8 && (
               <div className="flex flex-col h-full py-4">
                 <div className="min-h-[4rem] mb-8 relative z-50">
                   <AnimatePresence>
@@ -2495,22 +2615,13 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 8: THANK YOU                            */}
+            {/* SLIDE 9: THANK YOU                            */}
             {/* ======================================================== */}
-            {currentSlide === 8 && (
+            {currentSlide === 9 && (
               <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-12 relative">
                 {/* Background ambient glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-corpCyan/10 rounded-full blur-[120px] pointer-events-none"></div>
                 
-                <motion.div
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
-                  className="mb-8 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-corpCyan/40 bg-corpCyan/10 text-corpCyan text-xs md:text-sm font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,229,255,0.25)] relative z-10"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  SLT Smart Directory Assistant
-                </motion.div>
 
                 <motion.h2
                   variants={staggerVariants}
@@ -2522,16 +2633,25 @@ export const App = () => {
                   Thank <span className="text-gradient">You.</span>
                 </motion.h2>
 
-                <motion.p
+                <motion.div
                   variants={staggerVariants}
                   initial="initial"
                   animate="animate"
                   transition={{ delay: 0.2 }}
-                  className="text-xl md:text-3xl text-slate-300 font-light mb-16 max-w-3xl leading-relaxed relative z-10"
+                  className="mb-16 relative z-10 max-w-5xl w-full px-4"
                 >
-                  Empowering <span className="text-white font-bold">SLT Contact Center</span> with <br className="hidden md:inline" />
-                  Live AI Assistance.
-                </motion.p>
+                  <div className="relative p-8 md:p-12 rounded-3xl bg-black/40 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden group hover:border-corpCyan/40 transition-colors duration-500">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-corpCyan to-blue-500 rounded-l-3xl"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.08)_0%,transparent_70%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    
+                    <h3 className="text-2xl md:text-3xl text-slate-300 font-light leading-relaxed text-center relative z-10 flex flex-col gap-4 md:gap-6">
+                      <span>Our vision is <span className="text-rose-400 font-bold border-b-2 border-rose-400/50 pb-1">not</span> to replace our contact center agents with AI.</span>
+                      <span className="text-3xl md:text-5xl text-white font-extrabold tracking-tight">
+                        Our vision is to make <br className="md:hidden"/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-corpCyan to-blue-400 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]">every contact center agent better</span> <br className="md:hidden"/> with AI
+                      </span>
+                    </h3>
+                  </div>
+                </motion.div>
                 
                 <motion.div
                   variants={staggerVariants}
