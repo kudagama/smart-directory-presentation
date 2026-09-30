@@ -6,7 +6,7 @@ import {
   Briefcase, HeartHandshake, Coins, Building2, 
   Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
-  Activity, Users, Eye, Timer, Rocket, Bot
+  Activity, Users, Eye, Timer, Rocket
 } from 'lucide-react';
 
 const SLIDES = [
