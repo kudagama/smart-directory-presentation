@@ -6,7 +6,7 @@ import {
   Briefcase, HeartHandshake, Coins, Building2, 
   Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
-  Activity, Users, Eye, Timer, Rocket, Bot
+  Activity, Users, Eye, Timer, Rocket
 } from 'lucide-react';
 
 const SLIDES = [
@@ -15,8 +15,8 @@ const SLIDES = [
   { id: 2, title: "Meet Smart PEARL", tag: "The Bot" },
   { id: 3, title: "02) Proposed Solution", tag: "02" },
   { id: 4, title: "03) Key Benefits", tag: "03" },
-  { id: 5, title: "Live Bot Demo", tag: "Demo" },
-  { id: 6, title: "04) How We Will Build It", tag: "04" },
+  { id: 5, title: "04) How We Will Build It", tag: "04" },
+  { id: 6, title: "Live Bot Demo", tag: "Demo" },
   { id: 7, title: "05) Market Potential", tag: "05" },
   { id: 8, title: "06) What We Need", tag: "06" },
   { id: 9, title: "Thank You", tag: "Thank You" }
@@ -1137,7 +1137,7 @@ export const App = () => {
               <div key={slide.id} className="relative group">
                 <button
                   onClick={() => {
-                    if (slide.id === 5) {
+                    if (slide.id === 6) {
                       window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank');
                     } else {
                       goToSlide(i);
@@ -1503,57 +1503,75 @@ export const App = () => {
                   {/* LEFT: Stunning Typography & Floating Feature Pills */}
                   <div className="lg:col-span-7 flex flex-col justify-center gap-8">
                     <motion.div
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="relative z-20"
                     >
-                      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-corpCyan/10 border border-corpCyan/30 text-corpCyan text-sm font-bold tracking-widest uppercase mb-6 shadow-[0_0_30px_rgba(0,229,255,0.2)]">
-                        <Sparkles className="w-4 h-4 animate-pulse" />
-                        Meet The Bot
-                      </span>
-                      <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl">
-                        Say Hello to <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-corpCyan via-blue-400 to-purple-400 drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]">Smart PEARL</span>
-                      </h2>
-                      <p className="text-slate-300 text-lg md:text-xl mt-6 font-light leading-relaxed max-w-2xl">
-                        Not just a search engine, but a <strong className="text-white font-bold">proactive AI colleague</strong>. 
-                        It listens, understands context, and fetches exact answers instantly.
-                      </p>
-                    </motion.div>
+                      {/* Decorative Tech Elements behind text */}
+                      <motion.div 
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="absolute -left-16 -top-16 w-40 h-40 border border-corpCyan/10 rounded-full border-t-corpCyan/40 opacity-50 pointer-events-none" 
+                      />
+                      <motion.div 
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        className="absolute -left-10 -top-10 w-28 h-28 border border-blue-500/10 border-dashed rounded-full border-b-blue-400/40 opacity-60 pointer-events-none" 
+                      />
 
-                    {/* Floating Feature Pills */}
-                    <motion.div 
-                      variants={staggerVariants}
-                      initial="initial"
-                      animate="animate"
-                      className="flex flex-col gap-4 mt-4"
-                    >
-                      {[
-                        { icon: Mic, title: "Zero-Touch Searching", desc: "Listens and searches automatically", color: "text-corpCyan" },
-                        { icon: Brain, title: "Conversational Context", desc: "Understands intent, not just keywords", color: "text-purple-400" },
-                        { icon: Zap, title: "Sub-Second Retrieval", desc: "Answers appear instantly on screen", color: "text-amber-400" }
-                      ].map((feature, i) => (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 30 }} 
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-black/60 border border-corpCyan/30 text-corpCyan text-sm font-bold tracking-[0.2em] uppercase mb-8 shadow-[0_0_30px_rgba(0,229,255,0.15)] backdrop-blur-xl relative overflow-hidden group"
+                      >
                         <motion.div 
-                          key={i}
-                          variants={staggerVariants}
-                          whileHover={{ scale: 1.02, x: 10 }}
-                          className="group flex items-center gap-5 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-corpCyan/50 hover:bg-corpCyan/5 backdrop-blur-md transition-all cursor-default shadow-lg max-w-xl"
-                        >
-                          <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border border-white/10 shadow-inner overflow-hidden relative">
-                             <div className="absolute inset-0 bg-white/5 group-hover:bg-corpCyan/20 transition-colors"></div>
-                             <feature.icon className={`w-6 h-6 ${feature.color} relative z-10 group-hover:scale-110 transition-transform`} />
-                          </div>
-                          <div>
-                            <h4 className="text-white font-bold text-lg">{feature.title}</h4>
-                            <p className="text-slate-400 text-sm">{feature.desc}</p>
-                          </div>
-                        </motion.div>
-                      ))}
+                          animate={{ x: ["-100%", "200%"] }} 
+                          transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 1 }}
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-corpCyan/20 to-transparent skew-x-12" 
+                        />
+                        <span className="relative z-10">Meet The Bot</span>
+                        <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                      </motion.div>
+
+                      <motion.h2 
+                        initial={{ opacity: 0, x: -50 }} 
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
+                        className="text-6xl md:text-8xl font-black text-white leading-[1.1] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] tracking-tight relative z-10"
+                      >
+                        <span className="opacity-90 font-extrabold tracking-tighter">Say Hello to</span> <br/>
+                        <span className="relative inline-block mt-3">
+                           {/* Intense Core Glow behind text */}
+                           <motion.span 
+                             animate={{ opacity: [0.5, 0.8, 0.5], scale: [1, 1.05, 1] }}
+                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                             className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 blur-[50px] mix-blend-screen"
+                           ></motion.span>
+                           
+                           {/* The actual text */}
+                           <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-corpCyan to-blue-400 drop-shadow-[0_0_25px_rgba(0,229,255,0.6)] filter contrast-125 brightness-125">
+                             Smart PEARL
+                           </span>
+                        </span>
+                      </motion.h2>
+
+                      {/* HUD Data line under the text */}
+                      <motion.div 
+                         initial={{ scaleX: 0, opacity: 0 }} 
+                         animate={{ scaleX: 1, opacity: 1 }}
+                         transition={{ duration: 1.5, ease: "circOut", delay: 0.6 }}
+                         className="h-[2px] w-64 bg-gradient-to-r from-corpCyan via-blue-500 to-transparent mt-12 origin-left relative flex items-center"
+                      >
+                         <div className="absolute right-0 w-8 h-[2px] bg-white animate-pulse shadow-[0_0_10px_#fff]" />
+                         <span className="absolute left-0 -bottom-6 text-[10px] text-corpCyan/60 font-mono tracking-widest uppercase">Initializing Neural Net...</span>
+                      </motion.div>
                     </motion.div>
                   </div>
 
                   {/* RIGHT: Massive 3D-like Glowing AI Core */}
-                  <div className="lg:col-span-5 flex justify-center items-center relative h-[500px]">
+                  <div className="lg:col-span-5 flex justify-center items-center relative h-[600px] xl:h-[700px]">
                     <motion.div 
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -1564,7 +1582,7 @@ export const App = () => {
                       <motion.div 
                         animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
                         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute inset-0 bg-gradient-to-tr from-corpCyan/30 via-blue-600/20 to-purple-600/30 rounded-full blur-[60px]"
+                        className="absolute inset-0 bg-gradient-to-tr from-corpCyan/30 via-blue-600/20 to-purple-600/30 rounded-full blur-[80px]"
                       />
 
                       {/* Rotating Orbital Rings */}
@@ -1573,9 +1591,9 @@ export const App = () => {
                       <div className="absolute inset-20 rounded-full border border-purple-500/30 animate-[spin_25s_linear_infinite]" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
                       {/* Full Robot SVG Container */}
                       <motion.div 
-                        animate={{ y: [-10, 10, -10] }}
+                        animate={{ y: [-15, 15, -15] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        className="relative w-full max-w-[400px] aspect-square flex flex-col items-center justify-center z-10 drop-shadow-[0_0_30px_rgba(0,229,255,0.4)]"
+                        className="relative w-full max-w-[550px] aspect-square flex flex-col items-center justify-center z-10 drop-shadow-[0_0_40px_rgba(0,229,255,0.4)] scale-110"
                       >
                         <img src="/robot.png" alt="Smart PEARL Robot" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
                       </motion.div>
@@ -2029,9 +2047,9 @@ export const App = () => {
             )}
 
             {/* ======================================================== */}
-            {/* SLIDE 5: LIVE INTERACTIVE AI BOT DEMO          */}
+            {/* SLIDE 6: LIVE INTERACTIVE AI BOT DEMO          */}
             {/* ======================================================== */}
-            {currentSlide === 5 && (
+            {currentSlide === 6 && (
               <div className="w-full h-full rounded-2xl overflow-hidden border border-corpCyan/40 shadow-[0_0_30px_rgba(0,229,255,0.2)] bg-black/50 p-1 relative">
                 <button onClick={() => window.open('https://slt-smart-directory-assistant-beta.vercel.app/dashboard', '_blank')} className="absolute top-4 right-4 z-50 bg-corpCyan text-black px-4 py-2 font-bold rounded-lg shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
                   <span className="text-xl">🚀</span> Open Full Screen
@@ -2040,9 +2058,9 @@ export const App = () => {
               </div>
             )}
             {/* ======================================================== */}
-            {/* SLIDE 6: ARCHITECTURE & ROLLOUT ROADMAP                  */}
+            {/* SLIDE 5: ARCHITECTURE & ROLLOUT ROADMAP                  */}
             {/* ======================================================== */}
-            {currentSlide === 6 && (
+            {currentSlide === 5 && (
               <div className="flex flex-col h-full justify-between py-2">
                 <div className="min-h-[4rem] mb-8 relative z-50">
                   <AnimatePresence>
@@ -2334,7 +2352,7 @@ export const App = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
                       {[
-                        { name: "SLT Customer Care Officers", icon: <Headphones className="w-5 h-5 md:w-8 md:h-8" />, color: "from-corpCyan/20 to-corpCyan/5", border: "border-corpCyan/30", text: "text-corpCyan", badge: "Immediate Target" },
+                        { name: "SLT Contact Center Officers", icon: <Headphones className="w-5 h-5 md:w-8 md:h-8" />, color: "from-corpCyan/20 to-corpCyan/5", border: "border-corpCyan/30", text: "text-corpCyan", badge: "Immediate Target" },
                         { name: "SLT Internal Departments", icon: <Users className="w-5 h-5 md:w-8 md:h-8" />, color: "from-blue-500/20 to-blue-500/5", border: "border-blue-500/30", text: "text-blue-400", badge: "Internal Expansion" },
                         { name: "B2B Enterprise Clients", icon: <Building2 className="w-5 h-5 md:w-8 md:h-8" />, color: "from-amber-500/20 to-amber-500/5", border: "border-amber-500/30", text: "text-amber-400", badge: "Productization" },
                         { name: "Any Global Organization", icon: <Rocket className="w-5 h-5 md:w-8 md:h-8" />, color: "from-purple-500/20 to-purple-500/5", border: "border-purple-500/30", text: "text-purple-400", badge: "Future SaaS Model" }
