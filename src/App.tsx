@@ -19,7 +19,8 @@ const SLIDES = [
   { id: 6, title: "Live Bot Demo", tag: "Demo" },
   { id: 7, title: "05) Market Potential", tag: "05" },
   { id: 8, title: "06) What We Need", tag: "06" },
-  { id: 9, title: "Thank You", tag: "Thank You" }
+  { id: 9, title: "Our Vision", tag: "Vision" },
+  { id: 10, title: "Thank You", tag: "Thank You" }
 ];
 
 const TOTAL_SLIDES = SLIDES.length;
@@ -2637,27 +2638,21 @@ export const App = () => {
             {/* ======================================================== */}
             {currentSlide === 9 && (
               <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-12 relative">
-                {/* Background ambient glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-corpCyan/10 rounded-full blur-[120px] pointer-events-none"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
                 
-
                 <motion.h2
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-6xl md:text-8xl lg:text-[10rem] font-black mb-6 tracking-tighter text-white leading-none relative z-10"
-                >
-                  Thank <span className="text-gradient">You.</span>
+                  className="text-4xl md:text-5xl font-black mb-12 tracking-widest uppercase text-corpCyan/80">
+                  Our Vision
                 </motion.h2>
 
                 <motion.div
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="mb-16 relative z-10 max-w-5xl w-full px-4"
-                >
+                  className="relative z-10 max-w-5xl w-full px-4">
                   <div className="relative p-8 md:p-12 rounded-3xl bg-black/40 border border-white/10 shadow-2xl backdrop-blur-xl overflow-hidden group hover:border-corpCyan/40 transition-colors duration-500">
                     <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-corpCyan to-blue-500 rounded-l-3xl"></div>
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.08)_0%,transparent_70%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
@@ -2670,14 +2665,29 @@ export const App = () => {
                     </h3>
                   </div>
                 </motion.div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SLIDE 10: THANK YOU                            */}
+            {/* ======================================================== */}
+            {currentSlide === 10 && (
+              <div className="flex-1 flex flex-col justify-center items-center text-center max-w-5xl mx-auto py-12 relative">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-corpCyan/10 rounded-full blur-[120px] pointer-events-none"></div>
+                
+                <motion.h2
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1, type: "spring" }}
+                  className="text-6xl md:text-8xl lg:text-[10rem] font-black mb-6 tracking-tighter text-white leading-none relative z-10">
+                  Thank <span className="text-gradient">You.</span>
+                </motion.h2>
                 
                 <motion.div
-                  variants={staggerVariants}
-                  initial="initial"
-                  animate="animate"
-                  transition={{ delay: 0.4 }}
-                  className="mt-12 flex flex-col items-center gap-3 relative z-10"
-                >
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-12 flex flex-col items-center gap-3 relative z-10">
                   <p className="text-sm md:text-base text-corpCyan font-mono tracking-widest uppercase bg-corpCyan/10 px-4 py-1.5 rounded-md border border-corpCyan/20">
                     Any Questions?
                   </p>
