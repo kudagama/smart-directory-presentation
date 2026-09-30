@@ -53,10 +53,14 @@ const CHARACTER_SIMULATION_STEPS = [
     problemTitle: "Too Many Search Results",
     problemIcon: <Search className="w-10 h-10 md:w-12 md:h-12 text-corpCyan drop-shadow-md" />,
     rows: [
-      { name: "Finance Division", dept: "Corporate", ext: "1102", status: "Not relevant" },
-      { name: "Fault Reporting Unit", dept: "Customer Care", ext: "5421", status: "Wrong category" },
-      { name: "Fibre Deployments", dept: "Engineering", ext: "4120", status: "Not product info" },
-      { name: "Fernando, P.K.", dept: "HR Division", ext: "3310", status: "Person, not product" }
+      { name: "Fibre Unlimited", dept: "Marketing Details", ext: "Doc", status: "Not what I want" },
+      { name: "Fibre Unlimited", dept: "Technical Specs", ext: "PDF", status: "Too detailed" },
+      { name: "Fibre Unlimited", dept: "Legal T&C", ext: "Docx", status: "Irrelevant" },
+      { name: "Fibre Unlimited", dept: "Pricing 2024", ext: "XLS", status: "Looking for 2025" },
+      { name: "Fibre Unlimited", dept: "Old Promotions", ext: "Archive", status: "Outdated" },
+      { name: "Fibre Unlimited", dept: "Customer FAQs", ext: "Web", status: "Not product info" },
+      { name: "Fibre Unlimited", dept: "Billing Codes", ext: "Sys", status: "Wrong section" },
+      { name: "Fibre Unlimited", dept: "Support Wiki", ext: "Wiki", status: "General info" }
     ]
   },
   {
