@@ -1414,10 +1414,10 @@ export const App = () => {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.4, delay: 0.2 + (i * 0.1) }}
-                                    className="flex items-center gap-3 bg-white/5 p-2 md:p-2.5 rounded-xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors"
+                                    className="flex items-center gap-3 bg-white/5 p-3 md:p-4 rounded-xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors"
                                   >
                                     <div className="w-1.5 h-1.5 rounded-full bg-corpCyan shadow-[0_0_8px_rgba(0,229,255,0.8)] shrink-0"></div>
-                                    <span className="font-semibold text-xs md:text-sm leading-snug text-slate-200">{t}</span>
+                                    <span className="font-semibold text-base md:text-lg leading-snug text-slate-200">{t}</span>
                                   </motion.div>
                                 ))}
                               </div>
