@@ -642,7 +642,7 @@ const ImplementationAnimation = ({ stepIdx }: { stepIdx: number }) => {
             <h3 className="text-2xl font-black text-white mb-4">Discover & Design</h3>
             <div className="space-y-2 w-full text-left">
               {[
-                "Processes English, Sinhala & Singlish",
+                "Processes English, Sinhala, Tamil & Singlish",
                 "Understands conversational intent",
                 "No exact keywords required"
               ].map((item, i) => (
@@ -700,7 +700,7 @@ const ImplementationAnimation = ({ stepIdx }: { stepIdx: number }) => {
             <h3 className="text-2xl font-black text-white mb-4">Pilot Testing</h3>
             <div className="space-y-2 w-full text-left">
               {[
-                "Embedded in 1912 CRM",
+                "Embedded in PEARL System",
                 "Sub-second verified results",
                 "Employee intranet widget"
               ].map((item, i) => (
