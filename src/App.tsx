@@ -1449,11 +1449,11 @@ export const App = () => {
                                   setSlide1StepIdx(prev => Math.max(0, prev - 1));
                                 }}
                                 disabled={slide1StepIdx === 0}
-                                className="group relative px-3 py-1.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                                className="group relative px-5 py-2.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-2"
                                 style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}
                               >
-                                <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-wider hidden sm:block">Prev</span>
+                                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                <span className="text-sm font-mono font-bold uppercase tracking-wider hidden sm:block">Prev</span>
                               </button>
                               <button
                                 onClick={(e) => {
@@ -1462,11 +1462,11 @@ export const App = () => {
                                   setSlide1StepIdx(prev => Math.min(CHARACTER_SIMULATION_STEPS.length - 1, prev + 1));
                                 }}
                                 disabled={slide1StepIdx === CHARACTER_SIMULATION_STEPS.length - 1}
-                                className="group relative px-3 py-1.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-1.5"
+                                className="group relative px-5 py-2.5 bg-black/40 hover:bg-white/10 border border-white/20 hover:border-corpCyan disabled:opacity-30 disabled:cursor-not-allowed transition-all text-white cursor-pointer overflow-hidden flex items-center gap-2"
                                 style={{ clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))' }}
                               >
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-wider hidden sm:block">Next</span>
-                                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                                <span className="text-sm font-mono font-bold uppercase tracking-wider hidden sm:block">Next</span>
+                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                               </button>
                             </div>
                           </div>
