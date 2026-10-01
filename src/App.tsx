@@ -41,7 +41,7 @@ const CHARACTER_SIMULATION_STEPS = [
       { name: "Package: Unlimited 10", dept: "Details", ext: "Rs.4490", status: "Finally found" },
       { name: "Customer Mood", dept: "Call Status", ext: "Frustrated", status: "Negative" },
       { name: "Agent Stress", dept: "Metrics", ext: "High", status: "Cognitive load" },
-      { name: "AHT Target", dept: "Metrics", ext: "Breached", status: "KPI failed" }
+      { name: "ATT Target", dept: "Metrics", ext: "Breached", status: "KPI failed" }
     ]
   },
   {
@@ -147,7 +147,7 @@ const CHARACTER_SIMULATION_STEPS = [
       { name: "Lengthy training periods", dept: "HR & Onboarding", ext: "Time", status: "Impact" },
       { name: "Delays customer issue resolution", dept: "Customer Experience", ext: "KPI", status: "Impact" },
       { name: "Reduces employee productivity", dept: "Operations", ext: "KPI", status: "Impact" },
-      { name: "Increases Average Handling Time", dept: "Support", ext: "KPI", status: "Impact" },
+      { name: "Increases Average Talk Time", dept: "Support", ext: "KPI", status: "Impact" },
       { name: "Frustration in urgent queries", dept: "User Experience", ext: "KPI", status: "Impact" },
       { name: "Costly fault reporting errors", dept: "Finance & QA", ext: "Cost", status: "Impact" }
     ],
@@ -849,7 +849,7 @@ const BusinessROIAnimation = ({ stepIdx }: { stepIdx: number }) => {
               <div className="absolute inset-0 rounded-full border-t-4 border-emerald-400 animate-spin" style={{ animationDuration: '2.5s' }}></div>
               <Activity className="w-8 h-8 text-emerald-400 drop-shadow-lg" />
             </div>
-            <span className="text-xs uppercase font-mono font-bold tracking-widest text-emerald-400 mb-1">AHT / Operating Overhead</span>
+            <span className="text-xs uppercase font-mono font-bold tracking-widest text-emerald-400 mb-1">ATT / Operating Overhead</span>
             <div className="flex items-end gap-2 h-16 mb-6 mt-4">
               {[1, 0.7, 0.5, 0.35, 0.2].map((scale, i) => (
                 <motion.div
@@ -1405,7 +1405,7 @@ export const App = () => {
                                   "Long training time for new agents",
                                   "Delays in solving customer issues",
                                   "Low employee productivity",
-                                  "High Average Handling Time (AHT)",
+                                  "High Average Talk Time (ATT)",
                                   "Agent and customer frustration",
                                   "Wasted budget on wrong fault entries"
                                 ].map((t, i) => (
