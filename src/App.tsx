@@ -6,7 +6,7 @@ import {
   Briefcase, HeartHandshake, Coins, Building2, 
   Cpu,  Maximize, Minimize,
   RotateCcw, AlertTriangle, Headphones, Mic,
-  Activity, Users, Eye, Timer, Rocket
+  Activity, Users, Eye, Timer, Rocket, Shield
 } from 'lucide-react';
 
 const SLIDES = [
@@ -1596,7 +1596,26 @@ export const App = () => {
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                         className="relative w-full max-w-[550px] aspect-square flex flex-col items-center justify-center z-10 drop-shadow-[0_0_40px_rgba(0,229,255,0.4)] scale-110"
                       >
-                        <img src="/robot.png" alt="Smart PEARL Robot" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
+                        {/* Rotating Orbiting Icons */}
+                        <motion.div 
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                          className="absolute inset-0 z-0 pointer-events-none"
+                        >
+                          <motion.div animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute top-[5%] left-[50%] -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/40 border border-corpCyan/40 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.5)] flex items-center justify-center">
+                            <Brain className="w-5 h-5 text-corpCyan" />
+                          </motion.div>
+                          <motion.div animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute top-[50%] right-[5%] translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/40 border border-blue-500/40 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center">
+                            <Shield className="w-5 h-5 text-blue-400" />
+                          </motion.div>
+                          <motion.div animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute bottom-[5%] left-[50%] -translate-x-1/2 translate-y-1/2 p-2.5 rounded-full bg-black/40 border border-purple-500/40 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.5)] flex items-center justify-center">
+                            <MessageSquare className="w-5 h-5 text-purple-400" />
+                          </motion.div>
+                          <motion.div animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute top-[50%] left-[5%] -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/40 border border-rose-500/40 backdrop-blur-md shadow-[0_0_15px_rgba(244,63,94,0.5)] flex items-center justify-center">
+                            <Zap className="w-5 h-5 text-rose-400" />
+                          </motion.div>
+                        </motion.div>
+                        <img src="/robot.png" alt="Smart PEARL Robot" className="relative z-10 w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
                       </motion.div>
                       
                       {/* Floating Particles Around Core */}
