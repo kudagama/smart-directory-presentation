@@ -1,0 +1,68 @@
+Directory
+
+01)Problem / Opportunity
+ 
+The information displayed  changes based on the characters entered, which can sometimes  make it a hassle to find the right result.
+Problems Identified
+
+❌ Search results continuously change while users type
+
+❌ Similar names generate multiple results
+
+❌ Difficult to identify the correct contact quickly
+
+❌ Time wasted searching for departments and responsible personnel
+
+❌ Increased call handling time for Contact Centre staff
+
+Why It Matters
+Delays customer issue resolution
+Reduces employee productivity
+Increases Average Handling Time (AHT)
+Causes frustration when urgent contacts are needed
+
+Opportunity: Use AI to transform the traditional directory into an intelligent search assistant.
+
+
+02)Proposed Solution / Innovation
+
+Key Innovations
+
+✅ Natural Language Search
+
+Search using simple everyday language.
+
+✅ Smart Result Identification
+
+AI finds and prioritizes the most relevant contact.
+
+✅ Single Search Experience
+
+Search people, departments, locations, and organizations from one place.
+
+✅ Conversational Interface
+
+Users ask questions instead of using complex filters.
+
+✅ Faster Contact Discovery
+
+Reduces time spent searching and improves productivity.
+
+
+
+03)Business Value & Benefits
+
+     Operational Efficiency
+Faster contact lookup
+Reduced employee effort
+Improved internal collaboration
+
+    Customer Experience
+Faster issue resolution
+Reduced customer waiting time
+Improved first-contact resolution
+
+      Cost Savings
+Less time spent searching
+Increased workforce productivity
+Reduced operating cost per interaction
